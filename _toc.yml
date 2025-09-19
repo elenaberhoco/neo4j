@@ -1,0 +1,15 @@
+format: jb-book
+root: content/00_intro
+options:
+  caption: Chapitres
+  numbered: true
+chapters:
+- file: content/01_installation
+- file: content/02_creation
+- file: content/03_lecture
+  sections:
+  - file: content/03_lecture_simple
+  - file: content/03_lecture_operateurs
+  - file: content/03_lecture_agregation
+- file: content/04_modification  
+- file: content/05_suppression  
