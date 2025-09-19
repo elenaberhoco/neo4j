@@ -5,7 +5,7 @@ options:
   numbered: true
 chapters:
 - file: content/02_creation
-- file: content/03_lecture
+- file: content/01_lecture
   sections:
   - file: content/03_lecture_simple
   - file: content/03_lecture_operateurs
