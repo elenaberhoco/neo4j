@@ -13,12 +13,35 @@ kernelspec:
   name: python3
 ---
 
-# MongoDB : Base de données NoSQL orientée documents
+# Neo4j : Base de données NoSQL orientée graphe
 
-Ce cours est une introduction à MongoDB, une base de données NoSQL orientée documents.
+Ce cours est une introduction à Neo4J, une base de données NoSQL orientée graphe.
 
 Il est organisé selon les quatre grandes catégories d'interaction que l'on peut avoir avec une base de données, résumées par l'acronyme **CRUD** :
 - **C**reate (Créer) : Toute opération qui consiste à ajouter de nouveaux enregistrements à la base de données.
 - **R**ead (Lire) : Toute opération qui consiste à récupérer certaines informations en fonction des critères de recherche spécifiés.
 - **U**pdate (Mettre à jour) : Toute opération qui consiste à modifier des enregistrements de la base de données.
 - **D**elete (Supprimer) : Toute opération qui consiste à supprimer des enregistrements de la base de données, voire la base de données elle-même.
+  
+Les données sont organisées en **noeuds** et en **relations**.   
+- Un **noeud** représente un objet concret (ex: une personne, un produit).   
+- Une **relation** représente un lien entre deux objets (ex : "est ami avec", "a acheté", "travaille à"). 
+Les relations sont comparables aux jointures dans les bases de données relationnelles. 
+Cependant, si les jointures sont calculées *au moment du requêtage* dans les bases de données relationnelles, les relations, quant à elles, sont *stockées explicitement* dans les bases de données NoSQL orientées graphe. 
+C'est pourquoi ces bases de données offrent de meilleures performances en lecture lorsque les données fortement interconnectées.  
+- Un noeud peut avoir zéro, un ou plusieurs **labels**. Les labels sont comparables aux tables dans les bases de données relationnelles : 
+ils permettent de regrouper sous une même étiquette les noeuds qui présentent des similarités (ex: étudiants, clients).   
+- Une relation a un direction, un noeud de départ, un noeud d'arrivée, et un **type**.  
+- Les noeuds comme les relations peuvent avoir des **propriétés**. Les propriétés prennent la forme de **paires clé-valeur**.  
+
+Neo4j a un **schéma flexible** :   
+- Deux noeuds ou deux relations qui possèdent un même label n'ont pas nécessairement les mêmes propriétés
+- Des **index** et des **contraintes** peuvent être introduits au fur et à mesure pour améliorer les performances ou la modélisation
+   
+**Exemple** :
+
+```{figure} ../image/graph_example.svg  
+---
+---
+Neo4j - Movies, from: [source](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
+```
