@@ -1,0 +1,1008 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. CRUD : Modification &#8212; MongoDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/04_modification';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. CRUD : Suppression" href="05_suppression.html" />
+    <link rel="prev" title="3.3. Requête d’agrégation" href="03_lecture_agregation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">MongoDB</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_intro.html">
+                    MongoDB : Base de données NoSQL orientée documents
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_installation.html">1. Installation de MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_operateurs.html">3.2. Requête avec opérateurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_agregation.html">3.3. Requête d’agrégation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. CR<strong>U</strong>D : Modification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_suppression.html">5. CRU<strong>D</strong> : Suppression</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j/issues/new?title=Issue%20on%20page%20%2Fcontent/04_modification.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/04_modification.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CRUD : Modification</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modification">4.1. Modification</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-via-un-document">4.1.1. Modification via un document</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-via-un-pipeline">4.1.2. Modification via un pipeline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-avec-options">4.1.3. Modification avec options</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remplacement">4.2. Remplacement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing">4.3. Indexing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">4.4. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">4.5. En résumé</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="crud-modification">
+<h1><span class="section-number">4. </span>CR<strong>U</strong>D : Modification<a class="headerlink" href="#crud-modification" title="Link to this heading">#</a></h1>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Objectif</div>
+<p class="sd-card-text">Dans ce chapitre, vous apprendrez à modifier des documents, à remplacer des documents et à définir des index.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Dans la suite, nous utiliserons une base de données conçue pour stocker des paniers d’achat :</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">use</span><span class="w"> </span><span class="nx">Orders</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">carts</span><span class="p">.</span><span class="nx">insertMany</span><span class="p">([</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">_id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">orderDate</span><span class="o">:</span><span class="w"> </span><span class="nx">ISODate</span><span class="p">(</span><span class="s2">&quot;2025-03-01&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;pending&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">items</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="s2">&quot;productID&quot;</span><span class="o">:</span><span class="s2">&quot;P16-110&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">product</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Mouse&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nx">total</span><span class="o">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">loyaltyPoints</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<section id="modification">
+<h2><span class="section-number">4.1. </span>Modification<a class="headerlink" href="#modification" title="Link to this heading">#</a></h2>
+<p>Pour <strong>modifier partiellement</strong> <em>tous</em> les documents qui vérifient un ensemble de conditions, utilisez <code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.updateMany()</span></code>. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">updateMany</span><span class="p">(</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">update</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">option</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;update&gt;</span></code> peut être :</p>
+<ul>
+<li><p>un <strong>document</strong> contenant <strong>un ou plusieurs opérateurs de modification</strong></p></li>
+<li><p>un <strong>pipeline d’agrégation</strong> contenant les étapes d’agrégation <code class="docutils literal notranslate"><span class="pre">$set</span></code>, <code class="docutils literal notranslate"><span class="pre">$unset</span></code> ou <code class="docutils literal notranslate"><span class="pre">$replaceWith</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code> est un document acceptant six paramètres dont <code class="docutils literal notranslate"><span class="pre">upsert</span></code> et <code class="docutils literal notranslate"><span class="pre">arrayFilters</span></code></p></li>
+</ul>
+<p>Pour ne modifier qu’<em>un seul</em> document vérifiant un ensemble de conditions, utilisez <code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.updateOne()</span></code>.</p>
+<section id="modification-via-un-document">
+<h3><span class="section-number">4.1.1. </span>Modification via un document<a class="headerlink" href="#modification-via-un-document" title="Link to this heading">#</a></h3>
+<p>Tous les opérateurs de modification disponibles sont listés <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/mql/update/">ici</a>.
+On distingue notamment les <strong>opérateurs conçus pour des listes</strong> (Section <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/operator/update-array/">Arrays</a>) des <strong>opérateurs conçus pour des valeurs simples</strong> (Section <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/operator/update-array/">Fields</a>).<br />
+Ci-dessous, un tableau avec quelques uns de ces opérateurs, où <code class="docutils literal notranslate"><span class="pre">&lt;expression&gt;</span> <span class="pre">=</span> <span class="pre">&lt;number_or_operator_expression&gt;</span></code> :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Opérateur</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Syntaxe</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$set</span></code></p></td>
+<td><p>simple</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$set&quot;:</span> <span class="pre">{&lt;key&gt;:&lt;value&gt;,...}}</span></code></p></td>
+<td><p>Modifier la valeur d’un champ ou ajouter un champ</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$unset</span></code></p></td>
+<td><p>simple</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$unset&quot;:</span> <span class="pre">{&lt;key&gt;:&quot;&quot;,...}}</span></code></p></td>
+<td><p>Supprimer un champ</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$rename</span></code></p></td>
+<td><p>simple</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$rename&quot;:</span> <span class="pre">{&lt;old_key&gt;:&lt;new_key&gt;,...}}</span></code></p></td>
+<td><p>Renommer un champ</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$inc</span></code></p></td>
+<td><p>simple</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$inc&quot;:</span> <span class="pre">{&lt;key&gt;:&lt;value&gt;,...}}</span></code></p></td>
+<td><p><strong>Inc</strong>rémenter un champ d’une valeur définie (positive ou négative)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$mul</span></code></p></td>
+<td><p>simple</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$mul&quot;:</span> <span class="pre">{&lt;key&gt;:&lt;value&gt;,...}}</span></code></p></td>
+<td><p><strong>Mul</strong>tiplier la valeur d’un champ par une valeur définie</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$pop</span></code></p></td>
+<td><p>liste</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$pop&quot;:</span> <span class="pre">{&lt;key&gt;:-1_or_1,...}}</span></code></p></td>
+<td><p>Supprimer le premier (-1) ou le dernier (1) élément d’une liste</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$pull</span></code></p></td>
+<td><p>liste</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$pull&quot;:</span> <span class="pre">{&lt;key&gt;:&lt;expression&gt;,...}}</span></code></p></td>
+<td><p>Supprimer les éléments d’une liste qui correspondent à une valeur ou vérifient une condition</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$push</span></code></p></td>
+<td><p>liste</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$push&quot;:</span> <span class="pre">{&lt;key&gt;:&lt;value&gt;,...}}</span></code></p></td>
+<td><p>Ajouter une valeur à la fin de la liste</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$addToSet</span></code></p></td>
+<td><p>liste</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$addToSet&quot;:</span> <span class="pre">{&lt;key&gt;:&lt;value&gt;,...}}</span></code></p></td>
+<td><p>Ajouter une valeur à la fin de la liste <strong>sauf si</strong> cette valeur est déjà dans la liste</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$each</span></code></p></td>
+<td><p>liste</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span> <span class="pre">=</span> <span class="pre">{&quot;$each&quot;:</span> <span class="pre">[&lt;value1&gt;,...]}</span></code></p></td>
+<td><p>Dans <strong><code class="docutils literal notranslate"><span class="pre">$push</span></code></strong> et <strong><code class="docutils literal notranslate"><span class="pre">$addToSet</span></code></strong>, ajouter plusieurs valeurs à la liste</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$position</span></code></p></td>
+<td><p>liste</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span> <span class="pre">=</span> <span class="pre">{&quot;$each&quot;:</span> <span class="pre">[&lt;value1&gt;,...],</span> <span class="pre">&quot;$position&quot;:</span> <span class="pre">&lt;num&gt;}</span></code></p></td>
+<td><p>Dans <strong><code class="docutils literal notranslate"><span class="pre">$push</span></code></strong>, ajouter une valeur à une position donnée de la liste</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$[]</span></code></p></td>
+<td><p>liste</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;key&gt;.$[].&lt;sub_key&gt;</span></code></p></td>
+<td><p>Modifier la valeur d’un champ pour tous les sous-documents de la liste</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Si certains de ces opérateurs de modification peuvent vous paraître familiers, notez qu’il y a parfois des <strong>différences de syntaxe</strong> avec leurs homologues des pipelines d’agrégation.
+C’est le cas de <code class="docutils literal notranslate"><span class="pre">$unset</span></code> :<br />
+La syntaxe de cet opérateur lorsqu’utilisé dans un <strong>pipeline d’agrégation</strong> est :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="s2">&quot;$unset&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Tandis que pour l’utiliser en tant qu’<strong>opérateur de modification</strong> il faudra taper :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="s2">&quot;$unset&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> L’adresse mail d’Alice est incorrecte, corrigons-là :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;alice.bernard@example.com&quot;</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> Alice ajoute un ordinateur à son panier :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                   <span class="p">{</span><span class="s2">&quot;$push&quot;</span><span class="p">:</span> 
+                       <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span> 
+                         <span class="p">{</span><span class="s2">&quot;productID&quot;</span><span class="p">:</span><span class="s2">&quot;P16-271&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="s2">&quot;Laptop&quot;</span><span class="p">,</span> <span class="n">price</span><span class="p">:</span> <span class="mf">1200.0</span><span class="p">}</span>
+                       <span class="p">}</span>
+                   <span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3.</strong> Ce produit permet à Alice d’obtenir 100 points de fidélité supplémentaires :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;$inc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">loyaltyPoints</span><span class="p">:</span> <span class="mi">100</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°4.</strong> L’ordinateur est vendu avec une souris, Alice retire donc toutes les souris de son panier d’achat :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;$pull&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">items</span><span class="p">:</span> <span class="p">{</span><span class="n">product</span><span class="p">:</span> <span class="s2">&quot;Mouse&quot;</span><span class="p">}}})</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="modification-via-un-pipeline">
+<h3><span class="section-number">4.1.2. </span>Modification via un pipeline<a class="headerlink" href="#modification-via-un-pipeline" title="Link to this heading">#</a></h3>
+<p>L’utilisation d’un <strong>pipeline d’agrégation</strong> permet des modifications plus complexes, qui utilisent par exemple les <strong>valeurs de plusieurs champs</strong>.
+Vous trouverez quelques exemples dans la <a class="reference external" href="https://www.mongodb.com/docs/manual/tutorial/update-documents-with-aggregation-pipeline/#std-label-updateMany-let-example">documentation</a> de MongoDB (ignorez la section dédiée à Atlas).</p>
+<p>Seuls <code class="docutils literal notranslate"><span class="pre">$set</span></code>, <code class="docutils literal notranslate"><span class="pre">$unset</span></code> ou <code class="docutils literal notranslate"><span class="pre">$replaceWith</span></code> sont acceptés comme étapes du pipeline. Il est toutefois possible d’utiliser d’autre opérateurs au sein de chacune de ces étapes.
+MongoDB fournit une panoplie d’opérateurs pour transformer les données.
+Outre ceux vus au chapitre précédent, la Section <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/mql/expressions/">Expressions</a> en liste un certain nombre.
+Notez que les opérateurs de la Section Expressions peuvent <strong>également</strong> être utilisés lors des <strong>requêtes de lecture</strong>, au sein des étapes d’agrégation <code class="docutils literal notranslate"><span class="pre">$project</span></code>, <code class="docutils literal notranslate"><span class="pre">$set</span></code>, <code class="docutils literal notranslate"><span class="pre">$group</span></code> ou <code class="docutils literal notranslate"><span class="pre">$replaceWith</span></code> de la fonction <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code> (<a class="reference internal" href="03_lecture_agregation.html#content-lecture-agregation"><span class="std std-ref">Requête d’agrégation</span></a>).</p>
+<p>Ci-dessous, quelques opérateurs utiles, où <code class="docutils literal notranslate"><span class="pre">&lt;expression&gt;</span> <span class="pre">=</span> <span class="pre">&lt;number_or_key_or_operator_expression&gt;</span></code> :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Opérateur</p></th>
+<th class="head"><p>Syntaxe</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$abs</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$abs&quot;</span> <span class="pre">:</span> <span class="pre">&lt;expression&gt;}</span></code></p></td>
+<td><p>Valeur absolue</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$add</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$add&quot;</span> <span class="pre">:</span> <span class="pre">[&lt;expression&gt;,&lt;expression&gt;,</span> <span class="pre">...]}</span></code></p></td>
+<td><p>Addition de deux valeurs ou plus</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$subtract</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$subtract&quot;</span> <span class="pre">:</span> <span class="pre">[&lt;expression&gt;,&lt;expression&gt;]}</span></code></p></td>
+<td><p>Soustraction de deux valeurs (uniquement)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$multiply</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$multiply&quot;</span> <span class="pre">:</span> <span class="pre">[&lt;expression&gt;,&lt;expression&gt;]}</span></code></p></td>
+<td><p>Multiplication de deux valeurs (uniquement)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$divide</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$divide&quot;</span> <span class="pre">:</span> <span class="pre">[&lt;expression&gt;,&lt;expression&gt;]}</span></code></p></td>
+<td><p>Division de deux valeurs (uniquement)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$ceil</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$ceil&quot;</span> <span class="pre">:</span> <span class="pre">&lt;expression&gt;}</span></code></p></td>
+<td><p>Valeur arrondie à l’entier supérieur</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$floor</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$floor&quot;</span> <span class="pre">:</span> <span class="pre">&lt;expression&gt;}</span></code></p></td>
+<td><p>Valeur arrondie à l’entier inférieur</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$concatArrays</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$concatArrays&quot;</span> <span class="pre">:</span> <span class="pre">[&lt;array_or_key&gt;,</span> <span class="pre">...]}</span></code></p></td>
+<td><p>Concaténation de plusieurs listes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$mergeOjects</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;$mergeObjects&quot;</span> <span class="pre">:</span> <span class="pre">[&lt;document_or_key&gt;,</span> <span class="pre">...]}</span></code></p></td>
+<td><p>Concaténation de plusieurs documents</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$map</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">$map:</span> <span class="pre">{input:</span> <span class="pre">&lt;key_or_expression&gt;,</span> <span class="pre">as:</span> <span class="pre">&lt;name&gt;,</span> <span class="pre">in:</span> <span class="pre">&lt;operator_expression&gt;}}</span></code></p></td>
+<td><p>Application d’une fonction à chaque élément d’une liste</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Suite à l’ajout de l’ordinateur et au retrait de la souris, le montant total doit être ajusté (<code class="docutils literal notranslate"><span class="pre">$sum</span></code> vu au chapitre précédent):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                   <span class="p">[{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$sum&quot;</span><span class="p">:</span> <span class="s2">&quot;$items.price&quot;</span><span class="p">}}}]</span>
+                  <span class="p">)</span> 
+</pre></div>
+</div>
+<p>Cette opération n’aurait pas été possible sans utiliser un pipeline d’agrégation.</p>
+<p><strong>Exemple n°2.</strong> Une opération marketing est en cours : tous les clients cumulant 100 points de fidélité ou plus obtiennent 10% de réduction immédiate si le montant total dépasse 500e :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateMany</span><span class="p">({</span><span class="s2">&quot;loyaltyPoints&quot;</span><span class="p">:{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">},</span> <span class="s2">&quot;total&quot;</span><span class="p">:{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span><span class="mi">500</span><span class="p">}},</span>
+                   <span class="p">[{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$multiply&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$total&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]}}}]</span>
+                  <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3.</strong> Alice ajoute à son panier un clavier et deux stickers pour customiser son futur ordinateur.
+Nous souhaitons créer un nouveau champ pour stocker l’écart de prix entre le produit le plus cher et le produit le moins cher
+(<code class="docutils literal notranslate"><span class="pre">$concatArrays</span></code> permet d’ajouter des éléments à une liste):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                   <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span>
+                        <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span>
+                           <span class="p">{</span><span class="s2">&quot;$concatArrays&quot;</span><span class="p">:</span> 
+                              <span class="p">[</span><span class="s2">&quot;$items&quot;</span><span class="p">,</span> <span class="p">[{</span><span class="s2">&quot;productID&quot;</span><span class="p">:</span><span class="s2">&quot;P16-448&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="s2">&quot;Keyboard&quot;</span><span class="p">,</span> <span class="n">price</span><span class="p">:</span> <span class="mf">45.0</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s2">&quot;productID&quot;</span><span class="p">:</span><span class="s2">&quot;P05-612&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="s2">&quot;Stickers&quot;</span><span class="p">,</span> <span class="n">qty</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="n">price</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}]]</span>
+                    <span class="p">}}},</span>
+                    <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> 
+                       <span class="p">{</span><span class="s2">&quot;priceRange&quot;</span><span class="p">:</span>
+                          <span class="p">{</span><span class="s2">&quot;$abs&quot;</span><span class="p">:</span>
+                             <span class="p">{</span><span class="s2">&quot;$subtract&quot;</span><span class="p">:</span>
+                                <span class="p">[{</span><span class="s2">&quot;$min&quot;</span><span class="p">:</span><span class="s2">&quot;$items.price&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;$max&quot;</span><span class="p">:</span><span class="s2">&quot;$items.price&quot;</span><span class="p">}]</span>
+                    <span class="p">}}}}</span>
+                   <span class="p">]</span>
+                  <span class="p">)</span>
+</pre></div>
+</div>
+<p>Le pipeline d’agrégation permet d’enchaîner plusieurs opérations. Les opérations peuvent être imbriquées.</p>
+<p><strong>Exemple n°4.</strong> Remarquez que le document imbriqué des stickers contient un champ supplémentaire : <code class="docutils literal notranslate"><span class="pre">qty</span></code>.
+Pour <strong>standardiser la structure</strong> des sous-documents qui contiennent les informations produit, nous pouvons utiliser <code class="docutils literal notranslate"><span class="pre">$mergeObjects</span></code>.
+Cet opérateur va nous permettre de créer le champ <code class="docutils literal notranslate"><span class="pre">qty</span></code> et de lui associer une valeur par défaut (1).
+L’opérateur sera utilisé au sein de l’étape <code class="docutils literal notranslate"><span class="pre">$set</span></code>. Comme <code class="docutils literal notranslate"><span class="pre">$items</span></code> est une liste, il faut itérer sur chacun des éléments de la liste à l’aide de <code class="docutils literal notranslate"><span class="pre">$map</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                   <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;items&quot;</span> <span class="p">:</span> 
+                       <span class="p">{</span><span class="s2">&quot;$map&quot;</span><span class="p">:</span> <span class="p">{</span>
+                          <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;$items&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;as&quot;</span><span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="o">//</span> <span class="n">variable</span> <span class="n">représentant</span> <span class="n">chaque</span> <span class="n">élément</span> <span class="n">de</span> <span class="n">la</span> <span class="n">liste</span>
+                          <span class="s2">&quot;in&quot;</span><span class="p">:</span>   
+                            <span class="p">{</span><span class="s2">&quot;$mergeObjects&quot;</span> <span class="p">:</span> 
+                               <span class="p">[{</span><span class="s2">&quot;productID&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;qty&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span><span class="n">null</span><span class="p">},</span> <span class="s2">&quot;$$product&quot;</span><span class="p">]</span>
+                            <span class="p">}</span>
+                    <span class="p">}}}}</span>
+                   <span class="p">]</span>
+                  <span class="p">)</span> 
+</pre></div>
+</div>
+<p>Si les documents à fusionner ont des champs en commun, seule la valeur du dernier document est retenue.
+Ici, le premier document sert donc à définir des valeurs par défaut pour les champs absents. Les valeurs sont écrasées lorsque le champ existe.</p>
+<p><strong>Exemple n°5.</strong> Nous pouvons désormais recalculer le total et appliquer la promotion de 10%.
+Il va falloir de nouveau itérer sur les éléments de <code class="docutils literal notranslate"><span class="pre">$items</span></code> pour calculer le montant total par produit en multipliant prix et quantité.
+Il suffira alors de sommer ces montants, comme dans l’exemple n°1, et d’appliquer la réduction, comme dans l’exemple n°2.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                   <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span> 
+                       <span class="p">{</span><span class="s2">&quot;$sum&quot;</span><span class="p">:</span>
+                          <span class="p">{</span><span class="s2">&quot;$map&quot;</span><span class="p">:</span> <span class="p">{</span>
+                          <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="s2">&quot;$items&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;as&quot;</span><span class="p">:</span> <span class="s2">&quot;product&quot;</span><span class="p">,</span> 
+                          <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$multiply&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$$product.price&quot;</span><span class="p">,</span><span class="s2">&quot;$$product.qty&quot;</span><span class="p">]}</span>
+                    <span class="p">}}}}},</span>
+                    <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$multiply&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$total&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]}}}</span>
+                   <span class="p">]</span>
+                  <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="modification-avec-options">
+<h3><span class="section-number">4.1.3. </span>Modification avec options<a class="headerlink" href="#modification-avec-options" title="Link to this heading">#</a></h3>
+<p>Parmi les options possibles listées dans la <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/">documentation</a> :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">upsert:</span> <span class="pre">true</span></code> permet de <strong>créer un nouveau document</strong> en fonction des paramètres spécifiés dans <code class="docutils literal notranslate"><span class="pre">&lt;update&gt;</span></code> <strong>si aucun document</strong> de la base de données <strong>ne valide les conditions</strong> définie par <code class="docutils literal notranslate"><span class="pre">&lt;filter&gt;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">arrayFilters</span></code> permet de ne modifier que les éléments d’une liste qui vérifient certaines conditions.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">arrayFilters</span></code> s’utilise avec l’opérateur <code class="docutils literal notranslate"><span class="pre">$[&lt;identifier&gt;]</span></code> qui permet de créer une référence vers les éléments de la liste dans <code class="docutils literal notranslate"><span class="pre">&lt;update&gt;</span></code><br />
+Vous pouvez ensuite utiliser <code class="docutils literal notranslate"><span class="pre">&lt;identifier&gt;</span></code> pour spécifier des conditions dans <code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code>. <code class="docutils literal notranslate"><span class="pre">arrayFilters</span></code> est incompatible avec l’utilisation d’un pipeline.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Alice décide finalement de prendre 5 stickers :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">carts</span><span class="o">.</span><span class="n">updateOne</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                   <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;items.$[elem].qty&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}},</span>
+                   <span class="p">{</span><span class="s2">&quot;arrayFilters&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;elem.productID&quot;</span><span class="p">:</span> <span class="s2">&quot;P05-612&quot;</span><span class="p">}]}</span>
+                  <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="remplacement">
+<h2><span class="section-number">4.2. </span>Remplacement<a class="headerlink" href="#remplacement" title="Link to this heading">#</a></h2>
+<p>Il est possible de <strong>remplacer</strong> un document à l’aide de la fonction <code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.replaceOne()</span></code>. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">replaceOne</span><span class="p">(</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">replacement</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">option</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;replacement&gt;</span></code> est le document par lequel remplacer le document sélectionné</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code> est un document acceptant cinq paramètres dont <code class="docutils literal notranslate"><span class="pre">upsert</span></code></p></li>
+</ul>
+<p>Si plus d’un document correspond aux conditions spécifiées, seul le premier document sélectionné sera remplacé.</p>
+</section>
+<section id="indexing">
+<h2><span class="section-number">4.3. </span>Indexing<a class="headerlink" href="#indexing" title="Link to this heading">#</a></h2>
+<p>L’<strong>indexation</strong> améliore la <strong>vitesse d’exécution</strong> des requêtes en lecture.
+Si certains <strong>champs</strong> sont <strong>fréquemment sollicités</strong>, créer un index sur ces champs permet d’améliorer les performances des requêtes qui font appel à ces champs.
+Pour créer un index, vous pouvez utiliser la fonction <code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.createIndex()</span></code>.
+Nous ne nous attarderons pas sur cet aspect, mais vous trouverez davantage d’informations dans la documentation MongoDB (par exemple <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/method/db.collection.createIndex/">ici</a> ou <a class="reference external" href="https://www.mongodb.com/docs/manual/core/indexes/index-types/#std-label-index-types">ici</a>).</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Voici un petit exemple pour que vous puissiez constater par vous-même l’impact d’une indexation sur les performances des requêtes en lecture.<br />
+Le code suivant crée une base de données <code class="docutils literal notranslate"><span class="pre">bank</span></code>, une collection <code class="docutils literal notranslate"><span class="pre">account</span></code>, et stocke 100000 documents contenant chacun deux champs : <code class="docutils literal notranslate"><span class="pre">clientID</span></code> et <code class="docutils literal notranslate"><span class="pre">balance</span></code> (solde bancaire).
+Attention, cette requête peut prendre plusieurs minutes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">use</span> <span class="n">Bank</span>
+<span class="n">db</span><span class="o">.</span><span class="n">createCollection</span><span class="p">(</span><span class="s2">&quot;account&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">100000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="o">//</span> <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span><span class="s2">&quot;clientID&quot;</span><span class="p">:</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot;balance&quot;</span><span class="p">:</span><span class="n">Math</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Math</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">1000000</span><span class="p">)})</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">countDocuments</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>La commande suivante permet de mesurer le temps d’exécution d’une requête récupérant les information du client 69522 :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;clientID&quot;</span><span class="p">:</span><span class="mi">69522</span><span class="p">})</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="s2">&quot;executionStats&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">executionStats</span><span class="o">.</span><span class="n">executionTimeMillis</span>
+</pre></div>
+</div>
+<p>Combien de millisecondes l’exécution de cette commande a-t-elle duré ?<br />
+La banque a très fréquemment besoin d’accéder aux informations d’un client. Elle crée donc un index sur le champ <code class="docutils literal notranslate"><span class="pre">clientID</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">createIndex</span><span class="p">({</span><span class="s2">&quot;clientID&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">db</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">getIndexes</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Combien de temps prend désormais la requête précédente pour s’exécuter ?</p>
+</div>
+</section>
+<section id="exercice">
+<h2><span class="section-number">4.4. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
+<p>À partir de la base de données <code class="docutils literal notranslate"><span class="pre">movies.json</span></code> :</p>
+<ol class="arabic simple">
+<li><p>Quelles sont les différentes années présentent dans la base de données ? Que remarquez-vous ?</p></li>
+<li><p>Corrigez les erreurs</p></li>
+</ol>
+<p>Créez la base de données suivante, qui contient des informations sur quelques uns des livres disponibles dans trois bibliothèques municipales (en centre-ville, sur le campus universitaire, et en banlieue), leur stock, et les emprunts :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">books</span><span class="o">.</span><span class="n">insertMany</span><span class="p">([</span>
+  <span class="p">{</span>
+    <span class="n">_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;1984&quot;</span><span class="p">,</span>
+    <span class="n">author</span><span class="p">:</span> <span class="s2">&quot;George Orwell&quot;</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="mi">1949</span><span class="p">,</span>
+    <span class="n">genres</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dystopia&quot;</span><span class="p">,</span> <span class="s2">&quot;politics&quot;</span><span class="p">],</span>
+    <span class="n">copies</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;Central&quot;</span><span class="p">,</span> <span class="n">stock</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="n">borrowed</span><span class="p">:</span> <span class="mi">1</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;Campus&quot;</span><span class="p">,</span> <span class="n">stock</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">borrowed</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">ratings</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="n">_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;The Hobbit&quot;</span><span class="p">,</span>
+    <span class="n">author</span><span class="p">:</span> <span class="s2">&quot;J.R.R. Tolkien&quot;</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="mi">1937</span><span class="p">,</span>
+    <span class="n">genres</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;fantasy&quot;</span><span class="p">,</span> <span class="s2">&quot;adventure&quot;</span><span class="p">],</span>
+    <span class="n">copies</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;Central&quot;</span><span class="p">,</span> <span class="n">stock</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">borrowed</span><span class="p">:</span> <span class="mi">2</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;Campus&quot;</span><span class="p">,</span> <span class="n">stock</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">borrowed</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">ratings</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="n">_id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;Pride and Prejudice&quot;</span><span class="p">,</span>
+    <span class="n">author</span><span class="p">:</span> <span class="s2">&quot;Jane Austen&quot;</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="mi">1813</span><span class="p">,</span>
+    <span class="n">genres</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;romance&quot;</span><span class="p">,</span> <span class="s2">&quot;classic&quot;</span><span class="p">,</span> <span class="s2">&quot;horror&quot;</span><span class="p">],</span>
+    <span class="n">copies</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;Central&quot;</span><span class="p">,</span> <span class="n">stock</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">borrowed</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">ratings</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="n">_id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;To Kill a Mockingbird&quot;</span><span class="p">,</span>
+    <span class="n">author</span><span class="p">:</span> <span class="s2">&quot;Harper Lee&quot;</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">:</span> <span class="mi">1960</span><span class="p">,</span>
+    <span class="n">genres</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;classic&quot;</span><span class="p">,</span> <span class="s2">&quot;justice&quot;</span><span class="p">],</span>
+    <span class="n">copies</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;Central&quot;</span><span class="p">,</span> <span class="n">stock</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">borrowed</span><span class="p">:</span> <span class="mi">1</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;Suburban&quot;</span><span class="p">,</span> <span class="n">stock</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">borrowed</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">ratings</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Modifiez le titre du livre <code class="docutils literal notranslate"><span class="pre">1984</span></code> en <code class="docutils literal notranslate"><span class="pre">Nineteen</span> <span class="pre">Eighty-Four</span></code></p></li>
+<li><p>Ajoutez le genre <code class="docutils literal notranslate"><span class="pre">thriller</span></code> à <code class="docutils literal notranslate"><span class="pre">To</span> <span class="pre">Kill</span> <span class="pre">a</span> <span class="pre">Mockingbird</span></code></p></li>
+<li><p>Une erreur s’est glissée parmi les genres associés au livre <code class="docutils literal notranslate"><span class="pre">Pride</span> <span class="pre">and</span> <span class="pre">Prejudice</span></code>. Supprimez le genre <code class="docutils literal notranslate"><span class="pre">horror</span></code>.</p></li>
+<li><p>Face à la forte demande pour le livre <code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">Hobbit</span></code>, la bibliothèque du centre-ville (<code class="docutils literal notranslate"><span class="pre">Central</span></code>) achète un nouveau exemplaire.
+Incrémentez de 1 le <code class="docutils literal notranslate"><span class="pre">stock</span></code> pour cette bibliothèque.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez l’option <code class="docutils literal notranslate"><span class="pre">arrayFilters</span></code>.</p>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Une personne emprunte le livre <code class="docutils literal notranslate"><span class="pre">Nineteen</span> <span class="pre">Eighty-Four</span></code> à la bibliothèque du <code class="docutils literal notranslate"><span class="pre">Campus</span></code>. Ajustez le <code class="docutils literal notranslate"><span class="pre">stock</span></code> et le nombre de livres empruntés (<code class="docutils literal notranslate"><span class="pre">borrowed</span></code>) en une seule requête.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez l’option <code class="docutils literal notranslate"><span class="pre">arrayFilters</span></code>. Vous pouvez enchaîner plusieurs modifications en les séparant par des virgules. <code class="docutils literal notranslate"><span class="pre">$inc</span></code> peut être associé à des valeurs positives ou négatives.</p>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Créez deux nouveaux champs pour chaque livre, <code class="docutils literal notranslate"><span class="pre">totalBorrowed</span></code> et <code class="docutils literal notranslate"><span class="pre">totalStock</span></code>, qui contiennent respectivement le total de toutes les copies empruntées et le total des livres en stock.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Voir l’exemple n°1 de la partie 4.1.2. Vous pouvez enchaîner plusieurs modifications en les séparant par des virgules.</p>
+</div>
+<ol class="arabic simple" start="7">
+<li><p>Calculez et stockez dans un nouveau champ <code class="docutils literal notranslate"><span class="pre">avgRating</span></code> la moyenne des notes pour chacun des livres. Si vous le souhaitez, vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">$trunc</span></code> pour ne garder que la première ou les deux premières décimales.</p></li>
+<li><p>Pour chaque livre et chaque bibliothèque, ajoutez un champ <code class="docutils literal notranslate"><span class="pre">availability</span></code> qui stocke la différence entre le nombre de livres en stock et le nombre de livres empruntés.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">$map</span></code>, <code class="docutils literal notranslate"><span class="pre">$mergeObjects</span></code> et <code class="docutils literal notranslate"><span class="pre">$subtract</span></code>.</p>
+</div>
+</section>
+<section id="en-resume">
+<h2><span class="section-number">4.5. </span>En résumé<a class="headerlink" href="#en-resume" title="Link to this heading">#</a></h2>
+<p>Dans ce chapitre vous avez appris que :</p>
+<ul class="simple">
+<li><p>Il est possible de créer des index et de forcer des structures dans les données (par exemple en utilisant <code class="docutils literal notranslate"><span class="pre">$mergeObjects</span></code> pour définir des champs “obligatoires” et spécifier des valeurs par défaut). Un schéma flexible ne signifie par l’absence de schéma. Un schéma flexible signifie que la structure des données peut être modifiée à la volée, et que des contraintes peuvent être ajoutées au fur et à mesure, selon les besoins.</p></li>
+<li><p>Modifier des documents imbriqués et des listes de documents imbriqués peut être laborieux. Il est important de bien penser ses agrégats en amont pour limiter les coûts en écriture, ou de revoir les agrégats en fonction de l’évolution des besoins.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_lecture_agregation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.3. </span>Requête d’agrégation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_suppression.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>CRU<strong>D</strong> : Suppression</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modification">4.1. Modification</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-via-un-document">4.1.1. Modification via un document</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-via-un-pipeline">4.1.2. Modification via un pipeline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-avec-options">4.1.3. Modification avec options</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remplacement">4.2. Remplacement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing">4.3. Indexing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">4.4. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">4.5. En résumé</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Unknown
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

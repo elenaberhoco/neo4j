@@ -1,0 +1,1098 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7.2. Requêtes depuis R : mongolite &#8212; MongoDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/07_scripts_R';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="7.1. Requêtes depuis Python : pymongo" href="07_scripts_py.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">MongoDB</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_intro.html">
+                    MongoDB : Base de données NoSQL orientée documents
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_installation.html">1. Installation de MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_index.html">4. Titre 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_agreg.html">5. Titre 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_modif.html">6. Titre 5</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="07_scripts.html">7. Effectuer des requêtes depuis des programmes Python ou R</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="07_scripts_py.html">7.1. Requêtes depuis Python : <code class="docutils literal notranslate"><span class="pre">pymongo</span></code></a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7.2. Requêtes depuis R : <code class="docutils literal notranslate"><span class="pre">mongolite</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/mongodb-trash" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/mongodb-trash/issues/new?title=Issue%20on%20page%20%2Fcontent/07_scripts_R.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/07_scripts_R.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Requêtes depuis R : mongolite</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-du-package-mongolite-et-connexion-a-un-serveur-mongodb">7.2.1. Installation du package mongolite et connexion à un serveur MongoDB</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-et-chargement-du-package-mongolite">7.2.1.1. Installation et chargement du package mongolite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connexion-a-une-collection-d-une-base-de-donnees-presente-sur-un-serveur-mongodb">7.2.1.2. Connexion à une collection d’une base de données présente sur un serveur MongoDB</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requetes-de-donnees">7.2.2. Requêtes de données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-count">7.2.2.1. Méthode count</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-find">7.2.2.2. Méthode find</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-iterate">7.2.2.3. Méthode iterate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-distinct">7.2.2.4. Méthode distinct</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selectionner-par-date">7.2.2.5. Sélectionner par date</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregations">7.2.3. Aggrégations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulation-de-donnees">7.2.4. Manipulation de données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-insert">7.2.4.1. Méthode insert</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-remove">7.2.4.2. Méthode remove</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-update-upsert">7.2.4.3. Méthodes update/upsert</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-et-export-de-donnees">7.2.5. Import et export de données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-methode-export-import-pour-json">7.2.5.1. La méthode export/import pour JSON</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-formats-d-export-jsonlite-bjson">7.2.5.2. Autres formats d’export (jsonlite/bjson/…)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercices">7.2.6. Exercices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consignes">7.2.6.1. Consignes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correction">7.2.6.2. Correction</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="requetes-depuis-r-mongolite">
+<span id="sec-mongolite"></span><h1><span class="section-number">7.2. </span>Requêtes depuis R : <code class="docutils literal notranslate"><span class="pre">mongolite</span></code><a class="headerlink" href="#requetes-depuis-r-mongolite" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Auteurs/trices : <strong>Faisal JAYOUZI, Paul LANCELIN, Yolan PERONNET</strong></p></li>
+</ul>
+<p>Le chapitre suivant a pour objectif d’explorer le package mongolite permettant d’effectuer des requêtes MongoDB depuis R. La rédaction du tutoriel suivant trouve sa source dans la documentation rédigée par l’auteur du package mongolite, Jeroen Ooms. Celle-ci est accessible à l’adresse suivante : <a class="reference external" href="https://jeroen.github.io/mongolite/" title="Documentation de mongolite (R)">https://jeroen.github.io/mongolite/</a></p>
+<section id="installation-du-package-mongolite-et-connexion-a-un-serveur-mongodb">
+<h2><span class="section-number">7.2.1. </span>Installation du package mongolite et connexion à un serveur MongoDB<a class="headerlink" href="#installation-du-package-mongolite-et-connexion-a-un-serveur-mongodb" title="Link to this heading">#</a></h2>
+<section id="installation-et-chargement-du-package-mongolite">
+<h3><span class="section-number">7.2.1.1. </span>Installation et chargement du package mongolite<a class="headerlink" href="#installation-et-chargement-du-package-mongolite" title="Link to this heading">#</a></h3>
+<p>Les packages binaires de mongolite peuvent être installés directement depuis le CRAN via la manipulation suivante à partir de la barre d’outils de RStudio :</p>
+<hr class="docutils" />
+<p><strong>Tools -&gt; Install Packages -&gt; mongolite -&gt; Install</strong></p>
+<hr class="docutils" />
+<p>Ou via la commande suivante à exécuter dans la console ou depuis un script R :</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;mongolite&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Vous pouvez également installer la version de développement, qui contient les dernières fonctionnalités. Pour cela, exécutez la commande suivante :</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">devtools</span><span class="o">::</span><span class="nf">install_github</span><span class="p">(</span><span class="s">&quot;jeroen/mongolite&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-remarque admonition">
+<p class="admonition-title">Remarque</p>
+<p>L’installation et le chargement du package devtools au préalable sera nécessaire pour cette dernière exécution.</p>
+</div>
+<p>Une fois le package installé, il vous suffira de le charger dans votre envionnement de travail R via la commande suivante à exécuter dans la console ou depuis un script R :</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">mongolite</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="connexion-a-une-collection-d-une-base-de-donnees-presente-sur-un-serveur-mongodb">
+<h3><span class="section-number">7.2.1.2. </span>Connexion à une collection d’une base de données présente sur un serveur MongoDB<a class="headerlink" href="#connexion-a-une-collection-d-une-base-de-donnees-presente-sur-un-serveur-mongodb" title="Link to this heading">#</a></h3>
+<p>Après avoir chargé les packages nécessaires dans votre environnement R, vous pourrez vous connecter à une collection d’une base de données présente sur un serveur MongoDB à partir d’un lien URI, du nom de la base de données, et du nom de la collection à laquelle vous souhaitez accéder. Pour ce faire, il suffit d’utiliser la fonction <code class="docutils literal notranslate"><span class="pre">mongo()</span></code> de la librairie <em>mongolite</em> de la manière suivante :</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">coll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mongo</span><span class="p">(</span><span class="n">collection</span><span class="o">=</span><span class="s">&quot;ma_collection&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">db</span><span class="o">=</span><span class="s">&quot;ma_BDD&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">url</span><span class="o">=</span><span class="s">&quot;mon_uri&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">verbose</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>La fonction <code class="docutils literal notranslate"><span class="pre">mongo()</span></code> prend en entrée les arguments suivants :</p>
+<ul class="simple">
+<li><p>collection : nom de la collection à laquelle se connecter. La valeur par défaut est “test”</p></li>
+<li><p>db : nom de la base de données à laquelle se connecter. La valeur par défaut est “test”.</p></li>
+<li><p>url : adresse du serveur MongoDB au format URI standard.</p></li>
+<li><p>verbose : si TRUE, émet une sortie supplémentaire</p></li>
+<li><p>options : options de connexion supplémentaires telles que les clés et certificats SSL que nous ne developperons pas dans ce tutoriel.</p></li>
+</ul>
+<div class="admonition-remarque admonition">
+<p class="admonition-title">Remarque</p>
+<p>La fonction <code class="docutils literal notranslate"><span class="pre">mongo()</span></code> prend obligatoirement en entrée le nom d’une collection d’une base de données. Nous comprenons alors que mongolite nous permet seulement d’intéragir avec une collection d’une base données, et non pas avec la base tout entière. Ici nous aurons donc qu’un seul objet pointant sur une collection avec laquelle intéragir. Nous n’aurons donc pas comme sur python et sa librarie pymongo d’objets clients et d’objets base de données.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Astuce</p>
+<p>L’adresse URI à spécifier dans le paramètre URL définit l’adresse du serveur et des options de connexion supplémentaires. Parmi ces options, nous pouvons notamment spécifier des mots de passe que nous vous conseillons de lire dans des fichiers externes afin d’en préserver la confidentialité. Afin d’obtenir plus de précisions sur le format exact de l’URI attendu (authentification, tunnel SSH, options SSL et options de réplique), nous vous renvoyons à la <a class="reference external" href="https://jeroen.github.io/mongolite/connecting-to-mongodb.html">documentation</a>.</p>
+</div>
+<p>Pour ce qui est de sa sortie, la fonction <code class="docutils literal notranslate"><span class="pre">mongo()</span></code> renvoie un objet propre à sa librairie mère, une <em>Mongo collection</em>, qui, comme nous l’avons vu précédemment, pointe sur une collection d’une base de données. Regardons de plus près à quoi correspond ce type d’objet sur un exemple concret. Ici nous nous connectons à la collection “NYfood” d’une base de données “food” contenant de nombreuses informations sur les restaurants de New-York.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">mongolite</span><span class="p">)</span>
+<span class="n">coll</span> <span class="o">&lt;-</span> <span class="n">mongo</span><span class="p">(</span><span class="n">collection</span><span class="o">=</span><span class="s2">&quot;NYfood&quot;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s2">&quot;food&quot;</span><span class="p">,</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;mongodb://localhost:27017/food&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">coll</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">library</span><span class="p">(</span><span class="n">mongolite</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">coll</span> <span class="o">&lt;-</span> <span class="n">mongo</span><span class="p">(</span><span class="n">collection</span><span class="o">=</span><span class="s2">&quot;NYfood&quot;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s2">&quot;food&quot;</span><span class="p">,</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;mongodb://localhost:27017/food&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">coll</span>
+
+<span class="ne">NameError</span>: name &#39;library&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous constatons alors que la <em>Mongo collection</em> est un environnement contenant les informations de la collection “NYfood” avec lequel nous pouvons intéragir via de nombreuses méthodes. Chacune de ces méthodes s’appliquera sur une <em>Mongo collection</em> à l’aide d’un <code class="docutils literal notranslate"><span class="pre">$</span></code> et permettra d’effectuer l’équivalent d’une requête MondoDB sur une collection. Par exemple, pour faire une simple requête find en <em>NoSQL</em> récupérant tous les documents d’une collection, il suffira d’écrire :</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">coll</span><span class="o">$</span><span class="nf">find</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Ou encore pour affichez la liste des index de la collection NYfood, il suffira d’écrire :</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">coll</span><span class="o">$</span><span class="nf">index</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>L’objet des prochaines sections de ce chapitre sera alors d’explorer ces différentes méthodes et de voir leurs requêtes équivalentes en NoSQL. Nous reviendrons notamment sur les objets renvoyés par ces différentes méthodes. Toutefois, nous pouvons d’ores et déjà remarquer qu’une méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code> renvoie la collection complète dans un <em>dataframe</em> ce qui, dans des cas de grands volumes de données, pourrait entrainer des saturations de mémoire de votre machine. Nous verrons par la suite que pour s’affranchir de ce problème, nous pourrons utiliser une méthode <code class="docutils literal notranslate"><span class="pre">iterate()</span></code>, similaire à la méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code>, renvoyant non plus un <em>dataframe</em>, mais un <em>Mongo iterator</em>. Un <em>Mongo iterator</em> est un objet propre à <em>mongolite</em> permettant de ne pas stocker explicitement en mémoire le résultat d’une requête mais d’en conserver un itérateur.</p>
+</section>
+</section>
+<section id="requetes-de-donnees">
+<h2><span class="section-number">7.2.2. </span>Requêtes de données<a class="headerlink" href="#requetes-de-donnees" title="Link to this heading">#</a></h2>
+<p><em>Mongolite</em> utilise une syntaxe JSON dans les arguments de ses méthodes pour interroger des collections. Cette syntaxe JSON devra être spécifiée sous forme de chaîne de caractère dans R. Ces différentes chaînes feront alors l’objet de divers paramètres pour les méthodes présentées dans ce chapitre.</p>
+<section id="methode-count">
+<h3><span class="section-number">7.2.2.1. </span>Méthode count<a class="headerlink" href="#methode-count" title="Link to this heading">#</a></h3>
+<p>Tout comme le <code class="docutils literal notranslate"><span class="pre">.count()</span></code> en MongoDB (<span class="xref myst">plus de précisions ici</span>), la méthode <code class="docutils literal notranslate"><span class="pre">count()</span></code> nous permet de calculer le nombre de résultats d’une collection, ou encore le nombre de résultats d’une certaine requête. Cette méthode n’a qu’un seul argument (query) et sa valeur par défaut est “{}”. Elle renvoie un entier.</p>
+<p><strong>Exemples :</strong></p>
+<p>Afficher le nombre de résultats de la base NYfood par exemple :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">req</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+<span class="n">coll</span><span class="err">$</span><span class="n">count</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">req</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons également noter l’équivalent en MongoDB :</p>
+<p>Et pour afficher le nombre de restaurants chinois :</p>
+</section>
+<section id="methode-find">
+<h3><span class="section-number">7.2.2.2. </span>Méthode find<a class="headerlink" href="#methode-find" title="Link to this heading">#</a></h3>
+<p>La méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code> permet, à l’instar du <code class="docutils literal notranslate"><span class="pre">.find</span></code> en MongoDB (<span class="xref myst">plus de précisions ici</span>), d’interroger une collection en filtrant les documents et les champs. De plus, cette méthode intègre la possibilité de limiter, trier et skiper les documents d’un résultat. Autrement dit, cette méthode comprends en ses arguments le <code class="docutils literal notranslate"><span class="pre">.limit</span></code>, le <code class="docutils literal notranslate"><span class="pre">.sort</span></code> et le <code class="docutils literal notranslate"><span class="pre">.skip</span></code> de MongoDB. Présentons alors les 5 arguments de cette méthode :</p>
+<ul class="simple">
+<li><p>query : correspond à la requête de filtrage des documents passée en premier agument d’un <code class="docutils literal notranslate"><span class="pre">.find</span></code> en MongoDB ; ‘{}’ est la valeur par défaut</p></li>
+<li><p>fields : correspond à la requête de filtrage des champs passée en second argument d’un <code class="docutils literal notranslate"><span class="pre">.find</span></code> en MongoDB</p></li>
+<li><p>sort : correspond à la requête de tri passée argument d’un <em>.sort</em> en MongoDB</p></li>
+<li><p>limit : correspond à la requête de limitation du nombre de documents retournées, passée en argument d’un <code class="docutils literal notranslate"><span class="pre">.limit</span></code> en MongoDB</p></li>
+<li><p>skip : correspond à la requête de choix d’une ligne de départ des documents retournées, passée en argument d’un <code class="docutils literal notranslate"><span class="pre">.skip</span></code> en MongoDB</p></li>
+</ul>
+<p>Comme nous avons pu l’énoncer précedémment, cette méthode stocke le résultat dans un dataframe sous R, prenant ainsi de la place en mémoire. Cette prise de place en mémoire peut être problématique, c’est pourquoi nous verrons par la suite l’intérêt de la méthode <code class="docutils literal notranslate"><span class="pre">iterate()</span></code> et de l’objet <em>Mongo iterator</em> qu’elle renvoie.</p>
+<p><strong>Exemple :</strong></p>
+<p>Regardons les 5 premières lignes du dataframe contenant les noms des restaurants chinois à Brooklyn triés par ordre alphabétique inverse (i.e, de Z à A) :</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">coll</span><span class="err">$</span><span class="n">find</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;{&quot;cuisine&quot;:&quot;Chinese&quot;, &quot;borough&quot;:&quot;Brooklyn&quot;}&#39;</span><span class="p">,</span>
+                  <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;{&quot;name&quot;: true, &quot;_id&quot;:false}&#39;</span><span class="p">,</span>
+                  <span class="n">sort</span> <span class="o">=</span> <span class="s1">&#39;{&quot;name&quot;:-1}&#39;</span><span class="p">,</span>
+                  <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>L’équivalent en MongoDB est le suivant :</p>
+<p>Rappelons que le tri par toute variable autre que l’identifiant peut être relativement lent, surtout lorsque la collection est de taille importante car seul l’identifiant est indexé. En ajoutant un index, le champ est pré-trié et son tri est presque immédiat. Pour ajouter un index avec <em>mongolite</em>, il suffit de le déclarer avec la méthode <code class="docutils literal notranslate"><span class="pre">index(add='{&quot;variable&quot;:1}')</span></code>.</p>
+<p><strong>Exemple :</strong></p>
+<p>Créer un index sur le champs <em>name</em> :</p>
+<p>Il est aussi possible de faire des requêtes textuelles avec mongolite. Toutefois attention, cela se fait obligatoirement à l’aide de l’opérateur <code class="docutils literal notranslate"><span class="pre">$regex</span></code>. En effet, avec <em>mongolite</em> on ne peut pas faire de requêtes textuelles à l’aide d’expressions régulières car le package permettant de convertir une chaîne de caractères en fichier JSON dans R ne connait pas les expressions régulières. Hormis ce détail, la syntaxe entre simples <em>quotes</em> est la même que pour les requêtes textuelles en MongoDB (<a class="reference internal" href="04_index.html"><span class="std std-doc">plus de précisions ici</span></a>).</p>
+<p>Ainsi, pour afficher les 10 premiers restaurants de Manhattan dont le nom commence par la lettre ‘A’ par exemple, la requête adaptée est :</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;{&quot;borough&quot;: &quot;Manhattan&quot;, &quot;name&quot;: {&quot;$regex&quot;: &quot;^A&quot;, &quot;$options&quot;:&quot;i&quot;}}&#39;</span>
+<span class="n">res</span> <span class="o">&lt;-</span> <span class="n">coll</span><span class="err">$</span><span class="n">find</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="n">q</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notons alors l’équivalent possible en MongoDB :</p>
+<div class="admonition-remarque admonition">
+<p class="admonition-title">Remarque</p>
+<p>Comme en NoSQL, l’accent circonflèxe sert à préciser que seulement les chaînes commençant par la lettre A seront acceptées. L’opérateur <code class="docutils literal notranslate"><span class="pre">&quot;$options&quot;:&quot;i&quot;</span></code> précise que la casse n’est pas importante (i.e, la chaine “abc” sera jugée acceptable).</p>
+</div>
+<hr class="docutils" />
+<p>Pour ce qui est des requêtes géospatiales, la syntaxe entre simples <em>quotes</em> est la même que pour les requêtes géo-spatiales en MongoDB (<a class="reference internal" href="04_index.html"><span class="std std-doc">plus de précisions ici</span></a>).</p>
+</section>
+<section id="methode-iterate">
+<h3><span class="section-number">7.2.2.3. </span>Méthode iterate<a class="headerlink" href="#methode-iterate" title="Link to this heading">#</a></h3>
+<p>Nous avons vu précedemment que le renvoi d’une requête dans un dataframe R à l’aide de la méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code> pouvait être problématique pour de grands volumes de données. La méthode <code class="docutils literal notranslate"><span class="pre">iterate()</span></code> permet de s’affranchir de ce problème. Celle-ci fonctionne exactement de la même manière que la méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code> mais renvoie le résultat d’une requête non pas dans un dataframe mais dans un objet propre à <em>mongolite</em>, un <em>Mongo iterator</em>. Cet objet va permettre de ne pas stocker toutes les documents de la requête en mémoire mais de les lire un par un. Pour ce faire, il existe 4 méthodes applicables à un <em>Mongo iterator</em> :</p>
+<ul class="simple">
+<li><p>batch(n) : permet de parcourir n documents à la fois</p></li>
+<li><p>json() : retourne les résultats de la requête dans un format JSON</p></li>
+<li><p>one() : permet de parcourir un document à la fois</p></li>
+<li><p>page() : retourne les résultats de la requête sous forme de dataframe</p></li>
+</ul>
+<p>Lorsque l’itérateur a épuisé tous les résultats de la collection, il retourne la valeur vide (NULL).</p>
+<p><strong>Exemple :</strong></p>
+<p>La création d’un itérateur sur l’ensemble de la collection NYfood se fait comme ci-dessous :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">it</span> <span class="o">&lt;-</span> <span class="n">coll</span><span class="err">$</span><span class="n">iterate</span><span class="p">()</span>
+<span class="n">it</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Affichons par exemple les 5 premières lignes :</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">it</span><span class="err">$</span><span class="n">batch</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>L’affichage avec la méthode batch, qui est essentiellement des listes imbriquées, n’est pas toujours facile à visualiser et nous pouvons décider de stocker le résultat dans un dataframe pour mieux le visualiser ; cela se fait avec la méthode <code class="docutils literal notranslate"><span class="pre">page()</span></code>. Par exemple, pour stocker les 5 premières lignes dans un dataframe :</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span> <span class="n">it</span><span class="err">$</span><span class="n">page</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="methode-distinct">
+<h3><span class="section-number">7.2.2.4. </span>Méthode distinct<a class="headerlink" href="#methode-distinct" title="Link to this heading">#</a></h3>
+<p>Tout comme le <code class="docutils literal notranslate"><span class="pre">.distinct()</span></code> en MongoDB (<span class="xref myst">plus de précisions ici</span>), la méthode <code class="docutils literal notranslate"><span class="pre">distinct()</span></code> nous renvoie les valeurs distinctes d’un champ.</p>
+<p><strong>Exemple :</strong></p>
+<p>Affichez la liste des notes existant dans la base :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coll</span><span class="err">$</span><span class="n">distinct</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;grades.grade&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons également noter l’équivalent en MongoDB :</p>
+</section>
+<section id="selectionner-par-date">
+<h3><span class="section-number">7.2.2.5. </span>Sélectionner par date<a class="headerlink" href="#selectionner-par-date" title="Link to this heading">#</a></h3>
+<p>Le traitement des dates avec <em>mongolite</em> mérite une attention particulière. En effet, lorsque l’on souhaite intéragir avec une collection sur un champ de type <em>date</em>, la syntaxe sera relativement différente de celle que l’on peut utiliser en <em>MongoDB</em> (<a class="reference internal" href="#03_dates.md"><span class="xref myst">plus de précisions ici</span></a>) ou avec <em>pymongo</em>. En raison de la classe d’une requête en mongolite (chaîne de caractère), on ne pourra pas utiliser d’objet R spécifique aux dates (comme les datetimes en python par exemple). Ainsi, toutes les dates définies dans une requête en mongolite devront être spécifiées dans un format purement JSON intégrant un opérateur <code class="docutils literal notranslate"><span class="pre">$date</span></code> et une syntaxe UTC. Concrètement, ce format sera du type :</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;$date&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;AAAA-MM-JJThh:mm:ssZ&quot;</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Exemple :</strong></p>
+<p>Prenons un exemple en affichant la liste des 10 premiers restaurants ayant eu au moins une note postérieure au 20 janvier 2015 :</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">&lt;-</span> <span class="s1">&#39;{&quot;grades.date&quot;: {&quot;$gte&quot;: {&quot;$date&quot;: &quot;2015-01-20T00:00:00Z&quot;}}}&#39;</span>
+<span class="n">data</span> <span class="o">&lt;-</span> <span class="n">coll</span><span class="err">$</span><span class="n">find</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons noter l’équivalent en MongoDB :</p>
+</section>
+</section>
+<section id="aggregations">
+<h2><span class="section-number">7.2.3. </span>Aggrégations<a class="headerlink" href="#aggregations" title="Link to this heading">#</a></h2>
+<p>Nous nous proposons dans ce paragraphe de traiter de la méthode <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code> de mongolite qui permet d’éxécuter, à l’instar de d’un <code class="docutils literal notranslate"><span class="pre">.aggregate</span></code> en MongoDB, une pipeline d’aggrégation qui n’est rien d’autre qu’une succession de plusieurs étapes d’aggrégation. La méthode <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code> prend comme argument une liste de dictionnaires que l’on met entre simples <em>quotes</em>. La syntaxe a utiliser pour cette liste de dictionnaires est la même que pour le <code class="docutils literal notranslate"><span class="pre">.aggregate</span></code> de MongoDB (nous vous renvoyons au chapitre sur <a class="reference internal" href="05_agreg.html"><span class="std std-doc">les requêtes d’aggrégations</span></a> pour plus de précisions). Tout comme la méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code>, la méthode aggregate renvoie un <em>dataframe</em>.</p>
+<p><strong>Exemple :</strong></p>
+<p>Prenons un exemple : dans la collection NYfood, le pipeline ci-dessous retourne le nombre de restaurants par arrondissement (borough).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">req</span> <span class="o">=</span> <span class="s1">&#39;[{&quot;$group&quot;:{&quot;_id&quot;:&quot;$borough&quot;,&quot;nb_restos&quot;:{&quot;$sum&quot;:1}}}]&#39;</span> 
+<span class="n">df</span> <span class="o">&lt;-</span> <span class="n">coll</span><span class="err">$</span><span class="n">aggregate</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">req</span><span class="p">)</span> 
+<span class="n">df</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons noter l’équivalent en MongoDB :</p>
+<p>Il se peut que le dataframe à retourner soit de taille importante (ce n’est pas le cas ici). Pour éviter tout problème de saturation de mémoire, il est préférable d’effectuer l’aggrégation avec l’option <code class="docutils literal notranslate"><span class="pre">iterate=TRUE</span></code>. Ainsi, la méthode <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code> renvoie comme pour la méthode <code class="docutils literal notranslate"><span class="pre">iterate()</span></code> un <em>Mongo iterator</em>. Toutes les méthodes applicables à un <em>Mongo iterator</em> présentées précédemment s’appliqueront alors à l’objet renvoyé par la méthode <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code>. Pour reprendre l’exemple ci-dessus :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">req</span> <span class="o">=</span> <span class="s1">&#39;[{&quot;$group&quot;:{&quot;_id&quot;:&quot;$borough&quot;,&quot;nb_restos&quot;:{&quot;$sum&quot;:1}}}]&#39;</span> 
+<span class="n">it</span> <span class="o">&lt;-</span> <span class="n">coll</span><span class="err">$</span><span class="n">aggregate</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">req</span><span class="p">,</span> <span class="n">iterate</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span> 
+<span class="n">it</span><span class="err">$</span><span class="n">page</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="manipulation-de-donnees">
+<h2><span class="section-number">7.2.4. </span>Manipulation de données<a class="headerlink" href="#manipulation-de-donnees" title="Link to this heading">#</a></h2>
+<section id="methode-insert">
+<h3><span class="section-number">7.2.4.1. </span>Méthode insert<a class="headerlink" href="#methode-insert" title="Link to this heading">#</a></h3>
+<p>La méthode <code class="docutils literal notranslate"><span class="pre">insert()</span></code> permet, à l’instar du <code class="docutils literal notranslate"><span class="pre">.insert</span></code> en MongoDB (<a class="reference internal" href="06_modif.html"><span class="std std-doc">plus de précisions ici</span></a>), d’ajouter des données à une collection.
+La méthode la plus simple, est d’insérer des données à partir d’un data frame R. Les colonnes du data frame seront automatiquement transformées en clées d’enregistrement JSON.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">&lt;-</span> <span class="n">mongo</span><span class="p">()</span>
+<span class="n">test</span><span class="err">$</span><span class="n">drop</span><span class="p">()</span>
+<span class="n">test</span><span class="err">$</span><span class="n">insert</span><span class="p">(</span><span class="n">iris</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition-remarque admonition">
+<p class="admonition-title">Remarque</p>
+<p>En pratique, c’est l’inverse de <code class="docutils literal notranslate"><span class="pre">mongo$find()</span></code> qui converti la collection en Data Frame.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="err">$</span><span class="n">find</span><span class="p">(</span><span class="n">limit</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Il est également possible d’insérer directement des données à partir d’une chaîne de caractère JSON. Cette méthode nécessite un vecteur de caractères où chaque élément est une chaîne JSON valide.<br />
+A noter qu’ici la méthode <code class="docutils literal notranslate"><span class="pre">insert()</span></code> crée la collection “individus” car cette dernière n’existe pas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span> <span class="o">&lt;-</span> <span class="n">mongo</span><span class="p">(</span><span class="s2">&quot;individus&quot;</span><span class="p">)</span>
+<span class="nb">str</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="s1">&#39;{&quot;prenom&quot; : &quot;yolan&quot;}&#39;</span> <span class="p">,</span> <span class="s1">&#39;{&quot;prenom&quot;: &quot;paul&quot;, &quot;age&quot; : 22}&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;prenom&quot;: &quot;faisal&quot;}&#39;</span><span class="p">)</span>
+<span class="n">individus</span><span class="err">$</span><span class="n">insert</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">find</span><span class="p">(</span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons également noter l’équivalent en MongoDB :</p>
+</section>
+<section id="methode-remove">
+<h3><span class="section-number">7.2.4.2. </span>Méthode remove<a class="headerlink" href="#methode-remove" title="Link to this heading">#</a></h3>
+<p>La même syntaxe que nous utilisons dans <code class="docutils literal notranslate"><span class="pre">find()</span></code> pour sélectionner les enregistrements à lire, peut également être utilisée pour sélectionner les enregistrements à supprimer :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="err">$</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="err">$</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;{&quot;Species&quot; : &quot;setosa&quot;}&#39;</span><span class="p">)</span>
+<span class="n">test</span><span class="err">$</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons noter l’équivalent en MongoDB :</p>
+<p>Utilisez l’option just_one pour supprimer un seul enregistrement :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="err">$</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;{&quot;Sepal_Length&quot; : {&quot;$lte&quot; : 5}}&#39;</span><span class="p">,</span> <span class="n">just_one</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+<span class="n">test</span><span class="err">$</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pour supprimer tous les documents de la collection (mais pas la collection elle-même) :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="err">$</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">test</span><span class="err">$</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons noter l’équivalent en MongoDB :</p>
+<p>La méthode <code class="docutils literal notranslate"><span class="pre">drop()</span></code> supprime une collection entière. Cela inclut toutes les documents, ainsi que les métadonnées telles que les index de la collection.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="err">$</span><span class="n">drop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons noter l’équivalent en MongoDB :</p>
+</section>
+<section id="methodes-update-upsert">
+<h3><span class="section-number">7.2.4.3. </span>Méthodes update/upsert<a class="headerlink" href="#methodes-update-upsert" title="Link to this heading">#</a></h3>
+<p>Pour modifier des enregistrements existants, utilisez l’opérateur <code class="docutils literal notranslate"><span class="pre">update()</span></code> :</p>
+<p><strong>Modification d’un document :</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;{&quot;prenom&quot;:&quot;yolan&quot;}&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;$set&quot;:{&quot;age&quot;: 22}}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons noter l’équivalent en MongoDB :</p>
+<p><strong>Mise à jour de plusieurs documents :</strong></p>
+<p>Par défaut, la méthode <code class="docutils literal notranslate"><span class="pre">update()</span></code> met à jour un seul document. Pour mettre à jour plusieurs documents, utilisez l’option <code class="docutils literal notranslate"><span class="pre">multi</span></code> de la méthode <code class="docutils literal notranslate"><span class="pre">update()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;$set&quot;:{&quot;booleen_age&quot;: false}}&#39;</span><span class="p">,</span> <span class="n">multiple</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;{&quot;age&quot; : {&quot;$gte&quot; : 0}}&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;$set&quot;:{&quot;booleen_age&quot;: true}}&#39;</span><span class="p">,</span> <span class="n">multiple</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons également noter l’équivalent en MongoDB :</p>
+<p><strong>Modification avec création d’un document si besoin :</strong></p>
+<p>Si aucun document ne correspond à la condition de mise à jour, le comportement par défaut de la méthode de mise à jour est de ne rien faire. En spécifiant l’option <code class="docutils literal notranslate"><span class="pre">upsert</span></code> à <code class="docutils literal notranslate"><span class="pre">true</span></code>, l’opération de mise à jour met à jour le ou les documents correspondants ou insère un nouveau document si aucun document correspondant n’existe.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;{&quot;prenom&quot;:&quot;malo&quot;}&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;$set&quot;:{&quot;age&quot;: 22}}&#39;</span><span class="p">,</span> <span class="n">upsert</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">find</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous pouvons également noter l’équivalent en MongoDB :</p>
+</section>
+</section>
+<section id="import-et-export-de-donnees">
+<h2><span class="section-number">7.2.5. </span>Import et export de données<a class="headerlink" href="#import-et-export-de-donnees" title="Link to this heading">#</a></h2>
+<section id="la-methode-export-import-pour-json">
+<h3><span class="section-number">7.2.5.1. </span>La méthode export/import pour JSON<a class="headerlink" href="#la-methode-export-import-pour-json" title="Link to this heading">#</a></h3>
+<p>Le format par défaut JSON est celui d’une ligne par document.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">export</span><span class="p">(</span><span class="n">stdout</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>En temps normal on exporte vers un fichier que l’on précise avec <code class="docutils literal notranslate"><span class="pre">file()</span></code> :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">export</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s2">&quot;individus.json&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>On peut faire l’essai de supprimer totalement la collection et de l’importer ensuite :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">drop</span><span class="p">()</span>
+<span class="n">individus</span><span class="err">$</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">individus</span><span class="err">$</span><span class="n">import</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s2">&quot;individus.json&quot;</span><span class="p">))</span>
+<span class="n">individus</span><span class="err">$</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="autres-formats-d-export-jsonlite-bjson">
+<h3><span class="section-number">7.2.5.2. </span>Autres formats d’export (jsonlite/bjson/…)<a class="headerlink" href="#autres-formats-d-export-jsonlite-bjson" title="Link to this heading">#</a></h3>
+<p>Pour ces autres formats ou package concernant les méthodes <code class="docutils literal notranslate"><span class="pre">import()</span></code> et <code class="docutils literal notranslate"><span class="pre">export()</span></code>, nous vous renvoyons <a class="reference external" href="https://jeroen.github.io/mongolite/import-export.html">à la page de Jeroen Ooms</a>.</p>
+</section>
+</section>
+<section id="exercices">
+<h2><span class="section-number">7.2.6. </span>Exercices<a class="headerlink" href="#exercices" title="Link to this heading">#</a></h2>
+<section id="consignes">
+<h3><span class="section-number">7.2.6.1. </span>Consignes<a class="headerlink" href="#consignes" title="Link to this heading">#</a></h3>
+<p><strong>Exercice 1 :</strong></p>
+<ol class="arabic simple">
+<li><p>A l’aide d’une requête d’aggrégation, récupérer le nombre de restaurants par quatier dans la collection NYfood.</p></li>
+<li><p>Réaliser un barplot pour visualiser le résultat.</p></li>
+</ol>
+<p><strong>Exercice 2 :</strong></p>
+<p>Cet exercice reprend l’exemple de carthographie avec leaflet de François-Xavier Jollois, disponible <a class="reference external" href="https://fxjollois.github.io/cours-2017-2018/du-abd-r/connexion-r-mongodb.html#un_peu_de_cartographie_avec_leaflet">en cliquant ici.</a></p>
+<ol class="arabic simple">
+<li><p>A l’aide d’une requête d’aggrégation, récupérer le nom, le quartier, la longitude et la latitude des restaurant new-yorkais de la collection NYfood.</p></li>
+<li><p>Afficher les différents restaurants sur la carte du monde. Que constatez vous ?</p></li>
+<li><p>Réaliser une carte des restaurants new-yorkais en ajoutant une couleur en fonction du quartier (coordonnées de New-York : long: -73.9, lat  =  40.7).</p></li>
+</ol>
+</section>
+<section id="correction">
+<h3><span class="section-number">7.2.6.2. </span>Correction<a class="headerlink" href="#correction" title="Link to this heading">#</a></h3>
+<p><strong>Exercice 1 :</strong></p>
+<p><strong>Question 1 :</strong></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;[{&quot;$group&quot;:{&quot;_id&quot;:&quot;$borough&quot;,&quot;nb_restos&quot;:{&quot;$sum&quot;:1}}}]&#39;</span><span class="w"> </span>
+<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">coll</span><span class="o">$</span><span class="nf">aggregate</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="n">req</span><span class="p">)</span><span class="w"> </span>
+<span class="n">df</span>
+</pre></div>
+</div>
+<p><strong>Question 2 :</strong></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">Borough</span><span class="o">=</span><span class="n">`_id`</span><span class="p">,</span><span class="n">Nombre</span><span class="o">=</span><span class="n">nb_restos</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Borough</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Nombre</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&quot;identity&quot;</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">Borough</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_text</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">Nombre</span><span class="p">),</span><span class="w"> </span><span class="n">vjust</span><span class="o">=</span><span class="m">1.6</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">3.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exercice 2 :</strong></p>
+<p><strong>Question 1 :</strong></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">restos.coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coll</span><span class="o">$</span><span class="nf">aggregate</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&#39;[</span>
+<span class="s">    { &quot;$project&quot;: { </span>
+<span class="s">        &quot;name&quot;: 1, </span>
+<span class="s">        &quot;borough&quot;: 1, </span>
+<span class="s">        &quot;lng&quot;: { &quot;$arrayElemAt&quot;: [&quot;$address.loc.coordinates&quot;, 0]}, </span>
+<span class="s">        &quot;lat&quot;: { &quot;$arrayElemAt&quot;: [&quot;$address.loc.coordinates&quot;, 1]} </span>
+<span class="s">    }}</span>
+<span class="s">]&#39;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">restos.coord</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Question 2 :</strong></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">leaflet</span><span class="p">)</span>
+
+<span class="nf">leaflet</span><span class="p">(</span><span class="n">restos.coord</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">addTiles</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">addCircles</span><span class="p">(</span><span class="n">lng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">lng</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">lat</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Question 3 :</strong></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">pal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">colorFactor</span><span class="p">(</span><span class="s">&quot;Accent&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">restos.coord</span><span class="o">$</span><span class="n">borough</span><span class="p">)</span>
+<span class="nf">leaflet</span><span class="p">(</span><span class="n">restos.coord</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">CartoDB.Positron</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">setView</span><span class="p">(</span><span class="n">lng</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">-73.9</span><span class="p">,</span>
+<span class="w">          </span><span class="n">lat</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="m">40.7</span><span class="p">,</span>
+<span class="w">          </span><span class="n">zoom</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">addCircles</span><span class="p">(</span><span class="n">lng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">lng</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="nf">pal</span><span class="p">(</span><span class="n">borough</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">addLegend</span><span class="p">(</span><span class="n">pal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pal</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">borough</span><span class="p">,</span><span class="w"> </span><span class="n">opacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Quartier&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07_scripts_py.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">7.1. </span>Requêtes depuis Python : <code class="docutils literal notranslate"><span class="pre">pymongo</span></code></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-du-package-mongolite-et-connexion-a-un-serveur-mongodb">7.2.1. Installation du package mongolite et connexion à un serveur MongoDB</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-et-chargement-du-package-mongolite">7.2.1.1. Installation et chargement du package mongolite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connexion-a-une-collection-d-une-base-de-donnees-presente-sur-un-serveur-mongodb">7.2.1.2. Connexion à une collection d’une base de données présente sur un serveur MongoDB</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requetes-de-donnees">7.2.2. Requêtes de données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-count">7.2.2.1. Méthode count</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-find">7.2.2.2. Méthode find</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-iterate">7.2.2.3. Méthode iterate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-distinct">7.2.2.4. Méthode distinct</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selectionner-par-date">7.2.2.5. Sélectionner par date</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregations">7.2.3. Aggrégations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulation-de-donnees">7.2.4. Manipulation de données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-insert">7.2.4.1. Méthode insert</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methode-remove">7.2.4.2. Méthode remove</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-update-upsert">7.2.4.3. Méthodes update/upsert</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-et-export-de-donnees">7.2.5. Import et export de données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-methode-export-import-pour-json">7.2.5.1. La méthode export/import pour JSON</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-formats-d-export-jsonlite-bjson">7.2.5.2. Autres formats d’export (jsonlite/bjson/…)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercices">7.2.6. Exercices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consignes">7.2.6.1. Consignes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correction">7.2.6.2. Correction</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Unknown
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

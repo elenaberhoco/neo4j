@@ -1,0 +1,1027 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.2. Requête avec opérateurs &#8212; MongoDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/03_lecture_operateurs';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.3. Requête d’agrégation" href="03_lecture_agregation.html" />
+    <link rel="prev" title="3.1. Requête simple" href="03_lecture_simple.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">MongoDB</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_intro.html">
+                    MongoDB : Base de données NoSQL orientée documents
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_installation.html">1. Installation de MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.2. Requête avec opérateurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_agregation.html">3.3. Requête d’agrégation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_suppression.html">5. CRU<strong>D</strong> : Suppression</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j/issues/new?title=Issue%20on%20page%20%2Fcontent/03_lecture_operateurs.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/03_lecture_operateurs.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Requête avec opérateurs</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs-de-comparaison">3.2.1. Opérateurs de comparaison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs-logique">3.2.2. Opérateurs logique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-des-listes">3.2.3. Requête sur des listes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.2.4. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">3.2.5. En résumé</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="requete-avec-operateurs">
+<h1><span class="section-number">3.2. </span>Requête avec opérateurs<a class="headerlink" href="#requete-avec-operateurs" title="Link to this heading">#</a></h1>
+<p>On peut effectuer des requêtes plus complexes à l’aide d’opérateurs.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Dans la suite, nous utiliserons la base de données suivante :</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">use</span><span class="w"> </span><span class="nx">Sport</span>
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">db</span><span class="p">.</span><span class="nx">athletes</span><span class="p">.</span><span class="nx">insertOne</span><span class="p">({</span>
+<span class="w">                       </span><span class="s2">&quot;nom&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Alice Martin&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">22</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;genre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;F&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;taille&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">175</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;sport&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;basketball&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;volleyball&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;blessures&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;entorse cheville&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;categorie&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;amateur&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;seances&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">                     </span><span class="p">})</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">athletes</span><span class="p">.</span><span class="nx">insertOne</span><span class="p">({</span>
+<span class="w">                       </span><span class="s2">&quot;nom&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Bruno Silva&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">28</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;genre&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;taille&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">182</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;sport&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;football&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;blessures&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">                       </span><span class="s2">&quot;categorie&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;professionnel&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;seances&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">8</span><span class="p">,</span><span class="mf">8</span><span class="p">,</span><span class="mf">9</span><span class="p">,</span><span class="mf">8</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">})</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">athletes</span><span class="p">.</span><span class="nx">insertOne</span><span class="p">({</span>
+<span class="w">                       </span><span class="s2">&quot;nom&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Carla Lopez&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">19</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;genre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;F&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;taille&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">160</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;sport&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;tennis&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;blessures&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;tendinite épaule&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;fracture poignet&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;categorie&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;professionnel&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;seances&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">7</span><span class="p">,</span><span class="mf">7</span><span class="p">,</span><span class="mf">7</span><span class="p">,</span><span class="mf">10</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">})</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">athletes</span><span class="p">.</span><span class="nx">insertOne</span><span class="p">({</span>
+<span class="w">                       </span><span class="s2">&quot;nom&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;David Chen&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">31</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;genre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;taille&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">190</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;sport&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;basketball&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;categorie&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;semi-professionnel&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;seances&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">6</span><span class="p">,</span><span class="mf">5</span><span class="p">,</span><span class="mf">6</span><span class="p">,</span><span class="mf">7</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">})</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">athletes</span><span class="p">.</span><span class="nx">insertOne</span><span class="p">({</span>
+<span class="w">                       </span><span class="s2">&quot;nom&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Emma Dubois&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">25</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;genre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;F&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;taille&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">168</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;sport&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;athlétisme&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;natation&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;blessures&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;élongation ischio-jambiers&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;categorie&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;semi-professionnel&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;seances&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">6</span><span class="p">,</span><span class="mf">7</span><span class="p">,</span><span class="mf">6</span><span class="p">,</span><span class="mf">7</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">})</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">athletes</span><span class="p">.</span><span class="nx">insertOne</span><span class="p">({</span>
+<span class="w">                       </span><span class="s2">&quot;nom&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Alex Legrand&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">22</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;genre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;taille&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">175</span><span class="p">,</span>
+<span class="w">                       </span><span class="s2">&quot;sport&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;MMA&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;blessures&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;entorse cheville&quot;</span><span class="p">,</span><span class="s2">&quot;fracture du nez&quot;</span><span class="p">,</span><span class="s2">&quot;élongation ischio-jambiers&quot;</span><span class="p">],</span>
+<span class="w">                       </span><span class="s2">&quot;seances&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">8</span><span class="p">,</span><span class="mf">5</span><span class="p">,</span><span class="mf">9</span><span class="p">,</span><span class="mf">10</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<section id="operateurs-de-comparaison">
+<h2><span class="section-number">3.2.1. </span>Opérateurs de comparaison<a class="headerlink" href="#operateurs-de-comparaison" title="Link to this heading">#</a></h2>
+<p>Les <strong>opérateurs de comparaison</strong> permettent de comparer deux éléments entre eux. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">({</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:{</span><span class="o">&lt;</span><span class="n">operator</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">}},</span> <span class="o">&lt;</span><span class="n">projection</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur</p></th>
+<th class="head text-center"><p>Notation mathématique</p></th>
+<th class="head text-center"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$eq</span></code></p></td>
+<td class="text-center"><p>=</p></td>
+<td class="text-center"><p><strong>eq</strong>ual to</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$ne</span></code></p></td>
+<td class="text-center"><p>≠</p></td>
+<td class="text-center"><p><strong>n</strong>ot <strong>e</strong>qual</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$lt</span></code></p></td>
+<td class="text-center"><p>&lt;</p></td>
+<td class="text-center"><p><strong>l</strong>ess <strong>t</strong>han</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$gt</span></code></p></td>
+<td class="text-center"><p>&gt;</p></td>
+<td class="text-center"><p><strong>g</strong>reater <strong>t</strong>han</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$lte</span></code></p></td>
+<td class="text-center"><p>≤</p></td>
+<td class="text-center"><p><strong>l</strong>ess <strong>t</strong>han or <strong>e</strong>qual</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$gte</span></code></p></td>
+<td class="text-center"><p>≥</p></td>
+<td class="text-center"><p><strong>g</strong>reater <strong>t</strong>han or <strong>e</strong>qual</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$in</span></code></p></td>
+<td class="text-center"><p>∈</p></td>
+<td class="text-center"><p><strong>in</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$nin</span></code></p></td>
+<td class="text-center"><p>∉</p></td>
+<td class="text-center"><p><strong>n</strong>ot <strong>in</strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$exists</span></code></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\exists\)</span></p></td>
+<td class="text-center"><p><strong>exists</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Les opérateurs <code class="docutils literal notranslate"><span class="pre">$eq</span></code>, <code class="docutils literal notranslate"><span class="pre">$ne</span></code>, <code class="docutils literal notranslate"><span class="pre">$lt</span></code>, <code class="docutils literal notranslate"><span class="pre">$gt</span></code>, <code class="docutils literal notranslate"><span class="pre">$lte</span></code> et <code class="docutils literal notranslate"><span class="pre">$gte</span></code> s’utilisent avec des nombres, des booléens, des chaînes de caractères, des dates, des expressions régulières etc.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Pour récupérer le nom de tous les athlètes de plus de 25 ans (non compris), tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;age&quot;</span><span class="p">:{</span><span class="s2">&quot;$gt&quot;</span><span class="p">:</span><span class="mi">25</span><span class="p">}},{</span><span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> Pour exclure les athlètes hommes, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;genre&quot;</span><span class="p">:{</span><span class="s2">&quot;$ne&quot;</span><span class="p">:</span><span class="s2">&quot;M&quot;</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>Notez que les commandes suivantes sont équivalentes :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;genre&quot;</span><span class="p">:{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span><span class="s2">&quot;M&quot;</span><span class="p">}})</span>
+<span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;genre&quot;</span><span class="p">:</span><span class="s2">&quot;M&quot;</span><span class="p">}})</span>
+</pre></div>
+</div>
+</div>
+<p>Il est possible d’<strong>enchaîner les opérateurs</strong> de comparaison pour extraire des documents en fonction d’un <strong>intervalle de valeurs</strong>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Afin de savoir quels sports les athlètes mesurant entre 1m80 et 2m pratiquent, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;taille&quot;</span><span class="p">:{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span><span class="mi">180</span><span class="p">,</span><span class="s2">&quot;$lte&quot;</span><span class="p">:</span><span class="mi">200</span><span class="p">}},</span> <span class="p">{</span><span class="s2">&quot;sport&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">$nin</span></code> étant la négation de <code class="docutils literal notranslate"><span class="pre">$in</span></code>, les deux opérateurs s’utilisent de la même façon.
+Ils doivent être associés à une <strong>liste de valeurs</strong>.
+<code class="docutils literal notranslate"><span class="pre">$in</span></code> (resp. <code class="docutils literal notranslate"><span class="pre">$nin</span></code>) permet de sélectionner (resp. exclure) les documents dont la valeur ou l’une des valeurs d’un champ est <strong>égale à au moins l’une des valeurs de la liste</strong> spécifiée.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>La commande suivante permet d’obtenir l’ensemble des blessures des athlètes amateurs et semi-professionnels :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;categorie&quot;</span><span class="p">:</span>
+                     <span class="p">{</span><span class="s2">&quot;$in&quot;</span><span class="p">:[</span><span class="s2">&quot;amateur&quot;</span><span class="p">,</span><span class="s2">&quot;semi-professionnel&quot;</span><span class="p">]}</span>
+                  <span class="p">},</span>
+                  <span class="p">{</span><span class="s2">&quot;blessures&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Vous pouvez avoir quelques surprises lorsque vous utilisez des <strong>opérateurs de négation</strong>, tels que <code class="docutils literal notranslate"><span class="pre">$nin</span></code>, <code class="docutils literal notranslate"><span class="pre">$nor</span></code> et <code class="docutils literal notranslate"><span class="pre">$not</span></code>.
+Par exemple, en indiquant avec <code class="docutils literal notranslate"><span class="pre">$nin</span></code> que vous souhaitez accéder aux documents pour lesquels tel champ ne contient pas telles valeurs,
+les documents qui ne contiennent pas ledit champ ou pour lequel le champ est vide seront aussi retournés.
+Ces champs ne vérifient effectivement aucune égalité. Ils ne vérifient donc pas non plus les égalités que vous souhaitez exclure.
+Pour vous en convaincre, voir l’exemple en suivant.
+Par conséquence, si vous souhaitez également exclure les documents qui <strong>ne possèdent par le champ</strong> utilisé dans le filtre ou pour lesquels <strong>le champ est vide</strong>, vous devez le faire explicitement.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Que renvoie la requête suivante ? Exécutez-la.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;categorie&quot;</span><span class="p">:{</span><span class="s2">&quot;$nin&quot;</span><span class="p">:[</span><span class="s2">&quot;amateur&quot;</span><span class="p">]}})</span>
+</pre></div>
+</div>
+<p>Que remarquez-vous ? Corrigez la commande.</p>
+</div>
+<p>Enfin, l’opérateur <code class="docutils literal notranslate"><span class="pre">$exists</span></code> permet de <strong>vérifier l’existence d’une clé</strong> dans un document. <code class="docutils literal notranslate"><span class="pre">$exists</span></code> peut prendre la valeur <code class="docutils literal notranslate"><span class="pre">true</span></code> ou <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Existe-t-il des documents qui n’ont pas de champ <code class="docutils literal notranslate"><span class="pre">blessures</span></code> ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;blessures&quot;</span><span class="p">:{</span><span class="s2">&quot;$exists&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">}})</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="operateurs-logique">
+<h2><span class="section-number">3.2.2. </span>Opérateurs logique<a class="headerlink" href="#operateurs-logique" title="Link to this heading">#</a></h2>
+<p>Les <strong>opérateurs logiques</strong> permettent de tester plusieurs conditions simultanément.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$and</span></code> ou virgule</p></td>
+<td class="text-left"><p>Extraire les documents qui vérifient <strong>toutes</strong> les conditions de la requête</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$or</span></code></p></td>
+<td class="text-left"><p>Extraire les documents qui vérifient l’<strong>une</strong> des conditions de la requête</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$nor</span></code></p></td>
+<td class="text-left"><p>Extraire les documents qui ne vérifient <strong>aucune</strong> des conditions de la requête (ni … ni)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$not</span></code></p></td>
+<td class="text-left"><p>Extraire les documents qui ne vérifient pas la condition spécifiée</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>La syntaxe pour <code class="docutils literal notranslate"><span class="pre">$and</span></code>, <code class="docutils literal notranslate"><span class="pre">$or</span></code> et <code class="docutils literal notranslate"><span class="pre">$nor</span></code> est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">({</span><span class="o">&lt;</span><span class="n">operator</span><span class="o">&gt;</span><span class="p">:[</span><span class="o">&lt;</span><span class="n">filter1</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;</span><span class="n">filter2</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">]},</span> <span class="o">&lt;</span><span class="n">projection</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Comme vu dans le chapitre précédent, pour extraire les documents qui vérifient <strong>un ensemble de conditions</strong>, il suffit de séparer lesdites conditions par une virgule. Toutefois, vous pouvez également utiliser l’opérateur <code class="docutils literal notranslate"><span class="pre">$and</span></code>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Pour retourner le nom des athlètes femmes de plus d’1m65 vous pouvez tapez au choix :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;genre&quot;</span><span class="p">:</span><span class="s2">&quot;F&quot;</span><span class="p">,</span><span class="s2">&quot;taille&quot;</span><span class="p">:{</span><span class="s2">&quot;$gt&quot;</span><span class="p">:</span><span class="mi">165</span><span class="p">}},</span> <span class="p">{</span><span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>ou</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">db</span><span class="p">.</span><span class="nx">athletes</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="s2">&quot;$and&quot;</span><span class="o">:</span><span class="w"> </span>
+<span class="w">                     </span><span class="p">[</span>
+<span class="w">                       </span><span class="p">{</span><span class="s2">&quot;genre&quot;</span><span class="o">:</span><span class="s2">&quot;F&quot;</span><span class="p">},</span>
+<span class="w">                       </span><span class="p">{</span><span class="s2">&quot;taille&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;$gt&quot;</span><span class="o">:</span><span class="mf">165</span><span class="p">}}</span>
+<span class="w">                     </span><span class="p">]</span>
+<span class="w">                 </span><span class="p">},</span>
+<span class="w">                 </span><span class="p">{</span><span class="s2">&quot;nom&quot;</span><span class="o">:</span><span class="mf">1</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>L’opérateur <code class="docutils literal notranslate"><span class="pre">$or</span></code> permet d’extraire les documents qui vérifient <strong>au moins l’une des conditions</strong> spécifiées.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Pour obtenir des informations sur les athlètes amateurs ou semi-professionnels, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;$or&quot;</span><span class="p">:</span>
+                     <span class="p">[</span>
+                       <span class="p">{</span><span class="s2">&quot;categorie&quot;</span><span class="p">:</span><span class="s2">&quot;amateur&quot;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s2">&quot;categorie&quot;</span><span class="p">:</span><span class="s2">&quot;semi-professionnel&quot;</span><span class="p">}</span>
+                     <span class="p">]</span>
+                 <span class="p">})</span>
+</pre></div>
+</div>
+<p>N’a-t-on pas déjà effectué une requête similaire à l’aide d’un autre opérateur ? MongoDB recommande de privilégier la première option lorsque les conditions d’égalité sont appliquées à un même champ, comme c’est le cas ici avec <code class="docutils literal notranslate"><span class="pre">categorie</span></code>. Cependant, cet exemple permet d’illustrer le fait qu’on peut implémenter une même requête de différentes façons.</p>
+</div>
+<p>L’opérateur <code class="docutils literal notranslate"><span class="pre">$nor</span></code> permet d’extraire les documents qui <strong>ne vérifient aucune</strong> des <strong>conditions</strong> spécifiées.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Pour trouver l’ensemble des athlètes qui ne jouent pas au football et qui ne sont pas des femmes, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;$nor&quot;</span><span class="p">:</span>
+                     <span class="p">[</span>
+                       <span class="p">{</span><span class="s2">&quot;sport&quot;</span><span class="p">:</span><span class="s2">&quot;football&quot;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s2">&quot;genre&quot;</span><span class="p">:</span><span class="s2">&quot;F&quot;</span><span class="p">}</span>
+                     <span class="p">]</span>
+                 <span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<p>Enfin, <code class="docutils literal notranslate"><span class="pre">$not</span></code> permet d’extraire les documents qui ne vérifient pas la condition spécifiée. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">({</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:{</span><span class="s2">&quot;$not&quot;</span><span class="p">:{</span><span class="o">&lt;</span><span class="n">operator_expression</span><span class="o">&gt;</span><span class="p">}}},</span> <span class="o">&lt;</span><span class="n">projection</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>où <code class="docutils literal notranslate"><span class="pre">&lt;operator_expression&gt;</span> <span class="pre">=</span> <span class="pre">{&lt;operator&gt;:&lt;value&gt;,</span> <span class="pre">...}</span></code></p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>La commande suivante permet d’exclure les athlètes qui ont entre 25 et 30 ans :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;age&quot;</span><span class="p">:</span>
+                     <span class="p">{</span>
+                       <span class="s2">&quot;$not&quot;</span><span class="p">:</span>
+                          <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span><span class="mi">25</span><span class="p">,</span><span class="s2">&quot;$lt&quot;</span><span class="p">:</span><span class="mi">30</span><span class="p">}</span>
+                     <span class="p">}</span>
+                 <span class="p">})</span>
+</pre></div>
+</div>
+<p>Exclure les athlètes qui ont entre 25 et 30 ans revient entre à extraire les athlètes de moins de 25 ans ou de plus de 30 ans. Sauriez-vous écrire la requête correspondante ?</p>
+</div>
+</section>
+<section id="requete-sur-des-listes">
+<h2><span class="section-number">3.2.3. </span>Requête sur des listes<a class="headerlink" href="#requete-sur-des-listes" title="Link to this heading">#</a></h2>
+<p>Les requêtes sur les listes ont quelques spécificités.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$size</span></code></p></td>
+<td class="text-left"><p>Taille de la liste</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$all</span></code></p></td>
+<td class="text-left"><p>Extraire les documents pour lesquels le champ de type liste contient toutes les valeurs spécifiées</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$elemMatch</span></code></p></td>
+<td class="text-left"><p>Extraire les documents pour lesquels le champ de type liste a au moins un élément qui correspond à tous les critères spécifiés</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Lorsque vous sélectionnez des documents en fonction du contenu d’une liste, chaque condition que vous posez sera considérée comme remplie si <strong>l’un des éléments</strong> de la liste la vérifie. Par exemple :</p>
+<ul class="simple">
+<li><p>La condition <code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;}</span></code> sera vérifiée si <strong>l’un des éléments</strong> de la liste vaut <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>, c’est-à-dire si la liste contient la valeur, quelque soit les autres éléments de la liste.</p></li>
+<li><p>La condition <code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:{&quot;$lt&quot;:&lt;value&gt;}}</span></code> sera vérifiée si <strong>l’un des éléments</strong> de la liste est strictement inférieur à la valeur. Autrement dit, les autres éléments peuvent être supérieurs ou égaux à la valeur.</p></li>
+<li><p>La condition <code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:{&quot;$in&quot;:&lt;value&gt;}}</span></code> sera vérifiée si <strong>l’un des éléments</strong> de la liste appartient à <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>, c’est-à-dire si l’un des éléments de la liste est égal à l’une des valeurs de <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>.</p></li>
+</ul>
+<p>Attention, lorsque vous utilisez des <strong>opérateurs de négation</strong>, il suffit que <strong>l’un des éléments</strong> de la liste vérifie la <strong>condition à exclure</strong> pour que le document soit écarté. Par exemple :</p>
+<ul class="simple">
+<li><p>La condition <code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:{&quot;$ne&quot;:&lt;value&gt;}}</span></code> ne sera pas vérifiée si <strong>l’un des éléments</strong> de la liste est égal <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>, quelque soit les autres éléments de la liste.</p></li>
+<li><p>La condition <code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:{&quot;$nin&quot;:&lt;value&gt;}}</span></code> ne sera pas vérifiée si <strong>l’un des éléments</strong> de la liste appartient à <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>, quelque soit les autres éléments de la liste.</p></li>
+</ul>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> La commande suivante sélectionne les joueurs de basketball, de football, ainsi que ceux qui pratiquent les deux sports :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;sport&quot;</span><span class="p">:{</span><span class="s2">&quot;$in&quot;</span><span class="p">:[</span><span class="s2">&quot;basketball&quot;</span><span class="p">,</span><span class="s2">&quot;football&quot;</span><span class="p">]}})</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> <code class="docutils literal notranslate"><span class="pre">seances</span></code> indique le nombre d’entraînements par semaine. Certains athlètes ont-ils fait des semaines à moins de 6 séances ?
+Notez que cela ne signifie pas que ces athlètes font <em>systématiquement</em> des semaines à moins de 6 séances.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;seances&quot;</span><span class="p">:{</span><span class="s2">&quot;$lt&quot;</span><span class="p">:</span><span class="mi">6</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3.</strong> Quels sont les athlètes qui ne font pas de basketball ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;sport&quot;</span><span class="p">:{</span><span class="s2">&quot;$nin&quot;</span><span class="p">:[</span><span class="s2">&quot;basketball&quot;</span><span class="p">]}})</span>
+</pre></div>
+</div>
+<p>Remarquez que l’athlète Alice Martin, qui pratique le basketball et le volleyball, a été exclue.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">$size</span></code> compte et renvoie le nombre d’éléments contenus dans une liste. Cet opérateur permet de filtrer les documents en fonction de la <strong>taille d’une liste</strong>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>La commande suivante permet d’extraire la catégorie des athlètes s’étant blessés deux fois :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;blessures&quot;</span><span class="p">:{</span><span class="s2">&quot;$size&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}},{</span><span class="s2">&quot;categorie&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><code class="docutils literal notranslate"><span class="pre">$size</span></code> ne peut pas être combiné à des opérateurs de comparaison.
+Si vous souhaitez retourner la catégorie des athlètes s’étant blessés moins de 2 fois, vous ne pouvez pas tapez : <code class="docutils literal notranslate"><span class="pre">db.athletes.find({&quot;blessures&quot;:{&quot;$size&quot;:{&quot;$lte&quot;:2}}})</span></code>.
+Il faudra utiliser <code class="docutils literal notranslate"><span class="pre">$or</span></code> et lister tous les cas possibles :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span>
+                   <span class="s2">&quot;$or&quot;</span><span class="p">:</span>
+                      <span class="p">[</span>
+                        <span class="p">{</span><span class="s2">&quot;blessures&quot;</span><span class="p">:{</span><span class="s2">&quot;$size&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}},</span>
+                        <span class="p">{</span><span class="s2">&quot;blessures&quot;</span><span class="p">:{</span><span class="s2">&quot;$size&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}},</span>
+                        <span class="p">{</span><span class="s2">&quot;blessures&quot;</span><span class="p">:{</span><span class="s2">&quot;$size&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}}</span>
+                      <span class="p">]</span>
+                 <span class="p">},</span>
+                 <span class="p">{</span><span class="s2">&quot;categorie&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">$all</span></code> sélectionne les documents pour lesquels le champ de type liste contient <strong>toutes les valeurs</strong> spécifiées, sans tenir compte de l’ordre ou des autres éléments de la liste. La xyntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">({</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:{</span><span class="s2">&quot;$all&quot;</span><span class="p">:[</span><span class="o">&lt;</span><span class="n">value1</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;</span><span class="n">value2</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">]}})</span>
+</pre></div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>La commande suivante permet de trouver les athlètes qui ont fait une semaine de 7 séances et une semaine de 6 séances :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;seances&quot;</span><span class="p">:{</span><span class="s2">&quot;$all&quot;</span><span class="p">:[</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]}})</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">$elemMatch</span></code> renvoie les documents pour lesquels au moins <strong>un élément</strong> du champ de type liste <strong>vérifie toutes les conditions</strong> spécifiées. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">({</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:{</span><span class="s2">&quot;$elemMatch&quot;</span><span class="p">:</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>où <code class="docutils literal notranslate"><span class="pre">&lt;filter&gt;</span></code> peut être une expression avec ou sans opérateurs.</p>
+<p>Pour faire des recherches sur une liste de documents, la syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">({</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:{</span><span class="s2">&quot;$elemMatch&quot;</span><span class="p">:{</span><span class="o">&lt;</span><span class="n">sub_key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">}}})</span>
+</pre></div>
+</div>
+<p>Pour bien comprendre l’intérêt de cet opérateur, considérez les exemples suivants :</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>D’après vous, que renvoie la commande suivante ? Exécutez-la.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;seances&quot;</span><span class="p">:{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="s2">&quot;$lt&quot;</span><span class="p">:</span><span class="mi">6</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>Est-ce ce à quoi vous vous attendiez ? Que fait cette commande ?</p>
+<p>La commande suivante devrait être conforme à vos attentes :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;seances&quot;</span><span class="p">:{</span><span class="s2">&quot;$elemMatch&quot;</span><span class="p">:{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="s2">&quot;$lt&quot;</span><span class="p">:</span><span class="mi">6</span><span class="p">}}})</span>
+</pre></div>
+</div>
+</div>
+<p>En résumé :</p>
+<ul class="simple">
+<li><p>Si vous souhaitez qu’un ensemble de <strong>conditions</strong> soient vérifiées au moins une fois par un ou plusieurs éléments de la liste, <strong>simultanément ou non</strong>, n’utilisez pas <code class="docutils literal notranslate"><span class="pre">$elemMatch</span></code>.</p></li>
+<li><p>Si vous souhaitez qu’un ensemble de <strong>conditions</strong> soient vérifiées <strong>simultanément</strong> par <strong>au moins un élément</strong> de la liste, utilisez <code class="docutils literal notranslate"><span class="pre">$elemMatch</span></code>.</p></li>
+<li><p>Si vous souhaitez qu’un ensemble de <strong>conditions</strong> soient vérifiées <strong>simultanément</strong> par <strong>tous les éléments</strong> de la liste, utilisez <code class="docutils literal notranslate"><span class="pre">$nor</span></code> et listez les conditions d’exclusion.</p></li>
+</ul>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><strong>Rappel :</strong> Attention aux surprises lorsque vous appliquez des <strong>opérateurs de négation</strong> à une liste.
+Lorsque vous construisez vos requêtes n’oubliez pas les champs absents et les champs vides (dont les listes vides).</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Que renvoie la commande suivante ? Exécutez-la.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">athletes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;seances&quot;</span><span class="p">:{</span><span class="s2">&quot;$not&quot;</span><span class="p">:{</span><span class="s2">&quot;$lte&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">}}})</span>
+</pre></div>
+</div>
+<p>Que remarquez-vous ? Corrigez la commande.</p>
+</div>
+</section>
+<section id="exercice">
+<h2><span class="section-number">3.2.4. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
+<p>À partir du jeu de données utilisé dans ce chapitre :</p>
+<ol class="arabic simple">
+<li><p>Retournez les informations des athlètes <code class="docutils literal notranslate"><span class="pre">David</span> <span class="pre">Chen</span></code> et <code class="docutils literal notranslate"><span class="pre">Emma</span> <span class="pre">Dubois</span></code>.</p></li>
+<li><p>Quels athlètes n’ont pas eu d’élongation des ischio-jambiers (<code class="docutils literal notranslate"><span class="pre">élongation</span> <span class="pre">ischio-jambiers</span></code>)?</p></li>
+<li><p>Certains athlètes ont-ils déjà fait à la fois des semaines à plus de 9 séances et des semaines à 5 séances ou moins ?</p></li>
+<li><p>Quels athlètes ont déjà fait entre 3 et 6 séances lors d’une semaine d’entraînement ?</p></li>
+<li><p>Quels athlètes font au minimum 1 séance par jour, mais pas plus de 9 séances par semaine ?</p></li>
+<li><p>Quelle est la catégorie des athlètes qui se sont blessés 2 fois ou plus ?</p></li>
+<li><p>Quels athlètes pratiquent au moins un sport autre que l’athlétisme ?</p></li>
+</ol>
+<p>À partir du jeu de données <code class="docutils literal notranslate"><span class="pre">movies.json</span></code> :</p>
+<ol class="arabic simple">
+<li><p>Listez le titre et la date des films sortis après 2000 par ordre croissant de sortie</p></li>
+<li><p>Dans combien de films l’acteur John Travolta a-t-il joué ?</p></li>
+<li><p>Combien y a-t-il de films dans lesquels aucun acteur n’est né en 1955 (<code class="docutils literal notranslate"><span class="pre">birth_date</span></code>) ?</p></li>
+<li><p>Listez le titre des films dans lesquels l’un des acteurs est né entre 1955 et 1958. Proposez deux façons d’obtenir cette information.</p></li>
+</ol>
+<p><strong>Bonus</strong>:<br />
+5. Dans quel film Anthony Hopkins et Jodie Foster ont-ils joué tous les deux ?</p>
+</section>
+<section id="en-resume">
+<h2><span class="section-number">3.2.5. </span>En résumé<a class="headerlink" href="#en-resume" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$eq</span></code></p></td>
+<td class="text-left"><p><strong>eq</strong>ual to</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$ne</span></code></p></td>
+<td class="text-left"><p><strong>n</strong>ot <strong>e</strong>qual</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$lt</span></code></p></td>
+<td class="text-left"><p><strong>l</strong>ess <strong>t</strong>han</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$gt</span></code></p></td>
+<td class="text-left"><p><strong>g</strong>reater <strong>t</strong>han</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$lte</span></code></p></td>
+<td class="text-left"><p><strong>l</strong>ess <strong>t</strong>han or <strong>e</strong>qual</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$gte</span></code></p></td>
+<td class="text-left"><p><strong>g</strong>reater <strong>t</strong>han or <strong>e</strong>qual</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$in</span></code></p></td>
+<td class="text-left"><p><strong>in</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$nin</span></code></p></td>
+<td class="text-left"><p><strong>n</strong>ot <strong>in</strong></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$exists</span></code></p></td>
+<td class="text-left"><p><strong>exists</strong></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$and</span></code> ou virgule</p></td>
+<td class="text-left"><p>Extraire les documents qui vérifient <strong>toutes</strong> les conditions de la requête</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$or</span></code></p></td>
+<td class="text-left"><p>Extraire les documents qui vérifient l’<strong>une</strong> des conditions de la requête</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$nor</span></code></p></td>
+<td class="text-left"><p>Extraire les documents qui ne vérifient <strong>aucune</strong> des conditions de la requête</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$not</span></code></p></td>
+<td class="text-left"><p>Extraire les documents qui ne vérifient pas la condition spécifiée</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$size</span></code></p></td>
+<td class="text-left"><p>Taille d’une liste</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$all</span></code></p></td>
+<td class="text-left"><p>Extraire les documents pour lesquels le champ de type liste contient toutes les valeurs spécifiées</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$elemMatch</span></code></p></td>
+<td class="text-left"><p>Extraire les documents pour lesquels le champ de type liste a au moins un élément qui correspond à tous les critères spécifiés</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_lecture_simple.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.1. </span>Requête simple</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_lecture_agregation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3.3. </span>Requête d’agrégation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs-de-comparaison">3.2.1. Opérateurs de comparaison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs-logique">3.2.2. Opérateurs logique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-des-listes">3.2.3. Requête sur des listes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.2.4. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">3.2.5. En résumé</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Unknown
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

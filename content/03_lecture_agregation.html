@@ -1,0 +1,1174 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.3. Requête d’agrégation &#8212; MongoDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/03_lecture_agregation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. CRUD : Modification" href="04_modification.html" />
+    <link rel="prev" title="3.2. Requête avec opérateurs" href="03_lecture_operateurs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">MongoDB</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_intro.html">
+                    MongoDB : Base de données NoSQL orientée documents
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_installation.html">1. Installation de MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_operateurs.html">3.2. Requête avec opérateurs</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.3. Requête d’agrégation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_suppression.html">5. CRU<strong>D</strong> : Suppression</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j/issues/new?title=Issue%20on%20page%20%2Fcontent/03_lecture_agregation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/03_lecture_agregation.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Requête d’agrégation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-de-documents">3.3.1. Sélection de documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formatage-de-documents">3.3.2. Formatage de documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agregation-de-documents-group">3.3.3. Agrégation de documents : <code class="docutils literal notranslate"><span class="pre">$group</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-etapes-d-agregations-et-methodes">3.3.4. Autres étapes d’agrégations et méthodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.3.5. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">3.3.6. En résumé</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="requete-d-agregation">
+<span id="content-lecture-agregation"></span><h1><span class="section-number">3.3. </span>Requête d’agrégation<a class="headerlink" href="#requete-d-agregation" title="Link to this heading">#</a></h1>
+<p>Un <strong>pipeline d’agrégation</strong> consiste en une succession d’opérations à appliquer aux données. On parlera d’étapes d’agrégation. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">aggregate</span><span class="p">([</span><span class="o">&lt;</span><span class="n">stage1</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;</span><span class="n">stage2</span><span class="o">&gt;...</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Dans la suite, nous utiliserons la base de données suivante conçue pour stocker des commandes :</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">use</span><span class="w"> </span><span class="nx">Sales</span>
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">db</span><span class="p">.</span><span class="nx">orders</span><span class="p">.</span><span class="nx">insertMany</span><span class="p">([</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;elise_smith@myemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2020-05-30T08:35:52Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">198</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;12 rue des Acacias&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;69007&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Lyon&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;France&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;reading_lamp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">,</span><span class="s2">&quot;lighting&quot;</span><span class="p">,</span><span class="s2">&quot;reading&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;59&quot;</span><span class="p">)},</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;leather_notebook&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;stationery&quot;</span><span class="p">,</span><span class="s2">&quot;premium&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;35&quot;</span><span class="p">)},</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;fountain_pen&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;writing&quot;</span><span class="p">,</span><span class="s2">&quot;premium&quot;</span><span class="p">,</span><span class="s2">&quot;office&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;85&quot;</span><span class="p">)},</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;porcelain_mug&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;kitchen&quot;</span><span class="p">,</span><span class="s2">&quot;gift&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;19&quot;</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;elise_smith@myemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2020-01-13T09:32:07Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">99</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;12 rue des Acacias&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;69007&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Lyon&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;France&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;wireless_headset&quot;</span><span class="p">,</span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;electronics&quot;</span><span class="p">,</span><span class="s2">&quot;audio&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;99&quot;</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;oranieri@warmmail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2020-01-01T08:25:37Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">64</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;3 place des Tilleuls&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;35000&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Rennes&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;France&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;reading_lamp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">,</span><span class="s2">&quot;lighting&quot;</span><span class="p">,</span><span class="s2">&quot;reading&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;59&quot;</span><span class="p">)},</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;bookmark&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;reading&quot;</span><span class="p">,</span><span class="s2">&quot;gift&quot;</span><span class="p">,</span><span class="s2">&quot;stationery&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;5&quot;</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;tj@wheresmyemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2019-05-28T19:13:32Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;24 Hauptstrasse&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;10115&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Berlin&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Germany&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;sticker&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;gift&quot;</span><span class="p">,</span><span class="s2">&quot;stationery&quot;</span><span class="p">,</span><span class="s2">&quot;fun&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;tj@wheresmyemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2020-11-23T22:56:53Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">154</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;24 Hauptstrasse&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;10115&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Berlin&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Germany&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ereader&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;electronics&quot;</span><span class="p">,</span><span class="s2">&quot;reading&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;129&quot;</span><span class="p">)},</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;porcelain_mug&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;kitchen&quot;</span><span class="p">,</span><span class="s2">&quot;gift&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;19&quot;</span><span class="p">)},</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;bookmark&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;reading&quot;</span><span class="p">,</span><span class="s2">&quot;gift&quot;</span><span class="p">,</span><span class="s2">&quot;stationery&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;6&quot;</span><span class="p">)}</span><span class="w"> </span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;tj@wheresmyemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2020-08-18T23:04:48Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;24 Hauptstrasse&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;10115&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Berlin&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Germany&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;sticker&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;gift&quot;</span><span class="p">,</span><span class="s2">&quot;stationery&quot;</span><span class="p">,</span><span class="s2">&quot;fun&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;4&quot;</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;elise_smith@myemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2020-12-26T08:55:46Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;12 rue des Acacias&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;69007&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Lyon&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;France&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;bookmark&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;reading&quot;</span><span class="p">,</span><span class="s2">&quot;gift&quot;</span><span class="p">,</span><span class="s2">&quot;stationery&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;4&quot;</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;tj@wheresmyemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2021-02-28T07:49:32Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">1024</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;24 Hauptstrasse&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;10115&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Berlin&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Germany&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;laptop&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;electronics&quot;</span><span class="p">,</span><span class="s2">&quot;office&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;950&quot;</span><span class="p">)},</span>
+<span class="w">      </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;screen&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;electronics&quot;</span><span class="p">,</span><span class="s2">&quot;office&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;74&quot;</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;customer_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;elise_smith@myemail.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;orderdate&quot;</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="s1">&#39;2020-10-03T13:49:44Z&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">102</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                 </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;12 rue des Acacias&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;zip_code&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;69007&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Lyon&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;France&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;products&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;screen&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tags&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;electronics&quot;</span><span class="p">,</span><span class="s2">&quot;office&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">Decimal128</span><span class="p">(</span><span class="s2">&quot;102&quot;</span><span class="p">)},</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>Pour accéder au champ pré-existant ou nouvellement créé d’un document dans un pipeline d’agrégation, if faut précéder le nom du champ par <code class="docutils literal notranslate"><span class="pre">$</span></code>.</p>
+<p>Les principales étapes d’un pipeline d’agrégation sont les suivantes :</p>
+<section id="selection-de-documents">
+<h2><span class="section-number">3.3.1. </span>Sélection de documents<a class="headerlink" href="#selection-de-documents" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$match</span></code> permet de <strong>sélectionner des documents</strong> en fonction de certains critères. La syntaxe est identique à celle utilisée pour le filtre de sélection de la commande <code class="docutils literal notranslate"><span class="pre">find()</span></code>. Il s’agit généralement de la première étape du pipeline d’agrégation.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Commençons par ajouter une étape <code class="docutils literal notranslate"><span class="pre">$match</span></code> au pipeline d’agrégation pour sélectionner les commandes passées en 2020 :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span> 
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span> 
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>    
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p>Cette commande est équivalente à :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find</span><span class="p">({</span>
+                 <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                     <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                      <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+               <span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="formatage-de-documents">
+<h2><span class="section-number">3.3.2. </span>Formatage de documents<a class="headerlink" href="#formatage-de-documents" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$project</span></code> permet de <strong>sélectionner</strong>, d’<strong>exclure</strong>, de <strong>renommer</strong> ou d’<strong>ajouter des champs</strong>. La syntaxe est similaire à celle utilisée dans la commande <code class="docutils literal notranslate"><span class="pre">find()</span></code> pour la projection. Il s’agit généralement de la dernière étape du pipeline d’agrégation.
+<code class="docutils literal notranslate"><span class="pre">$project</span></code> est équivalent à une combinaison de <code class="docutils literal notranslate"><span class="pre">$unset</span></code>, qui peut être utilisé pour <strong>supprimer</strong> certains <strong>champs</strong> du résultat, et <code class="docutils literal notranslate"><span class="pre">$set</span></code>, qui permet d’en <strong>renommer</strong> certains ou d’en <strong>ajouter</strong> de nouveaux.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Vous pouvez utilisez <code class="docutils literal notranslate"><span class="pre">$project</span></code> pour afficher les commandes passées en 2020 sans les adresses de livraison :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$project&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;address&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+                      <span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p>Vous pouvez également utilisez <code class="docutils literal notranslate"><span class="pre">$unset</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span><span class="s2">&quot;$unset&quot;</span><span class="p">:</span> <span class="s2">&quot;address&quot;</span><span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p>Notez qu’il est encore possible d’utiliser la commande <code class="docutils literal notranslate"><span class="pre">find()</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find</span><span class="p">({</span>
+                 <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                     <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                      <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+               <span class="p">},</span>
+               <span class="p">{</span><span class="s2">&quot;address&quot;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> Pour afficher <strong>uniquement</strong> l’adresse mail et le pays des commandes passées en 2020 dans un nouveau champ <code class="docutils literal notranslate"><span class="pre">customer_country</span></code>, utilisez <code class="docutils literal notranslate"><span class="pre">$project</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$project&quot;</span><span class="p">:</span> <span class="p">{</span> 
+                            <span class="s2">&quot;customer_country&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$customer_id&quot;</span><span class="p">,</span> <span class="s2">&quot;$address.country&quot;</span><span class="p">]</span>
+                            <span class="p">}</span>
+                      <span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p>Nous aurions aussi pu utiliser <code class="docutils literal notranslate"><span class="pre">find()</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find</span><span class="p">({</span>
+                 <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span> <span class="p">{</span>
+                     <span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                     <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)</span>
+                 <span class="p">}</span>
+               <span class="p">},</span>
+               <span class="p">{</span><span class="s2">&quot;customer_country&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$customer_id&quot;</span><span class="p">,</span> <span class="s2">&quot;$address.country&quot;</span><span class="p">]}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3.</strong> Pour afficher toutes les informations associées aux commandes passées en 2020 tout en <strong>ajoutant</strong> le champ <code class="docutils literal notranslate"><span class="pre">customer_country</span></code>, utilisez <code class="docutils literal notranslate"><span class="pre">$set</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$set&quot;</span><span class="p">:</span> 
+                            <span class="p">{</span><span class="s2">&quot;customer_country&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$customer_id&quot;</span><span class="p">,</span> <span class="s2">&quot;$address.country&quot;</span><span class="p">]}</span>
+                      <span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p>Cette commande est équivalente à la commande suivante utilisant <code class="docutils literal notranslate"><span class="pre">$project</span></code>, qui est bien plus lourde car il faut lister explicitement l’ensemble des champs à inclure :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$project&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+                            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+                            <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> 
+                            <span class="s2">&quot;customer_country&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;$customer_id&quot;</span><span class="p">,</span> <span class="s2">&quot;$address.country&quot;</span><span class="p">]</span>
+                            <span class="p">}</span>
+                      <span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p>Il est possible de construire une commande similaire avec <code class="docutils literal notranslate"><span class="pre">find()</span></code>.</p>
+</div>
+</section>
+<section id="agregation-de-documents-group">
+<h2><span class="section-number">3.3.3. </span>Agrégation de documents : <code class="docutils literal notranslate"><span class="pre">$group</span></code><a class="headerlink" href="#agregation-de-documents-group" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$group</span></code> permet de <strong>combiner plusieurs documents</strong> en fonction de la valeur d’un ou plusieurs champs ou du résultat d’une expression, et selon une méthode d’agrégation donnée. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;$group&quot;</span> <span class="p">:</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;_id&quot;</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">group_key</span><span class="o">&gt;</span><span class="p">,</span>
+      <span class="o">&lt;</span><span class="n">field</span><span class="o">&gt;</span> <span class="p">:</span> <span class="p">{</span> <span class="o">&lt;</span><span class="n">accumulator</span><span class="o">&gt;</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span> <span class="p">},</span>
+      <span class="o">...</span>
+    <span class="p">}</span>
+<span class="p">}</span> 
+</pre></div>
+</div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_id</span></code> est le champ, l’ensemble de champs ou l’expression qui permet de regrouper les documents. Passer <code class="docutils literal notranslate"><span class="pre">null</span></code> à <code class="docutils literal notranslate"><span class="pre">_id</span></code> agrège tous les documents.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;field&gt;</span></code> est le nom du nouveau champ dans lequel le résultat de l’agrégation doit être stocké. Cet argument est optionnel. Lorsque <code class="docutils literal notranslate"><span class="pre">_id</span></code> est le seul argument spécifié, <code class="docutils literal notranslate"><span class="pre">$group</span></code> renvoie une liste de valeurs uniques.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;accumulator&gt;</span></code> est un opérateur d’accumulation, par exemple : <code class="docutils literal notranslate"><span class="pre">$sum</span></code>, <code class="docutils literal notranslate"><span class="pre">$max</span></code>, <code class="docutils literal notranslate"><span class="pre">$min</span></code>, <code class="docutils literal notranslate"><span class="pre">$count</span></code>, <code class="docutils literal notranslate"><span class="pre">$avg</span></code>, <code class="docutils literal notranslate"><span class="pre">$first</span></code>, <code class="docutils literal notranslate"><span class="pre">$push</span></code>.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">$push</span></code> permet de renvoyer sous forme de liste toutes les valeurs associées à un ou plusieurs champs dans l’ensemble des documents. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;$push&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>où <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> peut être une clé unique ou un document contenant plusieurs clés : <code class="docutils literal notranslate"><span class="pre">{&lt;new_key1&gt;:</span> <span class="pre">&lt;old_key1&gt;,</span> <span class="pre">...}</span></code>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Un pipeline d’agrégation est une succession d’étapes. À chaque étape, seuls les éléments conservés à l’étape précédente sont accessibles.
+En particulier, seuls les champs spécifiés dans <code class="docutils literal notranslate"><span class="pre">$group</span></code> seront accessibles à l’étape suivante du pipeline.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Quelle est le plus gros achat réalisé pour chaque client en 2020 ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="o">//</span> <span class="mf">1.</span> <span class="n">Commandes</span> <span class="n">réalisées</span> <span class="n">en</span> <span class="mi">2020</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">2.1</span> <span class="n">Commandes</span> <span class="n">groupées</span> <span class="n">par</span> <span class="n">adresse</span> <span class="n">email</span>
+                      <span class="o">//</span> <span class="mf">2.2</span> <span class="n">Récupération</span> <span class="n">du</span> <span class="n">montant</span> <span class="n">le</span> <span class="n">plus</span> <span class="n">élevé</span> <span class="n">pour</span> <span class="n">chaque</span> <span class="n">client</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$group&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="s2">&quot;$customer_id&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;max_purchase&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$max&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">3.1</span> <span class="n">Sélection</span> <span class="n">du</span> <span class="n">champ</span> <span class="n">créé</span> <span class="n">à</span> <span class="n">l</span><span class="s1">&#39;étape précédente &quot;max_purchase&quot;</span>
+                      <span class="o">//</span> <span class="mf">3.2</span> <span class="n">Renommage</span> <span class="n">du</span> <span class="n">champ</span> <span class="n">créé</span> <span class="n">à</span> <span class="n">l</span><span class="s1">&#39;étape précédent &quot;_id&quot; en &quot;customer_id&quot; :</span>
+                      <span class="o">//</span> <span class="mf">3.2.1</span><span class="o">.</span> <span class="n">Création</span> <span class="n">d</span><span class="s1">&#39;un nouveau champ &quot;customer_id&quot;</span>
+                      <span class="o">//</span> <span class="mf">3.2.2</span><span class="o">.</span> <span class="n">Suppression</span> <span class="n">du</span> <span class="n">champ</span> <span class="s2">&quot;_id&quot;</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$project&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;max_purchase&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;$_id&quot;</span><span class="p">,</span> <span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">4.</span> <span class="n">Trier</span> <span class="n">les</span> <span class="n">résultats</span> <span class="n">par</span> <span class="n">ordre</span> <span class="n">décroissant</span> 
+                      <span class="p">{</span> 
+                        <span class="s2">&quot;$sort&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;max_purchase&quot;</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+                      <span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> On peut spécifier plusieurs opérations d’agrégation dans <code class="docutils literal notranslate"><span class="pre">$group</span></code>. On peut par exemple créer une synthèse des achats réalisés par chaque client en 2020 :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="o">//</span> <span class="mf">1.</span> <span class="n">Commandes</span> <span class="n">réalisées</span> <span class="n">en</span> <span class="mi">2020</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">2.</span> <span class="n">Trier</span> <span class="n">les</span> <span class="n">commandes</span> <span class="n">par</span> <span class="n">date</span>
+                      <span class="p">{</span><span class="s2">&quot;$sort&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;orderdate&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}},</span>
+                      <span class="o">//</span> <span class="mf">3.1</span> <span class="n">Commandes</span> <span class="n">groupées</span> <span class="n">par</span> <span class="n">adresse</span> <span class="n">email</span>
+                      <span class="o">//</span> <span class="mf">3.2</span> <span class="n">Récupération</span> <span class="n">du</span> <span class="n">montant</span> <span class="n">le</span> <span class="n">plus</span> <span class="n">élevé</span> <span class="n">pour</span> <span class="n">chaque</span> <span class="n">client</span>
+                      <span class="o">//</span> <span class="mf">3.3</span> <span class="n">Calcul</span> <span class="n">du</span> <span class="n">montant</span> <span class="n">total</span> <span class="n">dépensé</span> <span class="n">par</span> <span class="n">client</span>
+                      <span class="o">//</span> <span class="mf">3.4</span> <span class="n">Calcul</span> <span class="n">du</span> <span class="n">nombre</span> <span class="n">de</span> <span class="n">commandes</span> <span class="n">par</span> <span class="n">client</span>
+                      <span class="o">//</span> <span class="mf">3.5</span> <span class="n">Calcul</span> <span class="n">de</span> <span class="n">la</span> <span class="n">moyenne</span> <span class="n">des</span> <span class="n">montants</span> <span class="n">dépensés</span> <span class="n">par</span> <span class="n">client</span>
+                      <span class="o">//</span> <span class="mf">3.6</span> <span class="n">Récupération</span> <span class="n">de</span> <span class="n">la</span> <span class="n">première</span> <span class="n">date</span> <span class="n">d</span><span class="s1">&#39;achat</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$group&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="s2">&quot;$customer_id&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;max_purchase&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$max&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;total_value&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$sum&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;num_orders&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$sum&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                            <span class="s2">&quot;average_purchase&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$avg&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;first_purchase_date&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$first&quot;</span><span class="p">:</span> <span class="s2">&quot;$orderdate&quot;</span><span class="p">}</span> <span class="o">//</span> <span class="n">fonctionne</span> <span class="n">car</span> <span class="n">tri</span> <span class="n">en</span> <span class="n">amont</span> 
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">4.</span> <span class="n">Création</span> <span class="n">d</span><span class="s1">&#39;un nouveau champ &quot;customer_id&quot;  </span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;$_id&quot;</span><span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">5.</span> <span class="n">Suppression</span> <span class="n">du</span> <span class="n">champ</span> <span class="s2">&quot;_id&quot;</span>  
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$unset&quot;</span><span class="p">:</span> <span class="s2">&quot;_id&quot;</span>
+                      <span class="p">},</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3.</strong> On peut utiliser <code class="docutils literal notranslate"><span class="pre">$push</span></code> pour conserver l’historique des achats des clients dans la synthèse :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span><span class="s2">&quot;$sort&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;orderdate&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}},</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$group&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="s2">&quot;$customer_id&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;max_purchase&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$max&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;total_value&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$sum&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;num_orders&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$sum&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                            <span class="s2">&quot;average_purchase&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$avg&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">},</span>
+                            <span class="s2">&quot;first_purchase_date&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$first&quot;</span><span class="p">:</span> <span class="s2">&quot;$orderdate&quot;</span><span class="p">},</span>
+                            <span class="o">//</span> <span class="n">Historique</span> <span class="n">des</span> <span class="n">achats</span>
+                            <span class="s2">&quot;orders&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$push&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;orderdate&quot;</span><span class="p">:</span> <span class="s2">&quot;$orderdate&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">}}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;$_id&quot;</span><span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$unset&quot;</span><span class="p">:</span> <span class="s2">&quot;_id&quot;</span>
+                      <span class="p">},</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°4.</strong> Quel est le montant total des ventes en 2020 ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+                      <span class="o">//</span> <span class="mf">1.</span> <span class="n">Commandes</span> <span class="n">réalisées</span> <span class="n">en</span> <span class="mi">2020</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$match&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;orderdate&quot;</span><span class="p">:</span>
+                                <span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">),</span>
+                                 <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="n">new</span> <span class="n">Date</span><span class="p">(</span><span class="s2">&quot;2021-01-01&quot;</span><span class="p">)}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">2.</span> <span class="n">Montant</span> <span class="n">total</span> <span class="n">des</span> <span class="n">ventes</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$group&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
+                            <span class="s2">&quot;total_value&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$sum&quot;</span><span class="p">:</span> <span class="s2">&quot;$value&quot;</span><span class="p">}</span>
+                            <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="o">//</span> <span class="mf">3.</span> <span class="n">Suppression</span> <span class="n">du</span> <span class="n">champ</span> <span class="s2">&quot;_id&quot;</span>
+                      <span class="p">{</span>
+                        <span class="s2">&quot;$unset&quot;</span><span class="p">:</span> <span class="s2">&quot;_id&quot;</span>
+                      <span class="p">}</span>
+                    <span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="autres-etapes-d-agregations-et-methodes">
+<h2><span class="section-number">3.3.4. </span>Autres étapes d’agrégations et méthodes<a class="headerlink" href="#autres-etapes-d-agregations-et-methodes" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$unwind</span></code> décompose un champ de type liste en autant de documents qu’il y a d’éléments dans la liste. Tous les champs du document initial sont conservés, seule la valeur du champ de type liste est remplacée par l’un des éléments de la liste.
+La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;$unwind&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>Cette commande est utile lorsque l’agrégat ne correspond pas aux besoins.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Dans la base de données, un agrégat correspond à une commande. Si nous souhaitons avoir des informations sur les produits, quelques manipulations supplémentaires sont nécessaires.</p>
+<p><strong>Exemple n°1.</strong> Pour lister les catégories contenant des produits à plus de 50e et le nombre de produits à plus de 50e vendus pour chacune, on peut utiliser <code class="docutils literal notranslate"><span class="pre">$unwind</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>db.orders.aggregate([
+                      // 1. Décomposer le champ `products`
+                      {
+                        &quot;$unwind&quot;: {&quot;path&quot;: &quot;$products&quot;}
+                      },
+                      // 2. Sélectionner les catégories contenant des produits à 50e ou plus
+                      {
+                        &quot;$match&quot;: {&quot;products.price&quot;: {&quot;$gte&quot;: 50}}
+                      },
+                      // 3.1 Grouper les documents par catégorie de produit
+                      // 3.2 Compter le nombre de produit à 50e ou plus vendus dans chaque catégorie
+                      {
+                        &quot;$group&quot;: {
+                            &quot;_id&quot;: &quot;$products.name&quot;,
+                            &quot;count&quot;: {&quot;$sum&quot;: 1}
+                            }
+                      },
+                      // 4. Renommer le champ créé à l&#39;étape précédent &quot;_id&quot; en &quot;product_name&quot;
+                      {
+                        &quot;$set&quot;: {&quot;product_name&quot;: &quot;$_id&quot;}
+                      },
+                      {
+                        &quot;$unset&quot;: &quot;_id&quot;
+                      } 
+                    ])
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> Combien l’entreprise a-t-elle vendu de produits par tag ? Pour quelle somme totale ? Quels sont ces produits ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>db.orders.aggregate([
+                      // 1. Décomposer le champ `products`
+                      {
+                        &quot;$unwind&quot;: {&quot;path&quot;: &quot;$products&quot;}
+                      },
+                      // 2. Décomposer le champ `products.tags`
+                      {
+                        &quot;$unwind&quot;: {&quot;path&quot;: &quot;$products.tags&quot;}
+                      },
+                      // 3.1 Grouper les documents par catégorie de produit et par tag
+                      //     pour ne pas avoir de doublons dans la liste finale 
+                      //     des catégories associées à chaque tag
+                      // 3.2 Compter le nombre de produits vendus par groupe
+                      // 3.3 Calculer le montant total par groupe
+                      {
+                        &quot;$group&quot;: {
+                           &quot;_id&quot;: {&quot;tags&quot;: &quot;$products.tags&quot;, &quot;products&quot;: &quot;$products.name&quot;},
+                           &quot;temporary_count&quot;: {&quot;$sum&quot;: 1},
+                           &quot;temporary_sum&quot;: {&quot;$sum&quot;: &quot;$value&quot;}
+                           }
+                      },
+                      // 4.1 Grouper les documents par tag
+                      // 4.2 Lister les catégories de produits par tag
+                      // 4.3 Compter le nombre de produits vendus par tag
+                      // 4.4 Calculer le montant total par tag
+                      {
+                        &quot;$group&quot;: {
+                           &quot;_id&quot;: &quot;$_id.tags&quot;,
+                           &quot;products&quot;: {&quot;$push&quot;: &quot;$_id.products&quot;},
+                           &quot;count&quot;: {&quot;$sum&quot;: &quot;$temporary_count&quot;},
+                           &quot;sum&quot;: {&quot;$sum&quot;: &quot;$temporary_sum&quot;}
+                           }
+                      },
+                      // 5. Renommer le champ créé à l&#39;étape précédent &quot;_id&quot; en &quot;tag&quot;
+                      {
+                        &quot;$set&quot;: {&quot;tag&quot;: &quot;$_id&quot;}
+                      },
+                      {
+                        &quot;$unset&quot;: &quot;_id&quot;
+                      }
+                    ])
+                        
+</pre></div>
+</div>
+</div>
+<p>Voir aussi les étapes d’agrégation : <code class="docutils literal notranslate"><span class="pre">$count</span></code>, <code class="docutils literal notranslate"><span class="pre">$sort</span></code>, <code class="docutils literal notranslate"><span class="pre">$limit</span></code>, <code class="docutils literal notranslate"><span class="pre">$lookup</span></code>.</p>
+<p>Le méthode <code class="docutils literal notranslate"><span class="pre">distinct()</span></code> permet d’obtenir les valeurs uniques pour un champ donné. La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">distinct</span><span class="p">(</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="exercice">
+<h2><span class="section-number">3.3.5. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
+<p>À partir du jeu de données <code class="docutils literal notranslate"><span class="pre">movies.json</span></code> :</p>
+<ol class="arabic simple">
+<li><p>Quels sont les différents genres représentés dans la base de données ?</p></li>
+<li><p>Combien y a-t-il de films par pays ?</p></li>
+<li><p>Combien y a-t-il de films par pays et par année ?</p></li>
+<li><p>Combien y a-t-il de films par pays et par année, triés par pays et par année (dans cet ordre) ?</p></li>
+<li><p>Retourner l’ensemble des films réalisés par réalisateur entre 1975 et 1985.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">$match</span></code>, <code class="docutils literal notranslate"><span class="pre">$group</span></code> et <code class="docutils literal notranslate"><span class="pre">$push</span></code>. Vous pouvez utiliser l’identifiant des réalisateurs pour le regroupement, mais dans ce cas, utilisez <code class="docutils literal notranslate"><span class="pre">$first</span></code> pour conserver l’information du prénom et du nom des réalisateurs.</p>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Quel réalisateur a le plus de films à son actif ?</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">$group</span></code>, <code class="docutils literal notranslate"><span class="pre">$sort</span></code> et <code class="docutils literal notranslate"><span class="pre">$limit</span></code>.</p>
+</div>
+<ol class="arabic simple" start="7">
+<li><p>Listez les noms complets de tous les acteurs dont le prénom est <code class="docutils literal notranslate"><span class="pre">Robert</span></code>. Lorsque vous renvoyez les résultats, vous pouvez utilisez <code class="docutils literal notranslate"><span class="pre">$concat</span></code> pour concaténer le prénom et le nom de famille si vous le souhaitez.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">$unwind</span></code>, <code class="docutils literal notranslate"><span class="pre">$match</span></code> et <code class="docutils literal notranslate"><span class="pre">$group</span></code>.</p>
+</div>
+</section>
+<section id="en-resume">
+<h2><span class="section-number">3.3.6. </span>En résumé<a class="headerlink" href="#en-resume" title="Link to this heading">#</a></h2>
+<p>Dans ce chapitre vous avez appris que :</p>
+<ul class="simple">
+<li><p>Faire des <strong>requêtes</strong> qui <strong>ne correspondent pas</strong> aux cas d’usage en fonction desquels les <strong>agrégats</strong> ont été construits est <strong>plus laborieux</strong>. Cela nécessite des étapes supplémentaires (notamment l’utilisation de <code class="docutils literal notranslate"><span class="pre">$unwind</span></code> pour exploser les agrégats).</p></li>
+</ul>
+<p>Dans ce chapitre vous avez manipulé les fonctions suivantes :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Étape d’agrégation</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$match</span></code></p></td>
+<td class="text-left"><p>Sélectionner des documents en fonction de certains critère. Idem <code class="docutils literal notranslate"><span class="pre">&lt;filter&gt;</span></code> de <code class="docutils literal notranslate"><span class="pre">find()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$project</span></code></p></td>
+<td class="text-left"><p>Sélectionner, exclure, renommer ou ajouter des champs. Idem <code class="docutils literal notranslate"><span class="pre">&lt;projection&gt;</span></code> de <code class="docutils literal notranslate"><span class="pre">find()</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$unset</span></code></p></td>
+<td class="text-left"><p>Supprimer des champs</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$set</span></code></p></td>
+<td class="text-left"><p>Renommer ou ajouter des champs</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$group</span></code></p></td>
+<td class="text-left"><p>Combiner plusieurs documents en fonction d’un ou plusieurs champs (ou d’une expression) et d’une méthode d’agrégation</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$count</span></code></p></td>
+<td class="text-left"><p>Retourner le nombre de documents</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$sort</span></code></p></td>
+<td class="text-left"><p>Trier les documents en fonction d’un ou plusieurs champs, par ordre croissant ou décroissant</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$limit</span></code></p></td>
+<td class="text-left"><p>Limiter le nombre de documents retournés</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$lookup</span></code></p></td>
+<td class="text-left"><p>Extraire les données d’une autre collection à partir d’une clé locale et d’une clé étrangère</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur d’accumulation</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$sum</span></code></p></td>
+<td class="text-left"><p>Somme des valeurs</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$max</span></code></p></td>
+<td class="text-left"><p>Valeur maximale</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$min</span></code></p></td>
+<td class="text-left"><p>Valeur minimale</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$avg</span></code></p></td>
+<td class="text-left"><p>Moyenne des valeurs (<strong>av</strong>era<strong>g</strong>e)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$count</span></code></p></td>
+<td class="text-left"><p>Nombre de documents</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$first</span></code></p></td>
+<td class="text-left"><p>Première valeur</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">$push</span></code></p></td>
+<td class="text-left"><p>Création d’une liste à partir de valeurs</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_lecture_operateurs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.2. </span>Requête avec opérateurs</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_modification.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>CR<strong>U</strong>D : Modification</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-de-documents">3.3.1. Sélection de documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formatage-de-documents">3.3.2. Formatage de documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agregation-de-documents-group">3.3.3. Agrégation de documents : <code class="docutils literal notranslate"><span class="pre">$group</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-etapes-d-agregations-et-methodes">3.3.4. Autres étapes d’agrégations et méthodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.3.5. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">3.3.6. En résumé</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Unknown
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
