@@ -15,282 +15,287 @@ kernelspec:
 
 # Requête simple
 
-La méthode `find()` permet de **sélectionner des documents en fonction de critères de filtrage**. Elle renvoie un **curseur**, c'est-à-dire un pointeur vers les résultats d'une requête. Le curseur permet d'itérer sur les résultats **un lot à la fois**. La syntaxe de la méthode `find()` est la suivante :    
+source : [documentation Neo4j](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
 
-```
-db.<collection>.find(<filter>, <projection>)   
-```
-
-````{admonition} Example
-:class: tip
-
-Dans la suite, nous utiliserons la base de données suivante :
-```
-use Cuisine
-```
-```
-db.recettes.insertOne({
-                       "nom":"Ratatouille",
-                       "type":"plat principal",
-                       "ingredients": ["aubergine", "courgette", "poivron", "tomate", "oignon","ail"],
-                       "origine":{"pays":"France","region":"Provence"}
-                     })  
-
-db.recettes.insertOne({
-                       "nom":"Tiramisu",
-                       "type":"dessert",
-                       "ingredients":["oeufs","sucre","mascarpone","boudoirs","café","cacao"],
-                       "origine":{"pays":"Italie","region":"Vénétie"},
-                       "etapes": [
-                           { "numero": 1, "description": "Séparer les blancs des jaunes. Fouetter les jaunes avec le sucre jusqu’à blanchiment." },
-                           { "numero": 2, "description": "Incorporer le mascarpone aux jaunes sucrés jusqu’à obtenir une crème lisse." },
-                           { "numero": 3, "description": "Monter les blancs en neige et les incorporer délicatement à la crème." },
-                           { "numero": 4, "description": "Tremper rapidement les biscuits dans le café froid et tapisser le fond du plat." },
-                           { "numero": 5, "description": "Alterner une couche de crème, une couche de biscuits. Terminer par de la crème." },
-                           { "numero": 6, "description": "Réfrigérer au moins 4 h. Saupoudrer de cacao avant de servir." } 
-                       ]
-                     })  
-
-db.recettes.insertOne({
-                       "nom":"Soupe à l'oignon",
-                       "type":"entrée",
-                       "ingredients": ["oignon","vin","gruyère","beurre"]
-                     })  
-
-db.recettes.insertOne({
-                       "nom":"Quiche lorraine",
-                       "type":"plat principal",
-                       "ingredients":["pâte brisée", "oeufs", "crème fraîche", "lardons", "gruyère"],
-                       "origine":{"pays":"France","region":"Lorraine"}
-                     })  
-
-db.recettes.insertOne({
-                       "nom":"Mousse au chocolat",
-                       "type":"dessert",
-                       "ingredients": ["chocolat noir", "oeufs", "sucre"]
-                     })  
-```
-````
-
-## Requête sans condition
-
-Pour **lister l'ensemble des documents de la collection**, il suffit d'utiliser `find()` sans spécifier de conditions. S'il y a plus de documents que ce qui peut être renvoyé en une fois (taille du lot), il faudra taper `it` (*iterate*) une ou plusieurs fois pour accéder aux documents suivants.   
-````{admonition} Example
-:class: tip
-
-```
-db.recettes.find()  
-db.recettes.find({})
-```
-````
-La fonction `findOne()` permet de **ne retourner qu'un seul document**.
-````{admonition} Example
-:class: tip
-
-```
-db.recettes.findOne()   
-db.recettes.findOne({})
-```
-````
-
-## Requête avec condition
-
-### Filtre           
-
-Un **filtre de sélection** peut être passé à `find()` pour ne renvoyer que les documents correspondant à certains critères.  
-
-La syntaxe pour extraire les documents dont l'un des champs vérifie une **condition d'égalité** est la suivante :
-```
-db.<collection>.find({<key>:<value>})
+La clause `MATCH` permet de spécifier les motifs à rechercher dans le graphe de données. La syntaxe générale est la suivante :  
+```sql
+MATCH ...   
+... 
+RETURN ...  
 ``` 
+  
+`RETURN` permet de définir les noeuds, les relations et les propriétés à inclure dans le résultat de la requête.
+
 
 ````{admonition} Example
 :class: tip
 
-La commande suivante permet de retourner toutes les recettes de dessert :
-
+Nous allons utiliser l'un des jeux de données mis à disposition par Neo4j. 
+Rendez-vous sur https://sandbox.neo4j.com/. Créez un compte. 
+Créez un nouveau projet et cliquez sur la tuile "Recommendations" dans la section "Pre-built data".   
 ```
-db.recettes.find({"type":"dessert"})
+
+## Requête sur les noeuds 
+
+Dans Neo4j, vous pouvez effectuer des requêtes à partir des labels et des propriétés des noeuds. 
+La syntaxe est la suivante :  
+```
+MATCH (<node>:<Label>{<key>:<value>,...})                           
+RETURN ...  
+```
+où :
+- `<node>` : nom de variable 
+- `<Label>` : label 
+- `{<key>:<value>,...}` : propriétés 
+
+Il est nécessaire de lier les noeuds sélectionnés à une variable si vous souhaitez y accéder dans les clauses suivantes, et notamment dans `RETURN`. 
+Le nom des variables peuvent être des lettres ou des mots isolés, et doivent être écrites en minuscules.        
+
+Il est possible d'accéder aux propriétés d'un noeud via la syntaxe : `<node>.<key>`. 
+Cette syntaxe est utile lorsque vous ne souhaitez retourner que certaines informations. 
+Utilisez une virgule pour lister toutes les informations que vous souhaitez renvoyer.          
+
+Vous pouvez utiliser `AS` pour formatter le résultat.
+
+Si aucune condition sur les labels ou les propriétés n'est spécifiée, tous les noeuds du graphe sont retournés :  
+```sql
+MATCH (n)
+RETURN n
+````
+Vous pouvez filtrer les noeuds à partir de leurs labels. La syntaxe est la suivante : `(<node>:<Label>)`.   
+Vous pouvez spécifier pusieurs labels à l'aide des opérateurs suivants :
+- `|` qui correspond au OU logique, syntaxe : `(<node>:<Label1>|<Label2>...)` 
+- `&` qui correspond au ET logique, syntaxe : `(<node>:<Label1>&<Label2>...` 
+  
+Il est possible de combiner les deux, en écrivant par exemple : `(<node>:(<Label1>&<Label2>)|<Label3>)`.     
+Vous pouvez spécifier les labels à exclure à l'aide de `!`. La syntaxe est la suivante : `(<node>:!<Label>)`.    
+
+
+````{admonition} Example
+:class: tip
+
+**Exemple n°1**: Pour retourner le titre (`title`) de tous les films (`Movie`) du jeu de données, tapez : 
+```sql
+MATCH (movie:Movie)
+RETURN movie.title
+```
+**Exemple n°2**: Pour retourner à la fois le titre de tous les films et le nom (`name`) de toutes les personnes (`Person`) du jeu de données, puis renommer les colonnes du tableau renvoyé, tapez :
+```sql
+MATCH (n:Movie|Person)
+RETURN n.title AS title, n.name AS name
+```
+**Exemple n°3**: Pour exclure les films du résultat, tapez : 
+```sql
+MATCH (n:!Movie)
+RETURN n
+```
+````
+
+Vous pouvez filtrer les noeuds à partir de leurs labels et de leurs propriétés. La syntaxe est la suivante : `((<node>:<Label>){<key>:<value>,...})`
+````{admonition} Example
+:class: tip
+
+La commande pour retourner toutes les personnes qui se nomment `Olivier Stone` est la suivante :  
+```
+MATCH (p:Person{name:'Tom Hanks'})
+RETURN p
+```
+````
+
+## Requête sur les relations
+
+Dans Neo4j, vous pouvez rechercher des motifs dans le graphe. Les motifs sont une combinaison de noeuds et de relations. 
+Toute requête impliquant une relation doit obligatoirement rattacher la relation à deux noeuds, un noeud de départ et un noeud d'arrivée. 
+La syntaxe générale est la suivante (l'orientation de la flèche est purement illustrative) :
+```
+MATCH (<start_node>)-[<relationship>:<TYPE> {<key>:<value>,...}]->(<end_node>)
+RETURN ...
+```
+où :
+- `<start_node>`, `<end_node>` : noeuds tels que définis à la section précédente 
+- `<relationship>` : nom de variable
+- `<TYPE>` : label de la relation
+- `{<key>:<value>,...}` : propriétés
+
+Comme pour les noeuds, si vous souhaitez accéder aux relations sélectionnées par votre requête dans les clauses suivantes, 
+il est nécessaire de les lier à une variable.    
+
+Il est possible d'accéder aux propriétés d'une relation via la syntaxe : `<relationship>.<key>`. 
+Vous pouvez ne spécifier aucune direction pour la ou les relations en écrivant : `--`. 
+La direction d'une relation peut être spécifiée à l'aide d'une flèche : `-->` ou `<--`. 
+Vous pouvez utiliser `AS` pour formatter le résultat. Vous pouvez spécifier plusieurs types simultanément à l'aide de l'opérateur `|` (OU logique).   
+
+Si aucune condition sur le type ou les propriétés de la relation n'est spécifiée, toutes les relations connectées à un ou plusieurs noeuds sont retournées :
+````{admonition} Example
+:class: tip
+
+**Exemple n°1**: Pour renvoyer tous les noeuds connectés au noeud de la réalisatrice `Lana Wachowski` quelque soit la direction de la relation, tapez : 
+```
+MATCH (:Person {name:'Lana Wachowski'})--(n)
+RETURN n AS connectedNodes
+```
+Notez que nous n'avons pas défini de variable pour la relation, car seul les noeuds reliés au noeud du réalisateur Oliver Stone nous intéressaient.  
+
+**Exemple n°2**: Pour renvoyer simultanément le noeud de la réalisatrive `Lana Wachowski`, toutes les relations qui partent ou pointent vers ce noeud, ainsi que les noeuds connectés, tapez :  
+```
+MATCH (p:Person {name:'Lana Wachowski'})-[r]-(n)
+RETURN p, r, n
+```
+**Exemple n°3**: Pour trouver tous les noeuds labellisés `Movie` connectés à `Lana Wachowski` par une relation sortante, vous pouvez tapez :
+```
+MATCH (:Person {name:'Lana Wachowski'})-->(movie:Movie)
+RETURN movie.title AS movieTitle
+```
+````
+Vous pouvez également affiner la rechercher en spécifiant un type et des propriétés pour les relations. La syntaxe est la suivante : `[<relationship>:<TYPE>{<key>:<value>,...}]`.  
+````{admonition} Example
+:class: tip
+
+**Exemple n°1** : La commande suivante permet d'extraire le nom des acteurs qui ont joué (`ACTED_IN`) dans le film `Wall Street` :
+```
+MATCH (:Movie {title: 'Wall Street'})<-[:ACTED_IN]-(actor:Person)
+RETURN actor.name AS actor
+```
+**Exemple n°2** : Pour retourner le nom de l'acteur qui a joué le personnage `Bud Fox` (`role`) dans un film, ainsi que le titre du film, tapez : 
+```
+MATCH (a:Person)-[:ACTED_IN {role: 'Bud Fox'}]->(b:Movie)
+RETURN a.name AS name, b.title AS title
 ```
 ````
 :::{caution}
-Cette opération se comporte différemment avec les listes. Elle renvoie les documents pour lesquels la liste **contient** la valeur.
+Exécutez la commande suivante :  
+```
+MATCH (a)-[:ACTED_IN {role: 'Bud Fox'}]-(b)
+RETURN a, b
+```
+Que remarquez-vous ? Ne pas spécifier de direction dégrade les performances : Neo4j doit traverser le graphe dans les deux sens. 
+De façon générale, soyez le plus précis possible dans vos requêtes pour améliorer les performances.
 :::
-````{admonition} Example
-:class: tip
 
-La commande suivante retourne tous les plats contenant des oeufs, c'est-à-dire le tiramisu, la quiche Lorraine et la mousse au chocolat :
-```
-db.recettes.find({"ingredients":"oeufs"})
-```
-Notez que cette commande n'est pas équivalente à :
-```
-db.recettes.find({"ingredients":["oeufs"]})
-```
-Dans ce cas, aucun document n'est retourné car aucun document n'a un champ `ingredients` *exactement* égal à `["oeufs"]`. Ils contiennent tous des ingrédients supplémentaires.   
-````
-Il est possible de spécifier plusieurs filtres en les séparant par une virgule. Dans ce cas, seuls les documents vérifiant l'ensemble des conditions d'égalité seront retournés (ET logique).
+## Requête à partir de motifs complexes
+
+Il est possible de construire des motifs plus complexes dans le graphe de données : vous pouvez inclure plusieurs relations et plusieurs noeuds dans le motif de requête.  
 
 ````{admonition} Example
 :class: tip
 
-Pour récupérer tous les plats principaux contenant des oeufs il faut donc taper : 
-
+**Exemple n°1** : Dans quel(s) film(s) réalisé(s) par `Rob Reiner` l'acteur `Martin Sheen` a-t-il joué ?
 ```
-db.recettes.find({"type":"plat principal","ingredients":"oeufs"})
+MATCH (:Person {name:'Martin Sheen'})-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(:Person {name:'Rob Reiner'})
+RETURN movie.title AS title
+```
+**Exemple n°2** : Avec quel(s) réalisateur(s) l'acteur `Martin Sheen` a-t-il travaillé ?  
+```
+MATCH (:Person {name:'Martin Sheen'})-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(director:Person)
+RETURN movie.title AS title, director.name AS director                                
 ```
 ````
 
-La syntaxe `<embedded_object>.<embedded_key>` permet d'accéder aux attributs d'un **document imbriqué** ou aux valeurs d'une **liste**. Il devient alors possible d'extraire des documents **en fonction du contenu** de ces objets.
+Vous pouvez aussi réaliser des requêtes en posant des conditions sur la longueur du chemin reliant deux noeuds :
+- `[*]` : chemin de longueur quelconque  
+- `[*<number>]` : chemin de longueur `<number>`  
+- `[*<number1>..<number2>]` : chemin dont la longueur est comprise entre `<number1>` et `<number2>` ; si `<number1>` n'est pas spécifié, la valeur par défaut est 0, si `<number2>` n'est pas spécifié la valeurs par défaut est l'infini   
 
 ````{admonition} Example
 :class: tip
 
-**Exemple n°1.** Que retourne la commande suivante ? 
+Quel est l'un des chemins les plus courts qui relie `Tom Hanks` et `Robin Williams` ? Pour répondre à cette question vous pouvez utiliser `SHORTEST`, en spécifiant `1` pour ne retourner que l'un des chemins :   
 ```
-db.recettes.find({"origine.pays":"France"})
-```
-Notez que cette commande n'est pas équivalente à :
-```
-db.recettes.find({"origine":{"pays":"France"}})
-```
-Dans ce cas, aucun document n'est retourné car aucun document n'a un champ `origine` *exactement* égal à `{"pays":"France"}`. Ils contiennent tous un champ imbriqué additionnel : `region`.   
-
-**Exemple n°2.** Que renvoie la commande suivante ?
-```
-db.recettes.find({"ingredients.1":"oeufs"})
-```
-````
-Cette façon de procéder fonctionne également pour les listes de documents imbriqués. Par exemple :
-
-````{admonition} Example
-:class: tip
-
-Pour récupérer tous les documents dont la recette a une troisième étape il suffit de taper :
-```
-db.recettes.find({"etapes.numero":3})
+MATCH path = SHORTEST 1 ((:Person{name:"Tom Hanks"})-[*]-(:Person{name:"Robin Williams"}))
+RETURN path
 ```
 ````
 
-### Projection
+## Quelques fonctions utiles   
 
-La plupart du temps, seule une partie de l'information contenue dans les documents nous intéresse. Le second argument de la fonction `find()`, appelé **projection**, permet de **spécifier les champs à renvoyer** dans les documents qui correspondent au filtre de requête. Pour ce faire, vous pouvez :
-- Indiquer les champs que vous souhaitez **inclure** : `{<key>:<1_or_true>}`  
-- Indiquer les champs que vous souhaitez **exclure** : `{<key>:<0_or_false>}`   
+Neo4j met à disposition un certain nombre de fonctions. Voir la [documentation](https://neo4j.com/docs/cypher-manual/current/functions/).
 
-Vous ne pouvez **pas** faire **les deux à la fois**. La seule exception est `_id` que vous pouvez explicitement exclure tout en listant des champs à inclure. L'attribut `_id` est inclus par défaut dans les documents renvoyés.
+| Graphe | Description |
+|:---:|:---|
+| `labels()` |  Récupérer sous forme de liste tous les labels des noeuds sélectionnés  |  
+| `keys()` | Récupérer toutes les clés de propriété des noeuds ou relations sélectionnés |
+| `type()` | Récupérer le type d'une ou plusieurs relations | 
+
+| Agrégation | Description |
+|:---:|:---|
+| `avg()` | Calculer la moyenne d'un ensemble de valeurs |
+| `max()` | Calculer la valeur maximale d'un ensemble de valeurs |
+| `min()` | Calculer la valeur minimale d'un ensemble de valeurs |
+| `sum()` | Calculer la somme d'un ensemble de valeurs |  
+| `collect()` | Récupérer sous forme de liste les valeurs retournées par une expression |
+| `count()` | Compter le nombre d'éléments. `count(*)` pour le nombre total, `count(<expression>)` pour le nombre d'éléments hors valeurs manquantes, `count(DISTINCT <expression>)` pour le nombre d'éléments distincts | 
+
+Faire précéder les fonctions d'agrégation par d'autres expressions revient à grouper les éléments en fonction de ces expressions, 
+puis à appliquer les fonctions d'agrégation à chacun des groupes.  
+
+Autre | Description    
+:---:|:---
+`DISTINCT` | Récupérer les valeurs distinctes  
+`size()` | taille d'une liste ou d'une chaîne de caractères 
 
 ````{admonition} Example
 :class: tip
 
-**Exemple n°1.** Afin de tenir compte des allergies, nous voudrions extraire le nom et le type de toutes les recettes contenant des oeufs. Voici la commande :
+**Exemple n°1** : Pour compter le nombre de noeuds dont l'un des labels est `Person`, tapez : 
+```sql
+MATCH (p:Person)
+RETURN count(*)
 ```
-db.recettes.find({"ingredients":"oeufs"},{"nom":true,"type":true})
+**Exemple n°2** : Pour afficher les différents types de relation et le nombre de relations par type : 
+```sql
+MATCH ()-[r]-()
+RETURN type(r) AS relationType, count(r) AS count
 ```
-**Exemple n°2.** Pour trouver la région d'origine de la Ratatouille et exclure le champ `_id` des résultats, il suffit de taper :
+Dans cet exemple, l'instruction `RETURN` est équivalente à un `GROUP BY` en SQL : 
+on commence à grouper les relations par type puis on compte le nombre de relations dans chaque groupe.     
+**Exemple n°3** : Pour lister les noms de tous les acteurs, réalisateurs et producteurs du film `That Thing You Do` : 
 ```
-db.recettes.find({"nom":"Ratatouille"},{"origine.region":1,"_id":0})
-```
-**Exemple n°3.** Pour connaître le nom de tous les plats disponibles dans notre collection de recettes, il suffit de ne fixer aucune condition sur les documents :  
-```
-db.recettes.find({},{"nom":true,"_id":false})
+MATCH (p:Person)-[:ACTED_IN|DIRECTED|PRODUCED]->(:Movie {title:'That Thing You Do'})
+RETURN collect(p.name)
 ``` 
-````
-
-## Modification du curseur
-
-Certaines méthodes modifient la manière dont la requête sous-jacente est exécutée. La syntaxe est la suivante:
+Que remarquez-vous ? Pour remédier à ce problème, vous pouvez utiliser `DISTINCT`:
 ```
-db.<collection>.find(<filter>, <projection>).<cursor_modifier>
-```
-
-`count()` modifie le curseur afin qu'il renvoie le nombre de documents qui correspondent au filtre de requête plutôt que les documents eux-mêmes.
-````{admonition} Example
-:class: tip
-
-Combien y a-t-il de recettes contenant du gruyère ?
-```
-db.recettes.find({"ingredients":"gruyère"}).count()
+MATCH (p:Person)-[:ACTED_IN|DIRECTED|PRODUCED]->(:Movie {title:'That Thing You Do'})
+RETURN collect(DISTINCT p.name)
 ```
 ````
 
-`sort()` renvoie les documents triés dans l'ordre croissant (1) ou décroissant (-1) en fonction du ou des champs spécifiés. La syntaxe est la suivante :  
-```
-db.<collection>.find(<filter>, <projection>).sort({<key1>:<1_or_-1>,<key2>:<1_or_-1> ...})
-```
-````{admonition} Example
-:class: tip
-
-Pour trier les recettes par `type` dans l'ordre inverse de l'ordre alphabétique, *puis* par `nom` dans l'ordre alphabétique :
-```
-db.recettes.find().sort({"type":-1,"nom":1})
-```
-````
-
-`limit()` limite le nombre de documents renvoyés.
-````{admonition} Example
-:class: tip
-
-Trouvons une idée de dessert à cuisiner :
-```
-db.recettes.find({"type":"dessert"},{"_id":0}).limit(1)
-```
-````
+Vous pouvez également utiliser les opérateurs classiques : `+`, `-`, `*`, `/`, `%` et `^`. 
+Vous pouvez concaténer des listes ou des chaînes de caractères avec `||` ou `+`.
 
 ## Exercice
 
-1. Téléchargez le jeu de données `movies.json`.
-2. Affichez le premier document pour vous familiariser avec le nom des clés. Dans ce jeu de données, tous les documents ont les mêmes clés.
-3. Récupérez les informations du film `Blade Runner`.   
-```{admonition} Aide (anglais)     
+1. Affichez tout le graphe  
+2. En quelle année est né (`born`) l'acteur `Bill Paxton` ?
+3. Quelle est la phrase d'accroche (`tagline`) et la date de parution (`released`) du film `Sleepless in Seattle` ?
+4. Dans quel(s) film(s) `Jack Nicholson` a-t-il joué ? Affichez le résultat sous forme de liste.
+5. Combien de films `Ron Howard` a-t-il dirigé ? 
+6. Affichez le sous-graphe constitué des films qui ont reçu une note, des utilisateurs qui les ont notés et des relations qui lient ces noeuds entre eux.  
+7. Quels sont les propriétés des relations `REVIEWED` ? N'affichez que les valeurs uniques.
+```{admonition} Aide          
 :class: dropdown
 
-En anglais, *titre* se dit *title*.
+Utilisez `keys()` et `DISTINCT`. `DISTINCT` peut s'utiliser en dehors d'une fonction, voir la documentation.
 ```
-4. Récupérez le titre des films du `genre` `drama`. Que signifie le message qui apparait en bas de votre écran: `Type "it" for more` ? 
-5. Récupérez le nom et le prénom du réalisateur de `Kill Bill`.  
-```{admonition} Aide (anglais)
+8. Quelle moyenne le film `The Replacements` a-t-il obtenu ?
+```{admonition} Aide
 :class: dropdown
 
-En anglais, *nom de famille* se dit *last name*, *prénom* se dit *first name*, et *réalisateur* se dit *director*.
-```
-6. Combien y a-t-il de films français (`FR`) dans la base de données ?  
-```{admonition} Aide (anglais)
+Utilisez la propriété `rating` des relations `REVIEWED` et la propriété `title` des noeuds `Movie`. Utilisez la fonction `avg()`.
+```   
+9. Avec quel(s) acteur(s) l'actrice `Carrie-Anne Moss` a-t-elle déjà joué ?  
+```{admonition} Aide
 :class: dropdown
 
-En anglais, *pays* se dit *country*.
+Voir 3.1.3.
 ```
-7. Lister les films sortis en `1995` par ordre alphabétique. Quel est le premier ?   
-```{admonition} Aide (anglais)
+
+```{admonition} Bonus
 :class: dropdown
 
-En anglais *année* se dit *year*.
+10. Quels acteurs ont joué avec des co-acteurs de `Natalie Portman` ?   
+  
+**Note** : Aucun des co-co-acteurs de Natalie Portman n'a joué avec elle dans un film. 
+Autrement dit : personne n'est à la fois co-acteur sur un film et co-co-acteur sur un autre film.
+
 ```
-8. Dans quels films l'acteur `Bruce Willis` a-t-il joué ? Retournez le titre et le genre des films.    
-
-Avec des requêtes simples, on peut déjà extraire beaucoup d'informations intéressantes !
-
-## En résumé
-
-Dans ce chapitre vous avez appris que :
-- Les **valeurs** des paires clé-valeur sont **consultables** : elles sont accessibles et peuvent être utilisées pour filtrer les documents.   
-- Sans documentation, il peut être difficile de comprendre la structure des données et donc de les utiliser.
-
-Dans ce chapitre vous avez manipulé les fonctions suivantes :  
-
-Syntaxe | Description
---- | ---
-`db.<collection>.find()` | Récupérer tous les documents d'une collection  
-`db.<collection>.findOne()` | Récupérer le premier document d'une collection  
-`db.<collection>.find({<key>:<value>,...})` | Filtrer les documents en fonction d'une ou plusieurs conditions d'égalité  
-`db.<collection>.find(<filter>,<projection>)` où `<projection> = {<key>:<0_or_1>,...}` | Récupérer tous les champs spécifiés dans la projection, pour tous les documents qui répondent aux critères de recherche  
-`db.<collection>.find(<filter>,<projection>).count()` | Compter le nombre de documents qui répondent aux critères de recherche   
-`db.<collection>.find(<filter>,<projection>).sort(<condition>)` où `<condition> = {<key>:<1_or_-1>,...}` | Trier les documents qui répondent aux critères de recherche
-`db.<collection>.find(<filter>,<projection>).limit(<n>)` | Limiter le nombre de documents qui répondent aux critères de recherche à renvoyer
-
-````{admonition} Tip
-:class: note
-
-`db.<collection>.find(<filter>,<projection>)` peut se comprendre ainsi : "je veux extraire les documents de la `<collection>` qui vérifient les conditions suivantes : `<filter>`, et pour ces documents je veux récupérer les informations suivantes : `<projection>`."
-
-````

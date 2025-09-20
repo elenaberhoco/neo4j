@@ -28,20 +28,19 @@ Les données sont organisées en **noeuds** et en **relations**.
 - Une **relation** représente un lien entre deux objets (ex : "est ami avec", "a acheté", "travaille à"). 
 Les relations sont comparables aux jointures dans les bases de données relationnelles. 
 Cependant, si les jointures sont calculées *au moment du requêtage* dans les bases de données relationnelles, les relations, quant à elles, sont *stockées explicitement* dans les bases de données NoSQL orientées graphe. 
-C'est pourquoi ces bases de données offrent de meilleures performances en lecture lorsque les données fortement interconnectées.  
+C'est la raison pour laquelle ces bases de données offrent de meilleures performances en lecture lorsque les données sont fortement interconnectées.  
 - Un noeud peut avoir zéro, un ou plusieurs **labels**. Les labels sont comparables aux tables dans les bases de données relationnelles : 
 ils permettent de regrouper sous une même étiquette les noeuds qui présentent des similarités (ex: étudiants, clients).   
-- Une relation a un direction, un noeud de départ, un noeud d'arrivée, et un **type**.  
+- Une relation a un direction, un noeud de départ, un noeud d'arrivée, et un **type**. Une relation ne peut avoir qu'un seul type.  
 - Les noeuds comme les relations peuvent avoir des **propriétés**. Les propriétés prennent la forme de **paires clé-valeur**.  
 
 Neo4j a un **schéma flexible** :   
 - Deux noeuds ou deux relations qui possèdent un même label n'ont pas nécessairement les mêmes propriétés
 - Des **index** et des **contraintes** peuvent être introduits au fur et à mesure pour améliorer les performances ou la modélisation
-   
-**Exemple** :
+
 
 ```{figure} ../image/graph_example.svg  
 ---
 ---
-Neo4j - Movies, from: [source](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
+Exemple : Movies, from: [source](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
 ```
