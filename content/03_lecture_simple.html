@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/03_lecture_simple';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3.2. Requête avec opérateurs" href="03_lecture_operateurs.html" />
+    <link rel="next" title="3.2. Requête avec opérateurs" href="03_lecture_sousclause.html" />
     <link rel="prev" title="3. CRUD : Lecture" href="03_lecture.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -171,17 +171,17 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="00_intro.html">
-                    MongoDB : Base de données NoSQL orientée documents
+                    Neo4j : Base de données NoSQL orientée graphe
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_installation.html">1. Installation de MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_cypher.html">1. Langage Cypher</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Requête simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_operateurs.html">3.2. Requête avec opérateurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête avec opérateurs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_lecture_agregation.html">3.3. Requête d’agrégation</a></li>
 </ul>
 </details></li>
@@ -382,15 +382,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sans-condition">3.1.1. Requête sans condition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-avec-condition">3.1.2. Requête avec condition</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtre">3.1.2.1. Filtre</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">3.1.2.2. Projection</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-du-curseur">3.1.3. Modification du curseur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-relations">3.1.1. Requête sur les relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-partir-de-motifs-complexes">3.1.2. Requête à partir de motifs complexes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quelques-fonctions-utiles">3.1.3. Quelques fonctions utiles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.1.4. Exercice</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">3.1.5. En résumé</a></li>
 </ul>
             </nav>
         </div>
@@ -404,283 +399,314 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="requete-simple">
 <h1><span class="section-number">3.1. </span>Requête simple<a class="headerlink" href="#requete-simple" title="Link to this heading">#</a></h1>
-<p>La méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code> permet de <strong>sélectionner des documents en fonction de critères de filtrage</strong>. Elle renvoie un <strong>curseur</strong>, c’est-à-dire un pointeur vers les résultats d’une requête. Le curseur permet d’itérer sur les résultats <strong>un lot à la fois</strong>. La syntaxe de la méthode <code class="docutils literal notranslate"><span class="pre">find()</span></code> est la suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">(</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">projection</span><span class="o">&gt;</span><span class="p">)</span>   
+<p>source : <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/match/">documentation Neo4j</a></p>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> permet de spécifier les motifs à rechercher dans le graphe de données. La syntaxe générale est la suivante :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">...</span><span class="w">   </span>
+<span class="p">...</span><span class="w"> </span>
+<span class="k">RETURN</span><span class="w"> </span><span class="p">...</span><span class="w">  </span>
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">RETURN</span></code> permet de définir les noeuds, les relations et les propriétés à inclure dans le résultat de la requête.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p>Dans la suite, nous utiliserons la base de données suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">use</span> <span class="n">Cuisine</span>
+<p>Nous allons utiliser l’un des jeux de données mis à disposition par Neo4j.
+Rendez-vous sur <a class="reference external" href="https://sandbox.neo4j.com/">https://sandbox.neo4j.com/</a>. Créez un compte.
+Créez un nouveau projet et cliquez sur la tuile “Recommendations” dans la section “Pre-built data”.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="c1">## Requête sur les noeuds </span>
+
+<span class="n">Dans</span> <span class="n">Neo4j</span><span class="p">,</span> <span class="n">vous</span> <span class="n">pouvez</span> <span class="n">effectuer</span> <span class="n">des</span> <span class="n">requêtes</span> <span class="n">à</span> <span class="n">partir</span> <span class="n">des</span> <span class="n">labels</span> <span class="n">et</span> <span class="n">des</span> <span class="n">propriétés</span> <span class="n">des</span> <span class="n">noeuds</span><span class="o">.</span> 
+<span class="n">La</span> <span class="n">syntaxe</span> <span class="n">est</span> <span class="n">la</span> <span class="n">suivante</span> <span class="p">:</span>  
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">insertOne</span><span class="p">({</span>
-                       <span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="s2">&quot;Ratatouille&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;plat principal&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;aubergine&quot;</span><span class="p">,</span> <span class="s2">&quot;courgette&quot;</span><span class="p">,</span> <span class="s2">&quot;poivron&quot;</span><span class="p">,</span> <span class="s2">&quot;tomate&quot;</span><span class="p">,</span> <span class="s2">&quot;oignon&quot;</span><span class="p">,</span><span class="s2">&quot;ail&quot;</span><span class="p">],</span>
-                       <span class="s2">&quot;origine&quot;</span><span class="p">:{</span><span class="s2">&quot;pays&quot;</span><span class="p">:</span><span class="s2">&quot;France&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Provence&quot;</span><span class="p">}</span>
-                     <span class="p">})</span>  
+<p>MATCH (<node>:<Label>{<key>:<value>,…})<br />
+RETURN …</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>où :
+- `&lt;node&gt;` : nom de variable 
+- `&lt;Label&gt;` : label 
+- `{&lt;key&gt;:&lt;value&gt;,...}` : propriétés 
 
-<span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">insertOne</span><span class="p">({</span>
-                       <span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="s2">&quot;Tiramisu&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;dessert&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;ingredients&quot;</span><span class="p">:[</span><span class="s2">&quot;oeufs&quot;</span><span class="p">,</span><span class="s2">&quot;sucre&quot;</span><span class="p">,</span><span class="s2">&quot;mascarpone&quot;</span><span class="p">,</span><span class="s2">&quot;boudoirs&quot;</span><span class="p">,</span><span class="s2">&quot;café&quot;</span><span class="p">,</span><span class="s2">&quot;cacao&quot;</span><span class="p">],</span>
-                       <span class="s2">&quot;origine&quot;</span><span class="p">:{</span><span class="s2">&quot;pays&quot;</span><span class="p">:</span><span class="s2">&quot;Italie&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Vénétie&quot;</span><span class="p">},</span>
-                       <span class="s2">&quot;etapes&quot;</span><span class="p">:</span> <span class="p">[</span>
-                           <span class="p">{</span> <span class="s2">&quot;numero&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Séparer les blancs des jaunes. Fouetter les jaunes avec le sucre jusqu’à blanchiment.&quot;</span> <span class="p">},</span>
-                           <span class="p">{</span> <span class="s2">&quot;numero&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Incorporer le mascarpone aux jaunes sucrés jusqu’à obtenir une crème lisse.&quot;</span> <span class="p">},</span>
-                           <span class="p">{</span> <span class="s2">&quot;numero&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Monter les blancs en neige et les incorporer délicatement à la crème.&quot;</span> <span class="p">},</span>
-                           <span class="p">{</span> <span class="s2">&quot;numero&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Tremper rapidement les biscuits dans le café froid et tapisser le fond du plat.&quot;</span> <span class="p">},</span>
-                           <span class="p">{</span> <span class="s2">&quot;numero&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Alterner une couche de crème, une couche de biscuits. Terminer par de la crème.&quot;</span> <span class="p">},</span>
-                           <span class="p">{</span> <span class="s2">&quot;numero&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Réfrigérer au moins 4 h. Saupoudrer de cacao avant de servir.&quot;</span> <span class="p">}</span> 
-                       <span class="p">]</span>
-                     <span class="p">})</span>  
+Il est nécessaire de lier les noeuds sélectionnés à une variable si vous souhaitez y accéder dans les clauses suivantes, et notamment dans `RETURN`. 
+Le nom des variables peuvent être des lettres ou des mots isolés, et doivent être écrites en minuscules.        
 
-<span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">insertOne</span><span class="p">({</span>
-                       <span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="s2">&quot;Soupe à l&#39;oignon&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;entrée&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;oignon&quot;</span><span class="p">,</span><span class="s2">&quot;vin&quot;</span><span class="p">,</span><span class="s2">&quot;gruyère&quot;</span><span class="p">,</span><span class="s2">&quot;beurre&quot;</span><span class="p">]</span>
-                     <span class="p">})</span>  
+Il est possible d&#39;accéder aux propriétés d&#39;un noeud via la syntaxe : `&lt;node&gt;.&lt;key&gt;`. 
+Cette syntaxe est utile lorsque vous ne souhaitez retourner que certaines informations. 
+Utilisez une virgule pour lister toutes les informations que vous souhaitez renvoyer.          
 
-<span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">insertOne</span><span class="p">({</span>
-                       <span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="s2">&quot;Quiche lorraine&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;plat principal&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;ingredients&quot;</span><span class="p">:[</span><span class="s2">&quot;pâte brisée&quot;</span><span class="p">,</span> <span class="s2">&quot;oeufs&quot;</span><span class="p">,</span> <span class="s2">&quot;crème fraîche&quot;</span><span class="p">,</span> <span class="s2">&quot;lardons&quot;</span><span class="p">,</span> <span class="s2">&quot;gruyère&quot;</span><span class="p">],</span>
-                       <span class="s2">&quot;origine&quot;</span><span class="p">:{</span><span class="s2">&quot;pays&quot;</span><span class="p">:</span><span class="s2">&quot;France&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">:</span><span class="s2">&quot;Lorraine&quot;</span><span class="p">}</span>
-                     <span class="p">})</span>  
+Vous pouvez utiliser `AS` pour formatter le résultat.
 
-<span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">insertOne</span><span class="p">({</span>
-                       <span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="s2">&quot;Mousse au chocolat&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;dessert&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;ingredients&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;chocolat noir&quot;</span><span class="p">,</span> <span class="s2">&quot;oeufs&quot;</span><span class="p">,</span> <span class="s2">&quot;sucre&quot;</span><span class="p">]</span>
-                     <span class="p">})</span>  
+Si aucune condition sur les labels ou les propriétés n&#39;est spécifiée, tous les noeuds du graphe sont retournés :  
+```sql
+MATCH (n)
+RETURN n
 </pre></div>
 </div>
 </div>
-<section id="requete-sans-condition">
-<h2><span class="section-number">3.1.1. </span>Requête sans condition<a class="headerlink" href="#requete-sans-condition" title="Link to this heading">#</a></h2>
-<p>Pour <strong>lister l’ensemble des documents de la collection</strong>, il suffit d’utiliser <code class="docutils literal notranslate"><span class="pre">find()</span></code> sans spécifier de conditions. S’il y a plus de documents que ce qui peut être renvoyé en une fois (taille du lot), il faudra taper <code class="docutils literal notranslate"><span class="pre">it</span></code> (<em>iterate</em>) une ou plusieurs fois pour accéder aux documents suivants.</p>
+<p>Vous pouvez filtrer les noeuds à partir de leurs labels. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label&gt;)</span></code>.<br />
+Vous pouvez spécifier pusieurs labels à l’aide des opérateurs suivants :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code> qui correspond au OU logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;|&lt;Label2&gt;...)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code> qui correspond au ET logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;&amp;&lt;Label2&gt;...</span></code></p></li>
+</ul>
+<p>Il est possible de combiner les deux, en écrivant par exemple : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:(&lt;Label1&gt;&amp;&lt;Label2&gt;)|&lt;Label3&gt;)</span></code>.<br />
+Vous pouvez spécifier les labels à exclure à l’aide de <code class="docutils literal notranslate"><span class="pre">!</span></code>. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:!&lt;Label&gt;)</span></code>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>  
-<span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({})</span>
+<p><strong>Exemple n°1</strong>: Pour retourner le titre (<code class="docutils literal notranslate"><span class="pre">title</span></code>) de tous les films (<code class="docutils literal notranslate"><span class="pre">Movie</span></code>) du jeu de données, tapez :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">movie</span><span class="p">.</span><span class="n">title</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2</strong>: Pour retourner à la fois le titre de tous les films et le nom (<code class="docutils literal notranslate"><span class="pre">name</span></code>) de toutes les personnes (<code class="docutils literal notranslate"><span class="pre">Person</span></code>) du jeu de données, puis renommer les colonnes du tableau renvoyé, tapez :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">:</span><span class="n">Movie</span><span class="o">|</span><span class="n">Person</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">name</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3</strong>: Pour exclure les films du résultat, tapez :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">:</span><span class="o">!</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">n</span>
 </pre></div>
 </div>
 </div>
-<p>La fonction <code class="docutils literal notranslate"><span class="pre">findOne()</span></code> permet de <strong>ne retourner qu’un seul document</strong>.</p>
+<p>Vous pouvez filtrer les noeuds à partir de leurs labels et de leurs propriétés. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">((&lt;node&gt;:&lt;Label&gt;){&lt;key&gt;:&lt;value&gt;,...})</span></code></p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">findOne</span><span class="p">()</span>   
-<span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">findOne</span><span class="p">({})</span>
+<p>La commande pour retourner toutes les personnes qui se nomment <code class="docutils literal notranslate"><span class="pre">Olivier</span> <span class="pre">Stone</span></code> est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Tom Hanks&#39;</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">p</span>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="requete-avec-condition">
-<h2><span class="section-number">3.1.2. </span>Requête avec condition<a class="headerlink" href="#requete-avec-condition" title="Link to this heading">#</a></h2>
-<section id="filtre">
-<h3><span class="section-number">3.1.2.1. </span>Filtre<a class="headerlink" href="#filtre" title="Link to this heading">#</a></h3>
-<p>Un <strong>filtre de sélection</strong> peut être passé à <code class="docutils literal notranslate"><span class="pre">find()</span></code> pour ne renvoyer que les documents correspondant à certains critères.</p>
-<p>La syntaxe pour extraire les documents dont l’un des champs vérifie une <strong>condition d’égalité</strong> est la suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">({</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">})</span>
+<section id="requete-sur-les-relations">
+<h2><span class="section-number">3.1.1. </span>Requête sur les relations<a class="headerlink" href="#requete-sur-les-relations" title="Link to this heading">#</a></h2>
+<p>Dans Neo4j, vous pouvez rechercher des motifs dans le graphe. Les motifs sont une combinaison de noeuds et de relations.
+Toute requête impliquant une relation doit obligatoirement rattacher la relation à deux noeuds, un noeud de départ et un noeud d’arrivée.
+La syntaxe générale est la suivante (l’orientation de la flèche est purement illustrative) :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">start_node</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">&lt;</span><span class="n">relationship</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="o">&gt;</span> <span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">end_node</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="o">...</span>
 </pre></div>
 </div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;start_node&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;end_node&gt;</span></code> : noeuds tels que définis à la section précédente</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;</span></code> : nom de variable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;TYPE&gt;</span></code> : label de la relation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;,...}</span></code> : propriétés</p></li>
+</ul>
+<p>Comme pour les noeuds, si vous souhaitez accéder aux relations sélectionnées par votre requête dans les clauses suivantes,
+il est nécessaire de les lier à une variable.</p>
+<p>Il est possible d’accéder aux propriétés d’une relation via la syntaxe : <code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;.&lt;key&gt;</span></code>.
+Vous pouvez ne spécifier aucune direction pour la ou les relations en écrivant : <code class="docutils literal notranslate"><span class="pre">--</span></code>.
+La direction d’une relation peut être spécifiée à l’aide d’une flèche : <code class="docutils literal notranslate"><span class="pre">--&gt;</span></code> ou <code class="docutils literal notranslate"><span class="pre">&lt;--</span></code>.
+Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">AS</span></code> pour formatter le résultat. Vous pouvez spécifier plusieurs types simultanément à l’aide de l’opérateur <code class="docutils literal notranslate"><span class="pre">|</span></code> (OU logique).</p>
+<p>Si aucune condition sur le type ou les propriétés de la relation n’est spécifiée, toutes les relations connectées à un ou plusieurs noeuds sont retournées :</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p>La commande suivante permet de retourner toutes les recettes de dessert :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;dessert&quot;</span><span class="p">})</span>
+<p><strong>Exemple n°1</strong>: Pour renvoyer tous les noeuds connectés au noeud de la réalisatrice <code class="docutils literal notranslate"><span class="pre">Lana</span> <span class="pre">Wachowski</span></code> quelque soit la direction de la relation, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Lana Wachowski&#39;</span><span class="p">})</span><span class="o">--</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">n</span> <span class="n">AS</span> <span class="n">connectedNodes</span>
+</pre></div>
+</div>
+<p>Notez que nous n’avons pas défini de variable pour la relation, car seul les noeuds reliés au noeud du réalisateur Oliver Stone nous intéressaient.</p>
+<p><strong>Exemple n°2</strong>: Pour renvoyer simultanément le noeud de la réalisatrive <code class="docutils literal notranslate"><span class="pre">Lana</span> <span class="pre">Wachowski</span></code>, toutes les relations qui partent ou pointent vers ce noeud, ainsi que les noeuds connectés, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Lana Wachowski&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">n</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3</strong>: Pour trouver tous les noeuds labellisés <code class="docutils literal notranslate"><span class="pre">Movie</span></code> connectés à <code class="docutils literal notranslate"><span class="pre">Lana</span> <span class="pre">Wachowski</span></code> par une relation sortante, vous pouvez tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Lana Wachowski&#39;</span><span class="p">})</span><span class="o">--&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">movie</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">movieTitle</span>
+</pre></div>
+</div>
+</div>
+<p>Vous pouvez également affiner la rechercher en spécifiant un type et des propriétés pour les relations. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">[&lt;relationship&gt;:&lt;TYPE&gt;{&lt;key&gt;:&lt;value&gt;,...}]</span></code>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1</strong> : La commande suivante permet d’extraire le nom des acteurs qui ont joué (<code class="docutils literal notranslate"><span class="pre">ACTED_IN</span></code>) dans le film <code class="docutils literal notranslate"><span class="pre">Wall</span> <span class="pre">Street</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Movie</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span> <span class="s1">&#39;Wall Street&#39;</span><span class="p">})</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">actor</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">actor</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">actor</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2</strong> : Pour retourner le nom de l’acteur qui a joué le personnage <code class="docutils literal notranslate"><span class="pre">Bud</span> <span class="pre">Fox</span></code> (<code class="docutils literal notranslate"><span class="pre">role</span></code>) dans un film, ainsi que le titre du film, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span> <span class="p">{</span><span class="n">role</span><span class="p">:</span> <span class="s1">&#39;Bud Fox&#39;</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">name</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">title</span>
 </pre></div>
 </div>
 </div>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
-<p>Cette opération se comporte différemment avec les listes. Elle renvoie les documents pour lesquels la liste <strong>contient</strong> la valeur.</p>
-</div>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p>La commande suivante retourne tous les plats contenant des oeufs, c’est-à-dire le tiramisu, la quiche Lorraine et la mousse au chocolat :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;ingredients&quot;</span><span class="p">:</span><span class="s2">&quot;oeufs&quot;</span><span class="p">})</span>
+<p>Exécutez la commande suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span> <span class="p">{</span><span class="n">role</span><span class="p">:</span> <span class="s1">&#39;Bud Fox&#39;</span><span class="p">}]</span><span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
 </pre></div>
 </div>
-<p>Notez que cette commande n’est pas équivalente à :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;ingredients&quot;</span><span class="p">:[</span><span class="s2">&quot;oeufs&quot;</span><span class="p">]})</span>
-</pre></div>
-</div>
-<p>Dans ce cas, aucun document n’est retourné car aucun document n’a un champ <code class="docutils literal notranslate"><span class="pre">ingredients</span></code> <em>exactement</em> égal à <code class="docutils literal notranslate"><span class="pre">[&quot;oeufs&quot;]</span></code>. Ils contiennent tous des ingrédients supplémentaires.</p>
-</div>
-<p>Il est possible de spécifier plusieurs filtres en les séparant par une virgule. Dans ce cas, seuls les documents vérifiant l’ensemble des conditions d’égalité seront retournés (ET logique).</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p>Pour récupérer tous les plats principaux contenant des oeufs il faut donc taper :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;plat principal&quot;</span><span class="p">,</span><span class="s2">&quot;ingredients&quot;</span><span class="p">:</span><span class="s2">&quot;oeufs&quot;</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<p>La syntaxe <code class="docutils literal notranslate"><span class="pre">&lt;embedded_object&gt;.&lt;embedded_key&gt;</span></code> permet d’accéder aux attributs d’un <strong>document imbriqué</strong> ou aux valeurs d’une <strong>liste</strong>. Il devient alors possible d’extraire des documents <strong>en fonction du contenu</strong> de ces objets.</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p><strong>Exemple n°1.</strong> Que retourne la commande suivante ?</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;origine.pays&quot;</span><span class="p">:</span><span class="s2">&quot;France&quot;</span><span class="p">})</span>
-</pre></div>
-</div>
-<p>Notez que cette commande n’est pas équivalente à :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;origine&quot;</span><span class="p">:{</span><span class="s2">&quot;pays&quot;</span><span class="p">:</span><span class="s2">&quot;France&quot;</span><span class="p">}})</span>
-</pre></div>
-</div>
-<p>Dans ce cas, aucun document n’est retourné car aucun document n’a un champ <code class="docutils literal notranslate"><span class="pre">origine</span></code> <em>exactement</em> égal à <code class="docutils literal notranslate"><span class="pre">{&quot;pays&quot;:&quot;France&quot;}</span></code>. Ils contiennent tous un champ imbriqué additionnel : <code class="docutils literal notranslate"><span class="pre">region</span></code>.</p>
-<p><strong>Exemple n°2.</strong> Que renvoie la commande suivante ?</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;ingredients.1&quot;</span><span class="p">:</span><span class="s2">&quot;oeufs&quot;</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<p>Cette façon de procéder fonctionne également pour les listes de documents imbriqués. Par exemple :</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p>Pour récupérer tous les documents dont la recette a une troisième étape il suffit de taper :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;etapes.numero&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">})</span>
-</pre></div>
-</div>
+<p>Que remarquez-vous ? Ne pas spécifier de direction dégrade les performances : Neo4j doit traverser le graphe dans les deux sens.
+De façon générale, soyez le plus précis possible dans vos requêtes pour améliorer les performances.</p>
 </div>
 </section>
-<section id="projection">
-<h3><span class="section-number">3.1.2.2. </span>Projection<a class="headerlink" href="#projection" title="Link to this heading">#</a></h3>
-<p>La plupart du temps, seule une partie de l’information contenue dans les documents nous intéresse. Le second argument de la fonction <code class="docutils literal notranslate"><span class="pre">find()</span></code>, appelé <strong>projection</strong>, permet de <strong>spécifier les champs à renvoyer</strong> dans les documents qui correspondent au filtre de requête. Pour ce faire, vous pouvez :</p>
+<section id="requete-a-partir-de-motifs-complexes">
+<h2><span class="section-number">3.1.2. </span>Requête à partir de motifs complexes<a class="headerlink" href="#requete-a-partir-de-motifs-complexes" title="Link to this heading">#</a></h2>
+<p>Il est possible de construire des motifs plus complexes dans le graphe de données : vous pouvez inclure plusieurs relations et plusieurs noeuds dans le motif de requête.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1</strong> : Dans quel(s) film(s) réalisé(s) par <code class="docutils literal notranslate"><span class="pre">Rob</span> <span class="pre">Reiner</span></code> l’acteur <code class="docutils literal notranslate"><span class="pre">Martin</span> <span class="pre">Sheen</span></code> a-t-il joué ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Martin Sheen&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Rob Reiner&#39;</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">movie</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">title</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2</strong> : Avec quel(s) réalisateur(s) l’acteur <code class="docutils literal notranslate"><span class="pre">Martin</span> <span class="pre">Sheen</span></code> a-t-il travaillé ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Martin Sheen&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">director</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">movie</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">title</span><span class="p">,</span> <span class="n">director</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">director</span>                                
+</pre></div>
+</div>
+</div>
+<p>Vous pouvez aussi réaliser des requêtes en posant des conditions sur la longueur du chemin reliant deux noeuds :</p>
 <ul class="simple">
-<li><p>Indiquer les champs que vous souhaitez <strong>inclure</strong> : <code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;1_or_true&gt;}</span></code></p></li>
-<li><p>Indiquer les champs que vous souhaitez <strong>exclure</strong> : <code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;0_or_false&gt;}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[*]</span></code> : chemin de longueur quelconque</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[*&lt;number&gt;]</span></code> : chemin de longueur <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[*&lt;number1&gt;..&lt;number2&gt;]</span></code> : chemin dont la longueur est comprise entre <code class="docutils literal notranslate"><span class="pre">&lt;number1&gt;</span></code> et <code class="docutils literal notranslate"><span class="pre">&lt;number2&gt;</span></code> ; si <code class="docutils literal notranslate"><span class="pre">&lt;number1&gt;</span></code> n’est pas spécifié, la valeur par défaut est 0, si <code class="docutils literal notranslate"><span class="pre">&lt;number2&gt;</span></code> n’est pas spécifié la valeurs par défaut est l’infini</p></li>
 </ul>
-<p>Vous ne pouvez <strong>pas</strong> faire <strong>les deux à la fois</strong>. La seule exception est <code class="docutils literal notranslate"><span class="pre">_id</span></code> que vous pouvez explicitement exclure tout en listant des champs à inclure. L’attribut <code class="docutils literal notranslate"><span class="pre">_id</span></code> est inclus par défaut dans les documents renvoyés.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p><strong>Exemple n°1.</strong> Afin de tenir compte des allergies, nous voudrions extraire le nom et le type de toutes les recettes contenant des oeufs. Voici la commande :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;ingredients&quot;</span><span class="p">:</span><span class="s2">&quot;oeufs&quot;</span><span class="p">},{</span><span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="n">true</span><span class="p">,</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="n">true</span><span class="p">})</span>
-</pre></div>
-</div>
-<p><strong>Exemple n°2.</strong> Pour trouver la région d’origine de la Ratatouille et exclure le champ <code class="docutils literal notranslate"><span class="pre">_id</span></code> des résultats, il suffit de taper :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="s2">&quot;Ratatouille&quot;</span><span class="p">},{</span><span class="s2">&quot;origine.region&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
-</pre></div>
-</div>
-<p><strong>Exemple n°3.</strong> Pour connaître le nom de tous les plats disponibles dans notre collection de recettes, il suffit de ne fixer aucune condition sur les documents :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({},{</span><span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="n">true</span><span class="p">,</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">})</span>
+<p>Quel est l’un des chemins les plus courts qui relie <code class="docutils literal notranslate"><span class="pre">Tom</span> <span class="pre">Hanks</span></code> et <code class="docutils literal notranslate"><span class="pre">Robin</span> <span class="pre">Williams</span></code> ? Pour répondre à cette question vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">SHORTEST</span></code>, en spécifiant <code class="docutils literal notranslate"><span class="pre">1</span></code> pour ne retourner que l’un des chemins :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="n">path</span> <span class="o">=</span> <span class="n">SHORTEST</span> <span class="mi">1</span> <span class="p">((:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s2">&quot;Tom Hanks&quot;</span><span class="p">})</span><span class="o">-</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s2">&quot;Robin Williams&quot;</span><span class="p">}))</span>
+<span class="n">RETURN</span> <span class="n">path</span>
 </pre></div>
 </div>
 </div>
 </section>
-</section>
-<section id="modification-du-curseur">
-<h2><span class="section-number">3.1.3. </span>Modification du curseur<a class="headerlink" href="#modification-du-curseur" title="Link to this heading">#</a></h2>
-<p>Certaines méthodes modifient la manière dont la requête sous-jacente est exécutée. La syntaxe est la suivante:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">(</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">projection</span><span class="o">&gt;</span><span class="p">)</span><span class="o">.&lt;</span><span class="n">cursor_modifier</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">count()</span></code> modifie le curseur afin qu’il renvoie le nombre de documents qui correspondent au filtre de requête plutôt que les documents eux-mêmes.</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p>Combien y a-t-il de recettes contenant du gruyère ?</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;ingredients&quot;</span><span class="p">:</span><span class="s2">&quot;gruyère&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">sort()</span></code> renvoie les documents triés dans l’ordre croissant (1) ou décroissant (-1) en fonction du ou des champs spécifiés. La syntaxe est la suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">find</span><span class="p">(</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">projection</span><span class="o">&gt;</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">({</span><span class="o">&lt;</span><span class="n">key1</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="mi">1</span><span class="n">_or_</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;</span><span class="n">key2</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="mi">1</span><span class="n">_or_</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">...</span><span class="p">})</span>
-</pre></div>
-</div>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p>Pour trier les recettes par <code class="docutils literal notranslate"><span class="pre">type</span></code> dans l’ordre inverse de l’ordre alphabétique, <em>puis</em> par <code class="docutils literal notranslate"><span class="pre">nom</span></code> dans l’ordre alphabétique :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">()</span><span class="o">.</span><span class="n">sort</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;nom&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">limit()</span></code> limite le nombre de documents renvoyés.</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p>Trouvons une idée de dessert à cuisiner :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">recettes</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;dessert&quot;</span><span class="p">},{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</section>
-<section id="exercice">
-<h2><span class="section-number">3.1.4. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Téléchargez le jeu de données <code class="docutils literal notranslate"><span class="pre">movies.json</span></code>.</p></li>
-<li><p>Affichez le premier document pour vous familiariser avec le nom des clés. Dans ce jeu de données, tous les documents ont les mêmes clés.</p></li>
-<li><p>Récupérez les informations du film <code class="docutils literal notranslate"><span class="pre">Blade</span> <span class="pre">Runner</span></code>.</p></li>
-</ol>
-<div class="dropdown admonition">
-<p class="admonition-title">Aide (anglais)</p>
-<p>En anglais, <em>titre</em> se dit <em>title</em>.</p>
-</div>
-<ol class="arabic simple" start="4">
-<li><p>Récupérez le titre des films du <code class="docutils literal notranslate"><span class="pre">genre</span></code> <code class="docutils literal notranslate"><span class="pre">drama</span></code>. Que signifie le message qui apparait en bas de votre écran: <code class="docutils literal notranslate"><span class="pre">Type</span> <span class="pre">&quot;it&quot;</span> <span class="pre">for</span> <span class="pre">more</span></code> ?</p></li>
-<li><p>Récupérez le nom et le prénom du réalisateur de <code class="docutils literal notranslate"><span class="pre">Kill</span> <span class="pre">Bill</span></code>.</p></li>
-</ol>
-<div class="dropdown admonition">
-<p class="admonition-title">Aide (anglais)</p>
-<p>En anglais, <em>nom de famille</em> se dit <em>last name</em>, <em>prénom</em> se dit <em>first name</em>, et <em>réalisateur</em> se dit <em>director</em>.</p>
-</div>
-<ol class="arabic simple" start="6">
-<li><p>Combien y a-t-il de films français (<code class="docutils literal notranslate"><span class="pre">FR</span></code>) dans la base de données ?</p></li>
-</ol>
-<div class="dropdown admonition">
-<p class="admonition-title">Aide (anglais)</p>
-<p>En anglais, <em>pays</em> se dit <em>country</em>.</p>
-</div>
-<ol class="arabic simple" start="7">
-<li><p>Lister les films sortis en <code class="docutils literal notranslate"><span class="pre">1995</span></code> par ordre alphabétique. Quel est le premier ?</p></li>
-</ol>
-<div class="dropdown admonition">
-<p class="admonition-title">Aide (anglais)</p>
-<p>En anglais <em>année</em> se dit <em>year</em>.</p>
-</div>
-<ol class="arabic simple" start="8">
-<li><p>Dans quels films l’acteur <code class="docutils literal notranslate"><span class="pre">Bruce</span> <span class="pre">Willis</span></code> a-t-il joué ? Retournez le titre et le genre des films.</p></li>
-</ol>
-<p>Avec des requêtes simples, on peut déjà extraire beaucoup d’informations intéressantes !</p>
-</section>
-<section id="en-resume">
-<h2><span class="section-number">3.1.5. </span>En résumé<a class="headerlink" href="#en-resume" title="Link to this heading">#</a></h2>
-<p>Dans ce chapitre vous avez appris que :</p>
-<ul class="simple">
-<li><p>Les <strong>valeurs</strong> des paires clé-valeur sont <strong>consultables</strong> : elles sont accessibles et peuvent être utilisées pour filtrer les documents.</p></li>
-<li><p>Sans documentation, il peut être difficile de comprendre la structure des données et donc de les utiliser.</p></li>
-</ul>
-<p>Dans ce chapitre vous avez manipulé les fonctions suivantes :</p>
+<section id="quelques-fonctions-utiles">
+<h2><span class="section-number">3.1.3. </span>Quelques fonctions utiles<a class="headerlink" href="#quelques-fonctions-utiles" title="Link to this heading">#</a></h2>
+<p>Neo4j met à disposition un certain nombre de fonctions. Voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/functions/">documentation</a>.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Syntaxe</p></th>
-<th class="head"><p>Description</p></th>
+<tr class="row-odd"><th class="head text-center"><p>Graphe</p></th>
+<th class="head text-left"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.find()</span></code></p></td>
-<td><p>Récupérer tous les documents d’une collection</p></td>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">labels()</span></code></p></td>
+<td class="text-left"><p>Récupérer sous forme de liste tous les labels des noeuds sélectionnés</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.findOne()</span></code></p></td>
-<td><p>Récupérer le premier document d’une collection</p></td>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">keys()</span></code></p></td>
+<td class="text-left"><p>Récupérer toutes les clés de propriété des noeuds ou relations sélectionnés</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.find({&lt;key&gt;:&lt;value&gt;,...})</span></code></p></td>
-<td><p>Filtrer les documents en fonction d’une ou plusieurs conditions d’égalité</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.find(&lt;filter&gt;,&lt;projection&gt;)</span></code> où <code class="docutils literal notranslate"><span class="pre">&lt;projection&gt;</span> <span class="pre">=</span> <span class="pre">{&lt;key&gt;:&lt;0_or_1&gt;,...}</span></code></p></td>
-<td><p>Récupérer tous les champs spécifiés dans la projection, pour tous les documents qui répondent aux critères de recherche</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.find(&lt;filter&gt;,&lt;projection&gt;).count()</span></code></p></td>
-<td><p>Compter le nombre de documents qui répondent aux critères de recherche</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.find(&lt;filter&gt;,&lt;projection&gt;).sort(&lt;condition&gt;)</span></code> où <code class="docutils literal notranslate"><span class="pre">&lt;condition&gt;</span> <span class="pre">=</span> <span class="pre">{&lt;key&gt;:&lt;1_or_-1&gt;,...}</span></code></p></td>
-<td><p>Trier les documents qui répondent aux critères de recherche</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.find(&lt;filter&gt;,&lt;projection&gt;).limit(&lt;n&gt;)</span></code></p></td>
-<td><p>Limiter le nombre de documents qui répondent aux critères de recherche à renvoyer</p></td>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">type()</span></code></p></td>
+<td class="text-left"><p>Récupérer le type d’une ou plusieurs relations</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="note admonition">
-<p class="admonition-title">Tip</p>
-<p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.find(&lt;filter&gt;,&lt;projection&gt;)</span></code> peut se comprendre ainsi : “je veux extraire les documents de la <code class="docutils literal notranslate"><span class="pre">&lt;collection&gt;</span></code> qui vérifient les conditions suivantes : <code class="docutils literal notranslate"><span class="pre">&lt;filter&gt;</span></code>, et pour ces documents je veux récupérer les informations suivantes : <code class="docutils literal notranslate"><span class="pre">&lt;projection&gt;</span></code>.”</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Agrégation</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">avg()</span></code></p></td>
+<td class="text-left"><p>Calculer la moyenne d’un ensemble de valeurs</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">max()</span></code></p></td>
+<td class="text-left"><p>Calculer la valeur maximale d’un ensemble de valeurs</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">min()</span></code></p></td>
+<td class="text-left"><p>Calculer la valeur minimale d’un ensemble de valeurs</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">sum()</span></code></p></td>
+<td class="text-left"><p>Calculer la somme d’un ensemble de valeurs</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">collect()</span></code></p></td>
+<td class="text-left"><p>Récupérer sous forme de liste les valeurs retournées par une expression</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">count()</span></code></p></td>
+<td class="text-left"><p>Compter le nombre d’éléments. <code class="docutils literal notranslate"><span class="pre">count(*)</span></code> pour le nombre total, <code class="docutils literal notranslate"><span class="pre">count(&lt;expression&gt;)</span></code> pour le nombre d’éléments hors valeurs manquantes, <code class="docutils literal notranslate"><span class="pre">count(DISTINCT</span> <span class="pre">&lt;expression&gt;)</span></code> pour le nombre d’éléments distincts</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Faire précéder les fonctions d’agrégation par d’autres expressions revient à grouper les éléments en fonction de ces expressions,
+puis à appliquer les fonctions d’agrégation à chacun des groupes.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Autre</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">DISTINCT</span></code></p></td>
+<td class="text-left"><p>Récupérer les valeurs distinctes</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">size()</span></code></p></td>
+<td class="text-left"><p>taille d’une liste ou d’une chaîne de caractères</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1</strong> : Pour compter le nombre de noeuds dont l’un des labels est <code class="docutils literal notranslate"><span class="pre">Person</span></code>, tapez :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2</strong> : Pour afficher les différents types de relation et le nombre de relations par type :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">()</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">-</span><span class="p">()</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="k">type</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">relationType</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">count</span>
+</pre></div>
+</div>
+<p>Dans cet exemple, l’instruction <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> est équivalente à un <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> en SQL :
+on commence à grouper les relations par type puis on compte le nombre de relations dans chaque groupe.<br />
+<strong>Exemple n°3</strong> : Pour lister les noms de tous les acteurs, réalisateurs et producteurs du film <code class="docutils literal notranslate"><span class="pre">That</span> <span class="pre">Thing</span> <span class="pre">You</span> <span class="pre">Do</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="o">|</span><span class="n">DIRECTED</span><span class="o">|</span><span class="n">PRODUCED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;That Thing You Do&#39;</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">collect</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Que remarquez-vous ? Pour remédier à ce problème, vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">DISTINCT</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="o">|</span><span class="n">DIRECTED</span><span class="o">|</span><span class="n">PRODUCED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;That Thing You Do&#39;</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">collect</span><span class="p">(</span><span class="n">DISTINCT</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Vous pouvez également utiliser les opérateurs classiques : <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>, <code class="docutils literal notranslate"><span class="pre">%</span></code> et <code class="docutils literal notranslate"><span class="pre">^</span></code>.
+Vous pouvez concaténer des listes ou des chaînes de caractères avec <code class="docutils literal notranslate"><span class="pre">||</span></code> ou <code class="docutils literal notranslate"><span class="pre">+</span></code>.</p>
+</section>
+<section id="exercice">
+<h2><span class="section-number">3.1.4. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Affichez tout le graphe</p></li>
+<li><p>En quelle année est né (<code class="docutils literal notranslate"><span class="pre">born</span></code>) l’acteur <code class="docutils literal notranslate"><span class="pre">Bill</span> <span class="pre">Paxton</span></code> ?</p></li>
+<li><p>Quelle est la phrase d’accroche (<code class="docutils literal notranslate"><span class="pre">tagline</span></code>) et la date de parution (<code class="docutils literal notranslate"><span class="pre">released</span></code>) du film <code class="docutils literal notranslate"><span class="pre">Sleepless</span> <span class="pre">in</span> <span class="pre">Seattle</span></code> ?</p></li>
+<li><p>Dans quel(s) film(s) <code class="docutils literal notranslate"><span class="pre">Jack</span> <span class="pre">Nicholson</span></code> a-t-il joué ? Affichez le résultat sous forme de liste.</p></li>
+<li><p>Combien de films <code class="docutils literal notranslate"><span class="pre">Ron</span> <span class="pre">Howard</span></code> a-t-il dirigé ?</p></li>
+<li><p>Affichez le sous-graphe constitué des films qui ont reçu une note, des utilisateurs qui les ont notés et des relations qui lient ces noeuds entre eux.</p></li>
+<li><p>Quels sont les propriétés des relations <code class="docutils literal notranslate"><span class="pre">REVIEWED</span></code> ? N’affichez que les valeurs uniques.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">keys()</span></code> et <code class="docutils literal notranslate"><span class="pre">DISTINCT</span></code>. <code class="docutils literal notranslate"><span class="pre">DISTINCT</span></code> peut s’utiliser en dehors d’une fonction, voir la documentation.</p>
+</div>
+<ol class="arabic simple" start="8">
+<li><p>Quelle moyenne le film <code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">Replacements</span></code> a-t-il obtenu ?</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez la propriété <code class="docutils literal notranslate"><span class="pre">rating</span></code> des relations <code class="docutils literal notranslate"><span class="pre">REVIEWED</span></code> et la propriété <code class="docutils literal notranslate"><span class="pre">title</span></code> des noeuds <code class="docutils literal notranslate"><span class="pre">Movie</span></code>. Utilisez la fonction <code class="docutils literal notranslate"><span class="pre">avg()</span></code>.</p>
+</div>
+<ol class="arabic simple" start="9">
+<li><p>Avec quel(s) acteur(s) l’actrice <code class="docutils literal notranslate"><span class="pre">Carrie-Anne</span> <span class="pre">Moss</span></code> a-t-elle déjà joué ?</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Voir 3.1.3.</p>
+</div>
+<div class="dropdown admonition">
+<p class="admonition-title">Bonus</p>
+<ol class="arabic simple" start="10">
+<li><p>Quels acteurs ont joué avec des co-acteurs de <code class="docutils literal notranslate"><span class="pre">Natalie</span> <span class="pre">Portman</span></code> ?</p></li>
+</ol>
+<p><strong>Note</strong> : Aucun des co-co-acteurs de Natalie Portman n’a joué avec elle dans un film.
+Autrement dit : personne n’est à la fois co-acteur sur un film et co-co-acteur sur un autre film.</p>
 </div>
 </section>
 </section>
@@ -725,7 +751,7 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="03_lecture_operateurs.html"
+       href="03_lecture_sousclause.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -749,15 +775,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sans-condition">3.1.1. Requête sans condition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-avec-condition">3.1.2. Requête avec condition</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtre">3.1.2.1. Filtre</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">3.1.2.2. Projection</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modification-du-curseur">3.1.3. Modification du curseur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-relations">3.1.1. Requête sur les relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-partir-de-motifs-complexes">3.1.2. Requête à partir de motifs complexes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quelques-fonctions-utiles">3.1.3. Quelques fonctions utiles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.1.4. Exercice</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">3.1.5. En résumé</a></li>
 </ul>
   </nav></div>
 

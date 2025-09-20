@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>MongoDB : Base de données NoSQL orientée documents &#8212; Neo4j</title>
+    <title>Neo4j : Base de données NoSQL orientée graphe &#8212; Neo4j</title>
   
   
   
@@ -64,7 +64,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/00_intro';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="1. Installation de MongoDB" href="01_installation.html" />
+    <link rel="next" title="1. Langage Cypher" href="01_cypher.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -174,17 +174,17 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    MongoDB : Base de données NoSQL orientée documents
+                    Neo4j : Base de données NoSQL orientée graphe
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_installation.html">1. Installation de MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_cypher.html">1. Langage Cypher</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_operateurs.html">3.2. Requête avec opérateurs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête avec opérateurs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_lecture_agregation.html">3.3. Requête d’agrégation</a></li>
 </ul>
 </details></li>
@@ -373,7 +373,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>MongoDB : Base de données NoSQL orientée documents</h1>
+    <h1>Neo4j : Base de données NoSQL orientée graphe</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -387,9 +387,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="mongodb-base-de-donnees-nosql-orientee-documents">
-<h1>MongoDB : Base de données NoSQL orientée documents<a class="headerlink" href="#mongodb-base-de-donnees-nosql-orientee-documents" title="Link to this heading">#</a></h1>
-<p>Ce cours est une introduction à MongoDB, une base de données NoSQL orientée documents.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="neo4j-base-de-donnees-nosql-orientee-graphe">
+<h1>Neo4j : Base de données NoSQL orientée graphe<a class="headerlink" href="#neo4j-base-de-donnees-nosql-orientee-graphe" title="Link to this heading">#</a></h1>
+<p>Ce cours est une introduction à Neo4J, une base de données NoSQL orientée graphe.</p>
 <p>Il est organisé selon les quatre grandes catégories d’interaction que l’on peut avoir avec une base de données, résumées par l’acronyme <strong>CRUD</strong> :</p>
 <ul class="simple">
 <li><p><strong>C</strong>reate (Créer) : Toute opération qui consiste à ajouter de nouveaux enregistrements à la base de données.</p></li>
@@ -397,6 +397,28 @@ document.write(`
 <li><p><strong>U</strong>pdate (Mettre à jour) : Toute opération qui consiste à modifier des enregistrements de la base de données.</p></li>
 <li><p><strong>D</strong>elete (Supprimer) : Toute opération qui consiste à supprimer des enregistrements de la base de données, voire la base de données elle-même.</p></li>
 </ul>
+<p>Les données sont organisées en <strong>noeuds</strong> et en <strong>relations</strong>.</p>
+<ul class="simple">
+<li><p>Un <strong>noeud</strong> représente un objet concret (ex: une personne, un produit).</p></li>
+<li><p>Une <strong>relation</strong> représente un lien entre deux objets (ex : “est ami avec”, “a acheté”, “travaille à”).
+Les relations sont comparables aux jointures dans les bases de données relationnelles.
+Cependant, si les jointures sont calculées <em>au moment du requêtage</em> dans les bases de données relationnelles, les relations, quant à elles, sont <em>stockées explicitement</em> dans les bases de données NoSQL orientées graphe.
+C’est la raison pour laquelle ces bases de données offrent de meilleures performances en lecture lorsque les données sont fortement interconnectées.</p></li>
+<li><p>Un noeud peut avoir zéro, un ou plusieurs <strong>labels</strong>. Les labels sont comparables aux tables dans les bases de données relationnelles :
+ils permettent de regrouper sous une même étiquette les noeuds qui présentent des similarités (ex: étudiants, clients).</p></li>
+<li><p>Une relation a un direction, un noeud de départ, un noeud d’arrivée, et un <strong>type</strong>. Une relation ne peut avoir qu’un seul type.</p></li>
+<li><p>Les noeuds comme les relations peuvent avoir des <strong>propriétés</strong>. Les propriétés prennent la forme de <strong>paires clé-valeur</strong>.</p></li>
+</ul>
+<p>Neo4j a un <strong>schéma flexible</strong> :</p>
+<ul class="simple">
+<li><p>Deux noeuds ou deux relations qui possèdent un même label n’ont pas nécessairement les mêmes propriétés</p></li>
+<li><p>Des <strong>index</strong> et des <strong>contraintes</strong> peuvent être introduits au fur et à mesure pour améliorer les performances ou la modélisation</p></li>
+</ul>
+<figure class="align-default" id="id1">
+<img alt="../_images/graph_example.svg" src="../_images/graph_example.svg" /><figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Exemple : Movies, from: <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/match/">source</a></span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -432,11 +454,11 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="01_installation.html"
+       href="01_cypher.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Installation de MongoDB</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Langage Cypher</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

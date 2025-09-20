@@ -63,7 +63,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="3. CRUD : Lecture" href="03_lecture.html" />
-    <link rel="prev" title="1. Installation de MongoDB" href="01_installation.html" />
+    <link rel="prev" title="1. Langage Cypher" href="01_cypher.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,13 +171,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="00_intro.html">
-                    MongoDB : Base de données NoSQL orientée documents
+                    Neo4j : Base de données NoSQL orientée graphe
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01_installation.html">1. Installation de MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_cypher.html">1. Langage Cypher</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">2. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
@@ -359,9 +359,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -377,18 +375,6 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demarrage">2.1. Démarrage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-base-de-donnees">2.2. Créer une base de données</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ajouter-des-donnees">2.3. Ajouter des données</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">2.4. Exercice</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">2.5. En résumé</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -407,371 +393,12 @@ document.write(`
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Objectif</div>
-<p class="sd-card-text">Dans ce chapitre vous apprendrez à créer une base de données MongoDB, à y ajouter des collections, puis à y insérer des documents. Vous découvrirez aussi que MongoDB prend en charge divers types de données.</p>
+<p class="sd-card-text">Dans ce chapitre vous apprendrez à insérer des noeuds et des relations dans une base de données Neo4j.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>MongoDB est une <strong>base de données NoSQL orientée documents</strong>.</p>
-<p>Les données sont stockées selon un système de paires clé-valeur dans des <strong>documents</strong> semi-structurés. Contrairement aux <strong>bases de données clé-valeur</strong>, la valeur est consultable : il est possible d’interroger le contenu d’un document et de le modifier—totalement ou partiellement—sans avoir besoin de récupérer l’intégralité du document à l’aide de sa clé. Dans MongoDB, les documents sont stockés au format BSON (Binary JSON).</p>
-<p>Une <strong>collection</strong> est constituée de documents qui présentent des similarités sur le plan structurel et / ou conceptuel. Une base de données peut contenir plusieurs collections. Les collections sont comparables aux tables dans les <strong>bases de données relationnelles</strong>, la différence étant que tous les documents d’une collection n’ont pas nécessairement les mêmes champs (le <strong>schéma</strong> est <strong>flexible</strong>). Les bases de données orientées documents peuvent également stocker une plus grande variété de données que les bases de données relationnelles.</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<p>La base de données de l’université Prestige contient deux collections : une collection <code class="docutils literal notranslate"><span class="pre">Étudiants</span></code> pour les étudiants de l’université, et une collection <code class="docutils literal notranslate"><span class="pre">Employés</span></code> pour le personnel de l’université. Chaque document de la collection <code class="docutils literal notranslate"><span class="pre">Étudiants</span></code> contient des informations sur un étudiant de l’université : nom, prénom, âge, numéro étudiant, formation etc. Les documents de la collection <code class="docutils literal notranslate"><span class="pre">Étudiants</span></code> peuvent contenir des champs différents, par exemple :</p>
-<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
-<div class="sd-row sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<div class="sd-card-title sd-font-weight-bold docutils">
-Étudiant boursier</div>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">    </span><span class="s2">&quot;_id&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;56011920de43611b917d773d&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="s2">&quot;nom&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Zola&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;prenom&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Émile&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;sexe&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;age&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">19</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;bourse&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;échelon 2&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<div class="sd-card-title sd-font-weight-bold docutils">
-Étudiante en alternance</div>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">    </span><span class="s2">&quot;_id&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;65511420al87311b100q246t&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="s2">&quot;nom&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Christie&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;prenom&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Agatha&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;sexe&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;F&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;age&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">21</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;entreprise&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Éditions du Masque&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;contrat&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;alternance&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>Notez qu’il n’y a pas d’attributs (ou <em>clés</em>) vides dans MongoDB : les <em>valeurs</em> nulles sont remplacées par l’absence des champs correspondant. Dans l’exemple ci-dessus : l’attribut <code class="docutils literal notranslate"><span class="pre">bourse</span></code> (resp. <code class="docutils literal notranslate"><span class="pre">entreprise</span></code>, <code class="docutils literal notranslate"><span class="pre">contrat</span></code>) n’apparait pas dans le document de l’étudiante en alternance (resp. étudiant boursier).</p>
-</div>
-<section id="demarrage">
-<h2><span class="section-number">2.1. </span>Démarrage<a class="headerlink" href="#demarrage" title="Link to this heading">#</a></h2>
-<div class="admonition caution">
-<p class="admonition-title">Caution</p>
-<p>Avant de pouvoir travailler dans mongosh, il faut démarrer une instance MongoDB.</p>
-<div class="tab-set docutils">
-<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Windows</label><div class="tab-content docutils">
-<p>(à venir)</p>
-</div>
-<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Linux</label><div class="tab-content docutils">
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo systemctl start mongod</span>
-<span class="go">sudo systemctl status mongod</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<p><strong>Dans un terminal</strong> : Ouvrez un terminal.<br />
-<strong>Dans Visual Studio Code</strong> : Cliquez sur l’icône MongoDB, puis sur <code class="docutils literal notranslate"><span class="pre">localhost:27017</span></code> pour établir la connection. Faites un clic droit sur <code class="docutils literal notranslate"><span class="pre">localhost:27017</span></code> et sélectionnez “Launch MongoDB Shell” (ou équivalent). Un terminal s’ouvre. Agrandissez le.</p>
-<p>Pour <strong>démarrez</strong> une session mongosh, tapez :</p>
-<ul class="simple">
-<li><p>Déploiement local sur le port par défaut :</p></li>
-</ul>
-<blockquote>
-<div><p>mongosh</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Déploiement Université de Lorraine :</p></li>
-</ul>
-<blockquote>
-<div><p>mongosh <em>DNS_name</em> -u root -p <em>password</em></p>
-</div></blockquote>
-<p>Pour <strong>quitter</strong> la session mongosh, tapez :</p>
-<blockquote>
-<div><p>exit</p>
-</div></blockquote>
-<p>Pour <strong>lister les bases de données</strong> présentes sur le serveur, tapez :</p>
-<blockquote>
-<div><p>show dbs</p>
-</div></blockquote>
-</section>
-<section id="creer-une-base-de-donnees">
-<h2><span class="section-number">2.2. </span>Créer une base de données<a class="headerlink" href="#creer-une-base-de-donnees" title="Link to this heading">#</a></h2>
-<p>Pour <strong>créer une base de données</strong>, ou la <strong>sélectionner</strong> si elle existe déjà, tapez <code class="docutils literal notranslate"><span class="pre">use</span></code> suivi du nom de la base de données. En reprenant l’exemple précédent :</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">use</span> <span class="n">University</span>
-</pre></div>
-</div>
-</div>
-<p>Une fois la base de données créée ou sélectionnée, la commande <code class="docutils literal notranslate"><span class="pre">db.createCollection(&lt;collection&gt;)</span></code> permet de <strong>créer explicitement une collection</strong>.</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">createCollection</span><span class="p">(</span><span class="s2">&quot;students&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>La base de données <code class="docutils literal notranslate"><span class="pre">University</span></code> contient désormais la collection <code class="docutils literal notranslate"><span class="pre">students</span></code>. Pour s’en assurer, vous pouvez <strong>afficher l’ensemble des collections</strong> de la base de données grâce à la commande :</p>
-<blockquote>
-<div><p>show collections</p>
-</div></blockquote>
-<div class="admonition-important admonition">
-<p class="admonition-title">Important</p>
-<p>Il n’est pas nécessaire de créer une collection avant d’ajouter des données dans la base de données. La collection peut être créée à la volée au moment de l’insertion parce que MongoDB a un schéma flexible.</p>
-</div>
-<p>Enfin, <code class="docutils literal notranslate"><span class="pre">mongoimport</span></code> permet de <strong>créer une base de données</strong> et / ou une collection <strong>à partir d’un fichier JSON</strong>, CSV ou TSV. Pour importer un fichier JSON comprenant plusieurs documents, la syntaxe est la suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mongoimport</span> <span class="o">--</span><span class="n">db</span> <span class="o">&lt;</span><span class="n">database</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">collection</span> <span class="o">&lt;</span><span class="n">collection</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">file</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">.</span><span class="n">json</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">jsonArray</span>
-</pre></div>
-</div>
-<p>Si le fichier ne comporte qu’un seul document, retirez l’option <code class="docutils literal notranslate"><span class="pre">--jsonArray</span></code>. Si la base de données (resp. la collection) existe déjà, les documents seront ajoutés à la base de données (resp. collection). Pour les autres formats, voir <a class="reference external" href="https://www.mongodb.com/developer/products/mongodb/mongoimport-guide/">ici</a>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p><code class="docutils literal notranslate"><span class="pre">mongoimport</span></code> ne s’utilise pas depuis <code class="docutils literal notranslate"><span class="pre">mongosh</span></code> mais depuis le terminal.</p>
-</div>
-</section>
-<section id="ajouter-des-donnees">
-<h2><span class="section-number">2.3. </span>Ajouter des données<a class="headerlink" href="#ajouter-des-donnees" title="Link to this heading">#</a></h2>
-<p>Pour <strong>insérer un document</strong> JSON dans une collection et créer la collection si elle n’existe pas, utilisez <code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.insertOne(&lt;document&gt;)</span></code>. Remplacez les termes entre chevrons (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code> et <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>) par ce qui convient.</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">students</span><span class="o">.</span><span class="n">insertOne</span><span class="p">({</span>
-                       <span class="s2">&quot;surname&quot;</span><span class="p">:</span><span class="s2">&quot;Zola&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;firstname&quot;</span><span class="p">:</span><span class="s2">&quot;Émile&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;gender&quot;</span><span class="p">:</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
-                       <span class="s2">&quot;age&quot;</span><span class="p">:</span><span class="mi">19</span><span class="p">,</span>
-                       <span class="s2">&quot;bourse&quot;</span><span class="p">:</span><span class="mi">2</span>
-                      <span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<p>Vous pouvez vérifier que le document a correctement été ajouté à la collection en exécutant la commande <code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.countDocuments()</span></code>, qui renvoie le nombre de documents dans la collection.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Si vous exécutez la commande <code class="docutils literal notranslate"><span class="pre">db.students.find()</span></code>, vous verrez qu’un champ a été ajouté au document. Dans MongoDB, chaque document stocké dans une collection doit avoir un champ <code class="docutils literal notranslate"><span class="pre">_id</span></code> unique, qui sert de clé primaire. Si un document ne contient pas de champ <code class="docutils literal notranslate"><span class="pre">_id</span></code> à l’insertion, MongoDB génère automatiquement un <code class="docutils literal notranslate"><span class="pre">ObjectId</span></code>.</p>
-</div>
-<p>La commande pour <strong>insérer plusieurs documents</strong> JSON dans une collection et créer la collection si elle n’existe pas est : <code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.insertMany(&lt;document_array&gt;)</span></code>. Les documents doivent être contenus dans une liste.</p>
-<div class="tip admonition">
-<p class="admonition-title">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">students</span><span class="o">.</span><span class="n">insertMany</span><span class="p">([{</span>
-                         <span class="s2">&quot;surname&quot;</span><span class="p">:</span><span class="s2">&quot;Christie&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;firstname&quot;</span><span class="p">:</span><span class="s2">&quot;Agatha&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;gender&quot;</span><span class="p">:</span><span class="s2">&quot;F&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;age&quot;</span><span class="p">:</span><span class="mi">21</span><span class="p">,</span>
-                         <span class="s2">&quot;enrolled&quot;</span><span class="p">:</span><span class="n">true</span><span class="p">,</span>
-                         <span class="s2">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;alternance&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;entreprise&quot;</span><span class="p">:</span><span class="s2">&quot;Éditions du Masque&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;grades&quot;</span><span class="p">:{</span>
-                                   <span class="s2">&quot;literature&quot;</span><span class="p">:[</span><span class="mf">16.3</span><span class="p">,</span><span class="mf">14.1</span><span class="p">,</span><span class="mi">17</span><span class="p">],</span>
-                                   <span class="s2">&quot;forensic science&quot;</span><span class="p">:[</span><span class="mf">12.3</span><span class="p">,</span><span class="mi">18</span><span class="p">]</span>
-                                  <span class="p">}</span>
-                        <span class="p">},</span>
-                        <span class="p">{</span>
-                         <span class="s2">&quot;surname&quot;</span><span class="p">:</span><span class="s2">&quot;Fogg&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;firstname&quot;</span><span class="p">:</span><span class="s2">&quot;Phileas&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;gender&quot;</span><span class="p">:</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;age&quot;</span><span class="p">:</span><span class="mi">24</span><span class="p">,</span>
-                         <span class="s2">&quot;enrolled&quot;</span><span class="p">:</span><span class="n">true</span><span class="p">,</span>
-                         <span class="s2">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;Erasmus&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;country&quot;</span><span class="p">:</span><span class="s2">&quot;Royaume-Uni&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;city&quot;</span><span class="p">:</span><span class="s2">&quot;Londres&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;university&quot;</span><span class="p">:</span><span class="s2">&quot;Imperial College&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;dates&quot;</span><span class="p">:{</span>
-                                  <span class="s2">&quot;from&quot;</span><span class="p">:</span><span class="n">ISODate</span><span class="p">(</span><span class="s2">&quot;1872-10-02&quot;</span><span class="p">),</span>
-                                  <span class="s2">&quot;to&quot;</span><span class="p">:</span><span class="n">ISODate</span><span class="p">(</span><span class="s2">&quot;1872-12-21&quot;</span><span class="p">)</span>
-                                 <span class="p">}</span>
-                        <span class="p">}</span>
-                       <span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<p>À travers l’exemple précédent, vous pouvez constater que <strong>MongoDB prend en charge divers types de données</strong> : du texte, des nombres entiers ou décimaux, des booléens, des dates au format ISODate, mais aussi des <strong>documents imbriqués</strong> et des <strong>listes</strong>, qui permettent de regrouper des informations secondaires.</p>
-</section>
-<section id="exercice">
-<h2><span class="section-number">2.4. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
-<p>Une entreprise souhaite se doter d’une base de données dans laquelle elle stockera les échanges entre les clients et le service client, que ce soit par téléphone ou par mail. Elle souhaite également stocker les informations sur les produits qu’elle vend afin de répondre au mieux aux demandes des clients.<br />
-Créez une base de données adaptée, contenant deux collections : <code class="docutils literal notranslate"><span class="pre">Client</span></code> et <code class="docutils literal notranslate"><span class="pre">Produit</span></code>. Stockez les informations suivantes sous la forme de documents JSON dans les collections appropriées. Attention ! Chaque bloc ne correspond pas obligatoirement à un document unique, vous devez construire les documents en fonction des besoins de l’entreprise. Vous pouvez retravailler l’information.</p>
-<div class="note admonition">
-<p class="admonition-title">Tip</p>
-<p>Utilisez un bloc note pour construire vos documents, puis copiez-collez dans MongoDB.</p>
-</div>
-<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
-<div class="sd-row sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<p class="sd-card-text"><strong>De</strong> : Martin Louviers <a class="reference external" href="mailto:louviers&#46;martin&#37;&#52;&#48;email&#46;com">louviers<span>&#46;</span>martin<span>&#64;</span>email<span>&#46;</span>com</a><br />
-<strong>À</strong> : Service client<br />
-<strong>Date</strong> : 16 août 2025<br />
-<strong>Objet</strong> : Article défectueux — #B88402</p>
-<p class="sd-card-text">Bonjour,<br />
-Le blender reçu fuit au niveau du socle. Puis-je l’échanger ?</p>
-<p class="sd-card-text">Cordialement,<br />
-<em>Martin Louviers</em></p>
-</div>
-</div>
-</div>
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<p class="sd-card-text"><strong>De</strong> : Hugo - Service client <a class="reference external" href="mailto:sav&#37;&#52;&#48;shoponline&#46;com">sav<span>&#64;</span>shoponline<span>&#46;</span>com</a><br />
-<strong>À</strong> : Martin Louviers<br />
-<strong>Date</strong>: 19 août 2025<br />
-<strong>Objet</strong> : RE: Article défectueux — #B88402</p>
-<p class="sd-card-text">Bonjour,<br />
-Nous vous envoyons dès aujourd’hui un nouveau blender MPG-300 à l’adresse indiquée lors de l’achat.<br />
-Vous trouverez ci-joint un bon de retour prépayé pour le produit défectueux.<br />
-Aucune démarche supplémentaire n’est requise.</p>
-<p class="sd-card-text">Merci de votre signalement,<br />
-<em>Hugo — Service client</em></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<p class="sd-card-text"><strong>Réf</strong> : MPG-300 — <strong>Prix</strong> : 89,90 €</p>
-<p class="sd-card-text"><strong>Les Points clés</strong></p>
-<ul class="simple">
-<li><p class="sd-card-text">600 W</p></li>
-<li><p class="sd-card-text">2 vitesses — variateur de vitesse</p></li>
-<li><p class="sd-card-text">Capacité totale : 2,00 L — Verre</p></li>
-<li><p class="sd-card-text">Élements compatibles lave-vaisselle</p></li>
-</ul>
-<p class="sd-card-text"><strong>Pièces</strong> : base moteur, lame inox, bol avec poignée, couvercle avec bouchon doseur.</p>
-<p class="sd-card-text"><strong>SAV</strong> : Garantie 2 ans.</p>
-</div>
-</div>
-<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<p class="sd-card-text"><strong>Date</strong> : 29 août 2025</p>
-<p class="sd-card-text"><strong>Heure</strong> : 09:42–09:45 (CEST, UTC+2) — <strong>Durée</strong> : 3 min</p>
-<p class="sd-card-text"><strong>Canal</strong> : Téléphone (entrant)</p>
-<p class="sd-card-text"><strong>Agent</strong> : Lina (SAV) — <strong>Client</strong> : Camille Dalida</p>
-<p class="sd-card-text"><strong>Commande</strong> : #D44120 — Ticket : TCK-2025-08-29-0942</p>
-<p class="sd-card-text"><strong>Transcription</strong></p>
-<p class="sd-card-text"><strong>[09:42:03] Client</strong> : Bonjour, j’appelle pour ma commande #D44120. Elle devait arriver hier mais je n’ai rien reçu.<br />
-<strong>[09:42:18] SAV</strong> : Bonjour Camille, je vérifie.<br />
-<strong>[09:42:20] SAV</strong> : Oui, le colis est en transit. La nouvelle livraison est prévue pour demain avant 18:00.<br />
-<strong>[09:43:02] Client</strong> : Très bien. Puis-je recevoir une notif quand le livreur approche ?<br />
-<strong>[09:43:15] SAV</strong> : Bien sûr. J’active le SMS de suivi. Vous devriez recevoir un mail de confirmation dans quelques minutes.<br />
-<strong>[09:44:28] Client</strong> : Merci pour votre aide.<br />
-<strong>[09:44:40] SAV</strong> : Avec plaisir ! Bonne journée.</p>
-<p class="sd-card-text"><strong>Suivi</strong></p>
-<p class="sd-card-text"><strong>[09:44:55] Action agent</strong> :</p>
-<ul class="simple">
-<li><p class="sd-card-text">Alerte SMS activée</p></li>
-<li><p class="sd-card-text">Mail récapitulatif envoyé</p></li>
-</ul>
-</div>
-</div>
-<div class="dropdown admonition">
-<p class="admonition-title">En option</p>
-<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
-<div class="sd-row sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<p class="sd-card-text"><strong>De</strong> : Sophie Pereira <a class="reference external" href="mailto:sophie&#46;pereira&#37;&#52;&#48;email&#46;com">sophie<span>&#46;</span>pereira<span>&#64;</span>email<span>&#46;</span>com</a><br />
-<strong>À</strong> : Service client<br />
-<strong>Objet</strong> : Code promo non appliqué — #C11277</p>
-<p class="sd-card-text">Bonjour,<br />
-Le code WELCOME10 n’a pas été pris en compte. Pouvez-vous ajuster la facture ?</p>
-<p class="sd-card-text">Merci,<br />
-<em>Sophie Pereira</em></p>
-</div>
-</div>
-</div>
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<p class="sd-card-text"><strong>De</strong> : Mehdi - Service client <a class="reference external" href="mailto:sav&#37;&#52;&#48;shoponline&#46;com">sav<span>&#64;</span>shoponline<span>&#46;</span>com</a><br />
-<strong>À</strong> : Sophie Pereira<br />
-<strong>Objet</strong> : RE: Code promo non appliqué — #C11277</p>
-<p class="sd-card-text">Bonjour,<br />
-Après analyse de votre demande, nous vous informons que vous serez remboursé.e de 5.90e par virement bancaire, soit une remise de 10%.
-Cette somme sera créditée sous 3 jours sur le compte que vous avez indiqué.</p>
-<p class="sd-card-text">Bien à vous,<br />
-<em>Mehdi — Service client</em></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="en-resume">
-<h2><span class="section-number">2.5. </span>En résumé<a class="headerlink" href="#en-resume" title="Link to this heading">#</a></h2>
-<p>Dans ce chapitre vous avez appris que :</p>
-<ul class="simple">
-<li><p>MongoDB est une <strong>base de données NoSQL orientée documents</strong>.</p></li>
-<li><p>Les <strong>documents</strong> constituent la <strong>brique de base</strong> de la base de données.</p></li>
-<li><p>Les documents stockent les données sous forme de <strong>paires clé-valeur</strong> (dans un format type JSON).</p></li>
-<li><p>MongoDB offre un <strong>schéma flexible</strong> :</p>
-<ul>
-<li><p>Vous pouvez commencer à <strong>stocker des données dès la création de la base de données</strong>, sans définir la structure de la base de données au préalable.</p></li>
-<li><p>Chaque document peut avoir une <strong>structure propre</strong>.</p></li>
-<li><p>Il est possible de stocker des <strong>données structurées</strong> (ex: nom, age, numéro de téléphone), <strong>non structurées</strong> (ex: transcription d’une conversation téléphonique), et d’une <strong>complexité variable</strong> (ex: document imbriqué, liste).</p></li>
-</ul>
-</li>
-<li><p>Les documents présentant des similarités sur le plan structurel ou conceptuel sont regroupés en <strong>collections</strong>.</p></li>
-</ul>
-<p>Dans ce chapitre vous avez manipulé les fonctions suivantes :</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Objectif</p></th>
-<th class="head"><p>Syntaxe</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Lister les bases de données présentes sur le serveur</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">dbs</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Créer ou sélectionner une base de données</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">use</span> <span class="pre">&lt;database&gt;</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Créer explicitement une collection</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">db.createCollection(&quot;&lt;collection&gt;&quot;)</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Lister l’ensemble des collections d’une base de données</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">collections</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Ajouter un document dans une collection</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.insertOne(&lt;document&gt;)</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Ajouter plusieurs documents dans une collection</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.insertMany(&lt;document_array&gt;)</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Afficher le nombre de documents dans une collection</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">db.&lt;collection&gt;.countDocuments()</span></code></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Vous savez également importer des données dans MongoDB avec <code class="docutils literal notranslate"><span class="pre">mongoimport</span></code>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>N’oubliez pas d’arrêtez MongoDB quand vous avez terminé !</p>
-<div class="tab-set docutils">
-<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Windows</label><div class="tab-content docutils">
-<p>(à venir)</p>
-</div>
-<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Linux</label><div class="tab-content docutils">
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo systemctl stop mongod</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -805,12 +432,12 @@ Cette somme sera créditée sous 3 jours sur le compte que vous avez indiqué.</
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="01_installation.html"
+       href="01_cypher.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Installation de MongoDB</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Langage Cypher</p>
       </div>
     </a>
     <a class="right-next"
@@ -828,25 +455,6 @@ Cette somme sera créditée sous 3 jours sur le compte que vous avez indiqué.</
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demarrage">2.1. Démarrage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-base-de-donnees">2.2. Créer une base de données</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ajouter-des-donnees">2.3. Ajouter des données</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">2.4. Exercice</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#en-resume">2.5. En résumé</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
