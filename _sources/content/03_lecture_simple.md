@@ -17,14 +17,19 @@ kernelspec:
 
 source : [documentation Neo4j](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
 
-La clause `MATCH` permet de spécifier les motifs à rechercher dans le graphe de données. La syntaxe générale est la suivante :  
+Dans Cypher, le comportement d'une requête est défini par ses **clauses**, i.e les différentes étapes qui la composent. 
+Chaque clause prend l'**état actuel du graphe** et un tableau de **résultats intermédiaires**, les traite, 
+puis transmet l'**état mis à jour** du graphe et les **résultats** à la **clause suivante**. 
+
+La première clause d'une instruction Cypher est généralement `MATCH`. 
+Elle permet de **spécifier les motifs à rechercher dans le graphe** de données. La syntaxe générale est la suivante :  
 ```sql
 MATCH ...   
 ... 
 RETURN ...  
 ``` 
   
-`RETURN` permet de définir les noeuds, les relations et les propriétés à inclure dans le résultat de la requête.
+`RETURN` permet de définir les noeuds, les relations et les propriétés à inclure dans le **résultat de la requête**.
 
 
 ````{admonition} Example
@@ -32,43 +37,42 @@ RETURN ...
 
 Nous allons utiliser l'un des jeux de données mis à disposition par Neo4j. 
 Rendez-vous sur https://sandbox.neo4j.com/. Créez un compte. 
-Créez un nouveau projet et cliquez sur la tuile "Recommendations" dans la section "Pre-built data".   
-```
+Créez un nouveau projet et cliquez sur la tuile "Movies" dans la section "Pre-built data".   
+````
 
 ## Requête sur les noeuds 
 
-Dans Neo4j, vous pouvez effectuer des requêtes à partir des labels et des propriétés des noeuds. 
+Dans Neo4j, vous pouvez effectuer des requêtes à partir des **labels** et des **propriétés** des **noeuds**. 
 La syntaxe est la suivante :  
 ```
 MATCH (<node>:<Label>{<key>:<value>,...})                           
 RETURN ...  
 ```
 où :
-- `<node>` : nom de variable 
+- `<node>` : nom de la variable qui pointera vers les noeuds sélectionnés, si besoin 
 - `<Label>` : label 
 - `{<key>:<value>,...}` : propriétés 
 
-Il est nécessaire de lier les noeuds sélectionnés à une variable si vous souhaitez y accéder dans les clauses suivantes, et notamment dans `RETURN`. 
-Le nom des variables peuvent être des lettres ou des mots isolés, et doivent être écrites en minuscules.        
+Il est nécessaire de **lier** les **noeuds sélectionnés** à une **variable** si vous souhaitez **y accéder dans les clauses suivantes**, et notamment dans `RETURN`. 
+Les noms des variables peuvent être des lettres ou des mots isolés, et doivent être écrites en **minuscules**.        
 
-Il est possible d'accéder aux propriétés d'un noeud via la syntaxe : `<node>.<key>`. 
+Il est possible d'**accéder aux propriétés d'un noeud** via la syntaxe : `<node>.<key>`. 
 Cette syntaxe est utile lorsque vous ne souhaitez retourner que certaines informations. 
-Utilisez une virgule pour lister toutes les informations que vous souhaitez renvoyer.          
+Utilisez une **virgule** pour lister toutes les informations que vous souhaitez renvoyer avec `RETURN`. 
+Vous pouvez utiliser `AS` pour formatter le résultat dans `RETURN`.
 
-Vous pouvez utiliser `AS` pour formatter le résultat.
-
-Si aucune condition sur les labels ou les propriétés n'est spécifiée, tous les noeuds du graphe sont retournés :  
+Si **aucune condition** sur les labels ou les propriétés n'est spécifiée, tous les noeuds du graphe sont retournés :  
 ```sql
 MATCH (n)
 RETURN n
 ````
-Vous pouvez filtrer les noeuds à partir de leurs labels. La syntaxe est la suivante : `(<node>:<Label>)`.   
-Vous pouvez spécifier pusieurs labels à l'aide des opérateurs suivants :
-- `|` qui correspond au OU logique, syntaxe : `(<node>:<Label1>|<Label2>...)` 
-- `&` qui correspond au ET logique, syntaxe : `(<node>:<Label1>&<Label2>...` 
+Vous pouvez filtrer les noeuds à partir de leurs **labels**. La syntaxe est la suivante : `(<node>:<Label>)`.   
+Vous pouvez spécifier **plusieurs labels** à l'aide des opérateurs suivants :
+- `|` qui correspond au **OU** logique, syntaxe : `(<node>:<Label1>|<Label2>...)` 
+- `&` qui correspond au **ET** logique, syntaxe : `(<node>:<Label1>&<Label2>...` 
   
-Il est possible de combiner les deux, en écrivant par exemple : `(<node>:(<Label1>&<Label2>)|<Label3>)`.     
-Vous pouvez spécifier les labels à exclure à l'aide de `!`. La syntaxe est la suivante : `(<node>:!<Label>)`.    
+Il est possible de **combiner les deux**, en écrivant par exemple : `(<node>:(<Label1>&<Label2>)|<Label3>)`.     
+Vous pouvez spécifier les **labels à exclure** à l'aide de `!`. La syntaxe est la suivante : `(<node>:!<Label>)`.    
 
 
 ````{admonition} Example
@@ -91,11 +95,11 @@ RETURN n
 ```
 ````
 
-Vous pouvez filtrer les noeuds à partir de leurs labels et de leurs propriétés. La syntaxe est la suivante : `((<node>:<Label>){<key>:<value>,...})`
+Vous pouvez filtrer les noeuds à partir de leurs labels et de leurs **propriétés**. La syntaxe est la suivante : `(<node>:<Label>{<key>:<value>,...})`
 ````{admonition} Example
 :class: tip
 
-La commande pour retourner toutes les personnes qui se nomment `Olivier Stone` est la suivante :  
+La commande pour retourner toutes les personnes qui se nomment `Tom Hanks` est la suivante :  
 ```
 MATCH (p:Person{name:'Tom Hanks'})
 RETURN p
@@ -104,28 +108,29 @@ RETURN p
 
 ## Requête sur les relations
 
-Dans Neo4j, vous pouvez rechercher des motifs dans le graphe. Les motifs sont une combinaison de noeuds et de relations. 
-Toute requête impliquant une relation doit obligatoirement rattacher la relation à deux noeuds, un noeud de départ et un noeud d'arrivée. 
+Dans Neo4j, vous pouvez rechercher des **motifs** dans le graphe. Les motifs sont une **combinaison de noeuds et de relations**. 
+Toute requête impliquant une **relation** doit **obligatoirement** rattacher la relation à deux noeuds : un **noeud de départ** et un **noeud d'arrivée**.    
 La syntaxe générale est la suivante (l'orientation de la flèche est purement illustrative) :
 ```
-MATCH (<start_node>)-[<relationship>:<TYPE> {<key>:<value>,...}]->(<end_node>)
+MATCH (<start_node>)-[<relationship>:<TYPE>{<key>:<value>,...}]->(<end_node>)
 RETURN ...
 ```
 où :
 - `<start_node>`, `<end_node>` : noeuds tels que définis à la section précédente 
-- `<relationship>` : nom de variable
-- `<TYPE>` : label de la relation
+- `<relationship>` : nom de la variable qui pointera vers les relations sélectionnées, si besoin
+- `<TYPE>` : type de la relation
 - `{<key>:<value>,...}` : propriétés
 
-Comme pour les noeuds, si vous souhaitez accéder aux relations sélectionnées par votre requête dans les clauses suivantes, 
-il est nécessaire de les lier à une variable.    
+Comme pour les noeuds, si vous souhaitez **accéder aux relations sélectionnées** par votre requête **dans les clauses suivantes**, 
+il est nécessaire de les lier à une **variable**.    
 
-Il est possible d'accéder aux propriétés d'une relation via la syntaxe : `<relationship>.<key>`. 
-Vous pouvez ne spécifier aucune direction pour la ou les relations en écrivant : `--`. 
-La direction d'une relation peut être spécifiée à l'aide d'une flèche : `-->` ou `<--`. 
-Vous pouvez utiliser `AS` pour formatter le résultat. Vous pouvez spécifier plusieurs types simultanément à l'aide de l'opérateur `|` (OU logique).   
+Il est possible d'accéder aux **propriétés** d'une relation via la syntaxe : `<relationship>.<key>`. 
+Vous pouvez ne spécifier **aucune direction** pour la ou les relations en écrivant : `--`. 
+La **direction** d'une relation peut être spécifiée à l'aide d'une flèche : `-->` ou `<--`. 
+Vous pouvez utiliser `AS` pour formatter le résultat. Vous pouvez **spécifier plusieurs types** simultanément à l'aide de l'opérateur `|` (OU logique). 
+Vous pouvez spécifier les **types à exclure** à l'aide de `!`.   
 
-Si aucune condition sur le type ou les propriétés de la relation n'est spécifiée, toutes les relations connectées à un ou plusieurs noeuds sont retournées :
+Si **aucune condition** sur le type ou les propriétés de la relation n'est spécifiée, **toutes les relations connectées à un ou plusieurs noeuds** sont retournées :
 ````{admonition} Example
 :class: tip
 
@@ -134,9 +139,9 @@ Si aucune condition sur le type ou les propriétés de la relation n'est spécif
 MATCH (:Person {name:'Lana Wachowski'})--(n)
 RETURN n AS connectedNodes
 ```
-Notez que nous n'avons pas défini de variable pour la relation, car seul les noeuds reliés au noeud du réalisateur Oliver Stone nous intéressaient.  
+Notez que nous n'avons pas défini de variable pour la relation ni pour le noeud de la réalisatrice, car seul les noeuds reliés au noeud de `Lana Wachowski` nous intéressaient.  
 
-**Exemple n°2**: Pour renvoyer simultanément le noeud de la réalisatrive `Lana Wachowski`, toutes les relations qui partent ou pointent vers ce noeud, ainsi que les noeuds connectés, tapez :  
+**Exemple n°2**: Pour renvoyer simultanément le noeud de la réalisatrive `Lana Wachowski`, toutes les relations qui partent ou pointent vers ce noeud, ainsi que tous les noeuds connectés, tapez :  
 ```
 MATCH (p:Person {name:'Lana Wachowski'})-[r]-(n)
 RETURN p, r, n
@@ -147,7 +152,7 @@ MATCH (:Person {name:'Lana Wachowski'})-->(movie:Movie)
 RETURN movie.title AS movieTitle
 ```
 ````
-Vous pouvez également affiner la rechercher en spécifiant un type et des propriétés pour les relations. La syntaxe est la suivante : `[<relationship>:<TYPE>{<key>:<value>,...}]`.  
+Vous pouvez également affiner la rechercher en spécifiant un **type** et des **propriétés** pour les relations. La syntaxe est la suivante : `[<relationship>:<TYPE>{<key>:<value>,...}]`.  
 ````{admonition} Example
 :class: tip
 
@@ -165,7 +170,7 @@ RETURN a.name AS name, b.title AS title
 :::{caution}
 Exécutez la commande suivante :  
 ```
-MATCH (a)-[:ACTED_IN {role: 'Bud Fox'}]-(b)
+MATCH (a)-[:ACTED_IN {role:'Bud Fox'}]-(b)
 RETURN a, b
 ```
 Que remarquez-vous ? Ne pas spécifier de direction dégrade les performances : Neo4j doit traverser le graphe dans les deux sens. 
@@ -174,12 +179,12 @@ De façon générale, soyez le plus précis possible dans vos requêtes pour am�
 
 ## Requête à partir de motifs complexes
 
-Il est possible de construire des motifs plus complexes dans le graphe de données : vous pouvez inclure plusieurs relations et plusieurs noeuds dans le motif de requête.  
+Il est possible de construire des **motifs plus complexes** dans le graphe de données : vous pouvez inclure **plusieurs relations** et **plusieurs noeuds** dans le motif de requête.  
 
 ````{admonition} Example
 :class: tip
 
-**Exemple n°1** : Dans quel(s) film(s) réalisé(s) par `Rob Reiner` l'acteur `Martin Sheen` a-t-il joué ?
+**Exemple n°1** : Dans quel(s) film(s) réalisé(s) (`DIRECTED`) par `Rob Reiner` l'acteur `Martin Sheen` a-t-il joué ?
 ```
 MATCH (:Person {name:'Martin Sheen'})-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(:Person {name:'Rob Reiner'})
 RETURN movie.title AS title
@@ -191,7 +196,8 @@ RETURN movie.title AS title, director.name AS director
 ```
 ````
 
-Vous pouvez aussi réaliser des requêtes en posant des conditions sur la longueur du chemin reliant deux noeuds :
+Vous pouvez aussi réaliser des requêtes en posant des conditions sur la longueur du chemin reliant deux noeuds. 
+La longueur d'un chemin correspond au nombre d'arêtes qu'il faut emprunter pour aller d'une extrémité du chemin à l'autre :
 - `[*]` : chemin de longueur quelconque  
 - `[*<number>]` : chemin de longueur `<number>`  
 - `[*<number1>..<number2>]` : chemin dont la longueur est comprise entre `<number1>` et `<number2>` ; si `<number1>` n'est pas spécifié, la valeur par défaut est 0, si `<number2>` n'est pas spécifié la valeurs par défaut est l'infini   
@@ -205,16 +211,48 @@ MATCH path = SHORTEST 1 ((:Person{name:"Tom Hanks"})-[*]-(:Person{name:"Robin Wi
 RETURN path
 ```
 ````
+## Requête à plusieurs motifs
+
+Il est possible de sélectionner des noeuds, des relations ou une partie du graphe en fonction d'un **ensemble de motifs**, plutôt que d'un motif unique. 
+Les premiers exemples de la section précédente peuvent d'ailleurs être réécrits comme une requête à plusieurs motifs (voir ci-dessous). 
+Ces motifs peuvent être définis les uns après les autres au sein d'une même clause `MATCH`--les virgules jouent alors le rôle de ET logique--ou dans plusieurs clauses `MATCH` successives. 
+Chacun des motifs doit faire appel à au moins l'une des variables définies au sein des motifs précédents. 
+
+
+````{admonition} Example
+:class: tip
+
+D'après vous, que fait cette requête ?
+```
+MATCH (:Movie{title:"Ninja Assassin"})<-[:ACTED_IN]-(p:Person)-[:ACTED_IN]->(:Movie{title:"Speed Racer"})
+RETURN DISTINCT p.name as actor
+```
+On peut également écrire cette requête ainsi :
+```
+MATCH (p:Person)-[:ACTED_IN]->(:Movie{title:"Speed Racer"}), (p)-[:ACTED_IN]->(:Movie{title:"Ninja Assassin"})
+RETURN DISTINCT p.name as actor
+```
+Ou encore ainsi :
+```
+MATCH (p:Person)-[:ACTED_IN]->(:Movie{title:"Speed Racer"})
+MATCH (p)-[:ACTED_IN]->(:Movie{title:"Ninja Assassin"})
+RETURN DISTINCT p.name as actor
+```
+````
 
 ## Quelques fonctions utiles   
 
-Neo4j met à disposition un certain nombre de fonctions. Voir la [documentation](https://neo4j.com/docs/cypher-manual/current/functions/).
+Neo4j met à disposition un certain nombre de fonctions. Voir la [documentation](https://neo4j.com/docs/cypher-manual/current/functions/).   
+
+Les fonctions suivantes fournissent des informations utiles concernant le graphe :  
 
 | Graphe | Description |
 |:---:|:---|
 | `labels()` |  Récupérer sous forme de liste tous les labels des noeuds sélectionnés  |  
 | `keys()` | Récupérer toutes les clés de propriété des noeuds ou relations sélectionnés |
 | `type()` | Récupérer le type d'une ou plusieurs relations | 
+
+Les fonctions suivantes sont des fonctions d'agrégation :  
 
 | Agrégation | Description |
 |:---:|:---|
@@ -225,8 +263,8 @@ Neo4j met à disposition un certain nombre de fonctions. Voir la [documentation]
 | `collect()` | Récupérer sous forme de liste les valeurs retournées par une expression |
 | `count()` | Compter le nombre d'éléments. `count(*)` pour le nombre total, `count(<expression>)` pour le nombre d'éléments hors valeurs manquantes, `count(DISTINCT <expression>)` pour le nombre d'éléments distincts | 
 
-Faire précéder les fonctions d'agrégation par d'autres expressions revient à grouper les éléments en fonction de ces expressions, 
-puis à appliquer les fonctions d'agrégation à chacun des groupes.  
+Faire précéder les fonctions d'agrégation par d'autres expressions revient à **grouper les éléments** en fonction de ces expressions, 
+puis à **appliquer les fonctions d'agrégation à chacun des groupes**.  
 
 Autre | Description    
 :---:|:---
@@ -238,7 +276,7 @@ Autre | Description
 
 **Exemple n°1** : Pour compter le nombre de noeuds dont l'un des labels est `Person`, tapez : 
 ```sql
-MATCH (p:Person)
+MATCH (:Person)
 RETURN count(*)
 ```
 **Exemple n°2** : Pour afficher les différents types de relation et le nombre de relations par type : 
@@ -289,14 +327,27 @@ Utilisez la propriété `rating` des relations `REVIEWED` et la propriété `tit
 
 Voir 3.1.3.
 ```
+10. Qui a déjà à la fois réalisé un film et joué dans un film au cours de sa carrière ?
+```{admonition} Aide
+:class: dropdown
+
+Voir 3.1.4.
+```
+11. Afficher le nombre d'acteurs par date de naissance.
+```{admonition} Aide
+:class: dropdown
+
+Voir 3.1.5. Équivalent d'un `GROUP BY`.
+```
+
 
 ```{admonition} Bonus
 :class: dropdown
 
-10. Quels acteurs ont joué avec des co-acteurs de `Natalie Portman` ?   
+12. Quels acteurs ont joué avec des co-acteurs de `Natalie Portman` ?   
   
 **Note** : Aucun des co-co-acteurs de Natalie Portman n'a joué avec elle dans un film. 
-Autrement dit : personne n'est à la fois co-acteur sur un film et co-co-acteur sur un autre film.
+Autrement dit : personne n'est à la fois co-acteur de Natalie Portman sur un film et co-co-acteur de Natalie Portman sur un autre film.
 
 ```
   

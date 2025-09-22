@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/03_lecture_simple';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3.2. Requête avec sous-clauses" href="03_lecture_sousclause.html" />
+    <link rel="next" title="3.2. Requête complexe" href="03_lecture_sousclause.html" />
     <link rel="prev" title="3. CRUD : Lecture" href="03_lecture.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -181,8 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Requête simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête avec sous-clauses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_agregation.html">3.3. Requête d’agrégation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête complexe</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
@@ -382,10 +381,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-relations">3.1.1. Requête sur les relations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-partir-de-motifs-complexes">3.1.2. Requête à partir de motifs complexes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quelques-fonctions-utiles">3.1.3. Quelques fonctions utiles</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.1.4. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-noeuds">3.1.1. Requête sur les noeuds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-relations">3.1.2. Requête sur les relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-partir-de-motifs-complexes">3.1.3. Requête à partir de motifs complexes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-plusieurs-motifs">3.1.4. Requête à plusieurs motifs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quelques-fonctions-utiles">3.1.5. Quelques fonctions utiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.1.6. Exercice</a></li>
 </ul>
             </nav>
         </div>
@@ -400,56 +401,56 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="requete-simple">
 <h1><span class="section-number">3.1. </span>Requête simple<a class="headerlink" href="#requete-simple" title="Link to this heading">#</a></h1>
 <p>source : <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/match/">documentation Neo4j</a></p>
-<p>La clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> permet de spécifier les motifs à rechercher dans le graphe de données. La syntaxe générale est la suivante :</p>
+<p>Dans Cypher, le comportement d’une requête est défini par ses <strong>clauses</strong>, i.e les différentes étapes qui la composent.
+Chaque clause prend l’<strong>état actuel du graphe</strong> et un tableau de <strong>résultats intermédiaires</strong>, les traite,
+puis transmet l’<strong>état mis à jour</strong> du graphe et les <strong>résultats</strong> à la <strong>clause suivante</strong>.</p>
+<p>La première clause d’une instruction Cypher est généralement <code class="docutils literal notranslate"><span class="pre">MATCH</span></code>.
+Elle permet de <strong>spécifier les motifs à rechercher dans le graphe</strong> de données. La syntaxe générale est la suivante :</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">...</span><span class="w">   </span>
 <span class="p">...</span><span class="w"> </span>
 <span class="k">RETURN</span><span class="w"> </span><span class="p">...</span><span class="w">  </span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">RETURN</span></code> permet de définir les noeuds, les relations et les propriétés à inclure dans le résultat de la requête.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RETURN</span></code> permet de définir les noeuds, les relations et les propriétés à inclure dans le <strong>résultat de la requête</strong>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <p>Nous allons utiliser l’un des jeux de données mis à disposition par Neo4j.
 Rendez-vous sur <a class="reference external" href="https://sandbox.neo4j.com/">https://sandbox.neo4j.com/</a>. Créez un compte.
-Créez un nouveau projet et cliquez sur la tuile “Recommendations” dans la section “Pre-built data”.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="c1">## Requête sur les noeuds </span>
-
-<span class="n">Dans</span> <span class="n">Neo4j</span><span class="p">,</span> <span class="n">vous</span> <span class="n">pouvez</span> <span class="n">effectuer</span> <span class="n">des</span> <span class="n">requêtes</span> <span class="n">à</span> <span class="n">partir</span> <span class="n">des</span> <span class="n">labels</span> <span class="n">et</span> <span class="n">des</span> <span class="n">propriétés</span> <span class="n">des</span> <span class="n">noeuds</span><span class="o">.</span> 
-<span class="n">La</span> <span class="n">syntaxe</span> <span class="n">est</span> <span class="n">la</span> <span class="n">suivante</span> <span class="p">:</span>  
+Créez un nouveau projet et cliquez sur la tuile “Movies” dans la section “Pre-built data”.</p>
+</div>
+<section id="requete-sur-les-noeuds">
+<h2><span class="section-number">3.1.1. </span>Requête sur les noeuds<a class="headerlink" href="#requete-sur-les-noeuds" title="Link to this heading">#</a></h2>
+<p>Dans Neo4j, vous pouvez effectuer des requêtes à partir des <strong>labels</strong> et des <strong>propriétés</strong> des <strong>noeuds</strong>.
+La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">Label</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">})</span>                           
+<span class="n">RETURN</span> <span class="o">...</span>  
 </pre></div>
 </div>
-<p>MATCH (<node>:<Label>{<key>:<value>,…})<br />
-RETURN …</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>où :
-- `&lt;node&gt;` : nom de variable 
-- `&lt;Label&gt;` : label 
-- `{&lt;key&gt;:&lt;value&gt;,...}` : propriétés 
-
-Il est nécessaire de lier les noeuds sélectionnés à une variable si vous souhaitez y accéder dans les clauses suivantes, et notamment dans `RETURN`. 
-Le nom des variables peuvent être des lettres ou des mots isolés, et doivent être écrites en minuscules.        
-
-Il est possible d&#39;accéder aux propriétés d&#39;un noeud via la syntaxe : `&lt;node&gt;.&lt;key&gt;`. 
-Cette syntaxe est utile lorsque vous ne souhaitez retourner que certaines informations. 
-Utilisez une virgule pour lister toutes les informations que vous souhaitez renvoyer.          
-
-Vous pouvez utiliser `AS` pour formatter le résultat.
-
-Si aucune condition sur les labels ou les propriétés n&#39;est spécifiée, tous les noeuds du graphe sont retournés :  
-```sql
-MATCH (n)
-RETURN n
-</pre></div>
-</div>
-</div>
-<p>Vous pouvez filtrer les noeuds à partir de leurs labels. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label&gt;)</span></code>.<br />
-Vous pouvez spécifier pusieurs labels à l’aide des opérateurs suivants :</p>
+<p>où :</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code> qui correspond au OU logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;|&lt;Label2&gt;...)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code> qui correspond au ET logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;&amp;&lt;Label2&gt;...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;node&gt;</span></code> : nom de la variable qui pointera vers les noeuds sélectionnés, si besoin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;Label&gt;</span></code> : label</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;,...}</span></code> : propriétés</p></li>
 </ul>
-<p>Il est possible de combiner les deux, en écrivant par exemple : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:(&lt;Label1&gt;&amp;&lt;Label2&gt;)|&lt;Label3&gt;)</span></code>.<br />
-Vous pouvez spécifier les labels à exclure à l’aide de <code class="docutils literal notranslate"><span class="pre">!</span></code>. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:!&lt;Label&gt;)</span></code>.</p>
+<p>Il est nécessaire de <strong>lier</strong> les <strong>noeuds sélectionnés</strong> à une <strong>variable</strong> si vous souhaitez <strong>y accéder dans les clauses suivantes</strong>, et notamment dans <code class="docutils literal notranslate"><span class="pre">RETURN</span></code>.
+Les noms des variables peuvent être des lettres ou des mots isolés, et doivent être écrites en <strong>minuscules</strong>.</p>
+<p>Il est possible d’<strong>accéder aux propriétés d’un noeud</strong> via la syntaxe : <code class="docutils literal notranslate"><span class="pre">&lt;node&gt;.&lt;key&gt;</span></code>.
+Cette syntaxe est utile lorsque vous ne souhaitez retourner que certaines informations.
+Utilisez une <strong>virgule</strong> pour lister toutes les informations que vous souhaitez renvoyer avec <code class="docutils literal notranslate"><span class="pre">RETURN</span></code>.
+Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">AS</span></code> pour formatter le résultat dans <code class="docutils literal notranslate"><span class="pre">RETURN</span></code>.</p>
+<p>Si <strong>aucune condition</strong> sur les labels ou les propriétés n’est spécifiée, tous les noeuds du graphe sont retournés :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">n</span>
+</pre></div>
+</div>
+<p>Vous pouvez filtrer les noeuds à partir de leurs <strong>labels</strong>. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label&gt;)</span></code>.<br />
+Vous pouvez spécifier <strong>plusieurs labels</strong> à l’aide des opérateurs suivants :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code> qui correspond au <strong>OU</strong> logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;|&lt;Label2&gt;...)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code> qui correspond au <strong>ET</strong> logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;&amp;&lt;Label2&gt;...</span></code></p></li>
+</ul>
+<p>Il est possible de <strong>combiner les deux</strong>, en écrivant par exemple : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:(&lt;Label1&gt;&amp;&lt;Label2&gt;)|&lt;Label3&gt;)</span></code>.<br />
+Vous pouvez spécifier les <strong>labels à exclure</strong> à l’aide de <code class="docutils literal notranslate"><span class="pre">!</span></code>. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:!&lt;Label&gt;)</span></code>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <p><strong>Exemple n°1</strong>: Pour retourner le titre (<code class="docutils literal notranslate"><span class="pre">title</span></code>) de tous les films (<code class="docutils literal notranslate"><span class="pre">Movie</span></code>) du jeu de données, tapez :</p>
@@ -468,38 +469,40 @@ Vous pouvez spécifier les labels à exclure à l’aide de <code class="docutil
 </pre></div>
 </div>
 </div>
-<p>Vous pouvez filtrer les noeuds à partir de leurs labels et de leurs propriétés. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">((&lt;node&gt;:&lt;Label&gt;){&lt;key&gt;:&lt;value&gt;,...})</span></code></p>
+<p>Vous pouvez filtrer les noeuds à partir de leurs labels et de leurs <strong>propriétés</strong>. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label&gt;{&lt;key&gt;:&lt;value&gt;,...})</span></code></p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p>La commande pour retourner toutes les personnes qui se nomment <code class="docutils literal notranslate"><span class="pre">Olivier</span> <span class="pre">Stone</span></code> est la suivante :</p>
+<p>La commande pour retourner toutes les personnes qui se nomment <code class="docutils literal notranslate"><span class="pre">Tom</span> <span class="pre">Hanks</span></code> est la suivante :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Tom Hanks&#39;</span><span class="p">})</span>
 <span class="n">RETURN</span> <span class="n">p</span>
 </pre></div>
 </div>
 </div>
+</section>
 <section id="requete-sur-les-relations">
-<h2><span class="section-number">3.1.1. </span>Requête sur les relations<a class="headerlink" href="#requete-sur-les-relations" title="Link to this heading">#</a></h2>
-<p>Dans Neo4j, vous pouvez rechercher des motifs dans le graphe. Les motifs sont une combinaison de noeuds et de relations.
-Toute requête impliquant une relation doit obligatoirement rattacher la relation à deux noeuds, un noeud de départ et un noeud d’arrivée.
+<h2><span class="section-number">3.1.2. </span>Requête sur les relations<a class="headerlink" href="#requete-sur-les-relations" title="Link to this heading">#</a></h2>
+<p>Dans Neo4j, vous pouvez rechercher des <strong>motifs</strong> dans le graphe. Les motifs sont une <strong>combinaison de noeuds et de relations</strong>.
+Toute requête impliquant une <strong>relation</strong> doit <strong>obligatoirement</strong> rattacher la relation à deux noeuds : un <strong>noeud de départ</strong> et un <strong>noeud d’arrivée</strong>.<br />
 La syntaxe générale est la suivante (l’orientation de la flèche est purement illustrative) :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">start_node</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">&lt;</span><span class="n">relationship</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="o">&gt;</span> <span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">end_node</span><span class="o">&gt;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">start_node</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">&lt;</span><span class="n">relationship</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">end_node</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="n">RETURN</span> <span class="o">...</span>
 </pre></div>
 </div>
 <p>où :</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;start_node&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;end_node&gt;</span></code> : noeuds tels que définis à la section précédente</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;</span></code> : nom de variable</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&lt;TYPE&gt;</span></code> : label de la relation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;</span></code> : nom de la variable qui pointera vers les relations sélectionnées, si besoin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;TYPE&gt;</span></code> : type de la relation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;,...}</span></code> : propriétés</p></li>
 </ul>
-<p>Comme pour les noeuds, si vous souhaitez accéder aux relations sélectionnées par votre requête dans les clauses suivantes,
-il est nécessaire de les lier à une variable.</p>
-<p>Il est possible d’accéder aux propriétés d’une relation via la syntaxe : <code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;.&lt;key&gt;</span></code>.
-Vous pouvez ne spécifier aucune direction pour la ou les relations en écrivant : <code class="docutils literal notranslate"><span class="pre">--</span></code>.
-La direction d’une relation peut être spécifiée à l’aide d’une flèche : <code class="docutils literal notranslate"><span class="pre">--&gt;</span></code> ou <code class="docutils literal notranslate"><span class="pre">&lt;--</span></code>.
-Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">AS</span></code> pour formatter le résultat. Vous pouvez spécifier plusieurs types simultanément à l’aide de l’opérateur <code class="docutils literal notranslate"><span class="pre">|</span></code> (OU logique).</p>
-<p>Si aucune condition sur le type ou les propriétés de la relation n’est spécifiée, toutes les relations connectées à un ou plusieurs noeuds sont retournées :</p>
+<p>Comme pour les noeuds, si vous souhaitez <strong>accéder aux relations sélectionnées</strong> par votre requête <strong>dans les clauses suivantes</strong>,
+il est nécessaire de les lier à une <strong>variable</strong>.</p>
+<p>Il est possible d’accéder aux <strong>propriétés</strong> d’une relation via la syntaxe : <code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;.&lt;key&gt;</span></code>.
+Vous pouvez ne spécifier <strong>aucune direction</strong> pour la ou les relations en écrivant : <code class="docutils literal notranslate"><span class="pre">--</span></code>.
+La <strong>direction</strong> d’une relation peut être spécifiée à l’aide d’une flèche : <code class="docutils literal notranslate"><span class="pre">--&gt;</span></code> ou <code class="docutils literal notranslate"><span class="pre">&lt;--</span></code>.
+Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">AS</span></code> pour formatter le résultat. Vous pouvez <strong>spécifier plusieurs types</strong> simultanément à l’aide de l’opérateur <code class="docutils literal notranslate"><span class="pre">|</span></code> (OU logique).
+Vous pouvez spécifier les <strong>types à exclure</strong> à l’aide de <code class="docutils literal notranslate"><span class="pre">!</span></code>.</p>
+<p>Si <strong>aucune condition</strong> sur le type ou les propriétés de la relation n’est spécifiée, <strong>toutes les relations connectées à un ou plusieurs noeuds</strong> sont retournées :</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <p><strong>Exemple n°1</strong>: Pour renvoyer tous les noeuds connectés au noeud de la réalisatrice <code class="docutils literal notranslate"><span class="pre">Lana</span> <span class="pre">Wachowski</span></code> quelque soit la direction de la relation, tapez :</p>
@@ -507,8 +510,8 @@ Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre
 <span class="n">RETURN</span> <span class="n">n</span> <span class="n">AS</span> <span class="n">connectedNodes</span>
 </pre></div>
 </div>
-<p>Notez que nous n’avons pas défini de variable pour la relation, car seul les noeuds reliés au noeud du réalisateur Oliver Stone nous intéressaient.</p>
-<p><strong>Exemple n°2</strong>: Pour renvoyer simultanément le noeud de la réalisatrive <code class="docutils literal notranslate"><span class="pre">Lana</span> <span class="pre">Wachowski</span></code>, toutes les relations qui partent ou pointent vers ce noeud, ainsi que les noeuds connectés, tapez :</p>
+<p>Notez que nous n’avons pas défini de variable pour la relation ni pour le noeud de la réalisatrice, car seul les noeuds reliés au noeud de <code class="docutils literal notranslate"><span class="pre">Lana</span> <span class="pre">Wachowski</span></code> nous intéressaient.</p>
+<p><strong>Exemple n°2</strong>: Pour renvoyer simultanément le noeud de la réalisatrive <code class="docutils literal notranslate"><span class="pre">Lana</span> <span class="pre">Wachowski</span></code>, toutes les relations qui partent ou pointent vers ce noeud, ainsi que tous les noeuds connectés, tapez :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Lana Wachowski&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <span class="n">RETURN</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">n</span>
 </pre></div>
@@ -519,7 +522,7 @@ Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 </div>
-<p>Vous pouvez également affiner la rechercher en spécifiant un type et des propriétés pour les relations. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">[&lt;relationship&gt;:&lt;TYPE&gt;{&lt;key&gt;:&lt;value&gt;,...}]</span></code>.</p>
+<p>Vous pouvez également affiner la rechercher en spécifiant un <strong>type</strong> et des <strong>propriétés</strong> pour les relations. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">[&lt;relationship&gt;:&lt;TYPE&gt;{&lt;key&gt;:&lt;value&gt;,...}]</span></code>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <p><strong>Exemple n°1</strong> : La commande suivante permet d’extraire le nom des acteurs qui ont joué (<code class="docutils literal notranslate"><span class="pre">ACTED_IN</span></code>) dans le film <code class="docutils literal notranslate"><span class="pre">Wall</span> <span class="pre">Street</span></code> :</p>
@@ -536,7 +539,7 @@ Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>Exécutez la commande suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span> <span class="p">{</span><span class="n">role</span><span class="p">:</span> <span class="s1">&#39;Bud Fox&#39;</span><span class="p">}]</span><span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span> <span class="p">{</span><span class="n">role</span><span class="p">:</span><span class="s1">&#39;Bud Fox&#39;</span><span class="p">}]</span><span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 <span class="n">RETURN</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
 </pre></div>
 </div>
@@ -545,11 +548,11 @@ De façon générale, soyez le plus précis possible dans vos requêtes pour am�
 </div>
 </section>
 <section id="requete-a-partir-de-motifs-complexes">
-<h2><span class="section-number">3.1.2. </span>Requête à partir de motifs complexes<a class="headerlink" href="#requete-a-partir-de-motifs-complexes" title="Link to this heading">#</a></h2>
-<p>Il est possible de construire des motifs plus complexes dans le graphe de données : vous pouvez inclure plusieurs relations et plusieurs noeuds dans le motif de requête.</p>
+<h2><span class="section-number">3.1.3. </span>Requête à partir de motifs complexes<a class="headerlink" href="#requete-a-partir-de-motifs-complexes" title="Link to this heading">#</a></h2>
+<p>Il est possible de construire des <strong>motifs plus complexes</strong> dans le graphe de données : vous pouvez inclure <strong>plusieurs relations</strong> et <strong>plusieurs noeuds</strong> dans le motif de requête.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p><strong>Exemple n°1</strong> : Dans quel(s) film(s) réalisé(s) par <code class="docutils literal notranslate"><span class="pre">Rob</span> <span class="pre">Reiner</span></code> l’acteur <code class="docutils literal notranslate"><span class="pre">Martin</span> <span class="pre">Sheen</span></code> a-t-il joué ?</p>
+<p><strong>Exemple n°1</strong> : Dans quel(s) film(s) réalisé(s) (<code class="docutils literal notranslate"><span class="pre">DIRECTED</span></code>) par <code class="docutils literal notranslate"><span class="pre">Rob</span> <span class="pre">Reiner</span></code> l’acteur <code class="docutils literal notranslate"><span class="pre">Martin</span> <span class="pre">Sheen</span></code> a-t-il joué ?</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Martin Sheen&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Rob Reiner&#39;</span><span class="p">})</span>
 <span class="n">RETURN</span> <span class="n">movie</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">title</span>
 </pre></div>
@@ -560,7 +563,8 @@ De façon générale, soyez le plus précis possible dans vos requêtes pour am�
 </pre></div>
 </div>
 </div>
-<p>Vous pouvez aussi réaliser des requêtes en posant des conditions sur la longueur du chemin reliant deux noeuds :</p>
+<p>Vous pouvez aussi réaliser des requêtes en posant des conditions sur la longueur du chemin reliant deux noeuds.
+La longueur d’un chemin correspond au nombre d’arêtes qu’il faut emprunter pour aller d’une extrémité du chemin à l’autre :</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">[*]</span></code> : chemin de longueur quelconque</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">[*&lt;number&gt;]</span></code> : chemin de longueur <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code></p></li>
@@ -575,9 +579,36 @@ De façon générale, soyez le plus précis possible dans vos requêtes pour am�
 </div>
 </div>
 </section>
+<section id="requete-a-plusieurs-motifs">
+<h2><span class="section-number">3.1.4. </span>Requête à plusieurs motifs<a class="headerlink" href="#requete-a-plusieurs-motifs" title="Link to this heading">#</a></h2>
+<p>Il est possible de sélectionner des noeuds, des relations ou une partie du graphe en fonction d’un <strong>ensemble de motifs</strong>, plutôt que d’un motif unique.
+Les premiers exemples de la section précédente peuvent d’ailleurs être réécrits comme une requête à plusieurs motifs (voir ci-dessous).
+Ces motifs peuvent être définis les uns après les autres au sein d’une même clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code>–les virgules jouent alors le rôle de ET logique–ou dans plusieurs clauses <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> successives.
+Chacun des motifs doit faire appel à au moins l’une des variables définies au sein des motifs précédents.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>D’après vous, que fait cette requête ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s2">&quot;Ninja Assassin&quot;</span><span class="p">})</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s2">&quot;Speed Racer&quot;</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">DISTINCT</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">as</span> <span class="n">actor</span>
+</pre></div>
+</div>
+<p>On peut également écrire cette requête ainsi :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s2">&quot;Speed Racer&quot;</span><span class="p">}),</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s2">&quot;Ninja Assassin&quot;</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">DISTINCT</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">as</span> <span class="n">actor</span>
+</pre></div>
+</div>
+<p>Ou encore ainsi :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s2">&quot;Speed Racer&quot;</span><span class="p">})</span>
+<span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s2">&quot;Ninja Assassin&quot;</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">DISTINCT</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">as</span> <span class="n">actor</span>
+</pre></div>
+</div>
+</div>
+</section>
 <section id="quelques-fonctions-utiles">
-<h2><span class="section-number">3.1.3. </span>Quelques fonctions utiles<a class="headerlink" href="#quelques-fonctions-utiles" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1.5. </span>Quelques fonctions utiles<a class="headerlink" href="#quelques-fonctions-utiles" title="Link to this heading">#</a></h2>
 <p>Neo4j met à disposition un certain nombre de fonctions. Voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/functions/">documentation</a>.</p>
+<p>Les fonctions suivantes fournissent des informations utiles concernant le graphe :</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p>Graphe</p></th>
@@ -597,6 +628,7 @@ De façon générale, soyez le plus précis possible dans vos requêtes pour am�
 </tbody>
 </table>
 </div>
+<p>Les fonctions suivantes sont des fonctions d’agrégation :</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p>Agrégation</p></th>
@@ -625,8 +657,8 @@ De façon générale, soyez le plus précis possible dans vos requêtes pour am�
 </tbody>
 </table>
 </div>
-<p>Faire précéder les fonctions d’agrégation par d’autres expressions revient à grouper les éléments en fonction de ces expressions,
-puis à appliquer les fonctions d’agrégation à chacun des groupes.</p>
+<p>Faire précéder les fonctions d’agrégation par d’autres expressions revient à <strong>grouper les éléments</strong> en fonction de ces expressions,
+puis à <strong>appliquer les fonctions d’agrégation à chacun des groupes</strong>.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p>Autre</p></th>
@@ -646,7 +678,7 @@ puis à appliquer les fonctions d’agrégation à chacun des groupes.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <p><strong>Exemple n°1</strong> : Pour compter le nombre de noeuds dont l’un des labels est <code class="docutils literal notranslate"><span class="pre">Person</span></code>, tapez :</p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(:</span><span class="n">Person</span><span class="p">)</span>
 <span class="k">RETURN</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -672,7 +704,7 @@ on commence à grouper les relations par type puis on compte le nombre de relati
 Vous pouvez concaténer des listes ou des chaînes de caractères avec <code class="docutils literal notranslate"><span class="pre">||</span></code> ou <code class="docutils literal notranslate"><span class="pre">+</span></code>.</p>
 </section>
 <section id="exercice">
-<h2><span class="section-number">3.1.4. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1.6. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Affichez tout le graphe</p></li>
 <li><p>En quelle année est né (<code class="docutils literal notranslate"><span class="pre">born</span></code>) l’acteur <code class="docutils literal notranslate"><span class="pre">Bill</span> <span class="pre">Paxton</span></code> ?</p></li>
@@ -700,13 +732,27 @@ Vous pouvez concaténer des listes ou des chaînes de caractères avec <code cla
 <p class="admonition-title">Aide</p>
 <p>Voir 3.1.3.</p>
 </div>
+<ol class="arabic simple" start="10">
+<li><p>Qui a déjà à la fois réalisé un film et joué dans un film au cours de sa carrière ?</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Voir 3.1.4.</p>
+</div>
+<ol class="arabic simple" start="11">
+<li><p>Afficher le nombre d’acteurs par date de naissance.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Voir 3.1.5. Équivalent d’un <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>.</p>
+</div>
 <div class="dropdown admonition">
 <p class="admonition-title">Bonus</p>
-<ol class="arabic simple" start="10">
+<ol class="arabic simple" start="12">
 <li><p>Quels acteurs ont joué avec des co-acteurs de <code class="docutils literal notranslate"><span class="pre">Natalie</span> <span class="pre">Portman</span></code> ?</p></li>
 </ol>
 <p><strong>Note</strong> : Aucun des co-co-acteurs de Natalie Portman n’a joué avec elle dans un film.
-Autrement dit : personne n’est à la fois co-acteur sur un film et co-co-acteur sur un autre film.</p>
+Autrement dit : personne n’est à la fois co-acteur de Natalie Portman sur un film et co-co-acteur de Natalie Portman sur un autre film.</p>
 </div>
 </section>
 </section>
@@ -755,7 +801,7 @@ Autrement dit : personne n’est à la fois co-acteur sur un film et co-co-acteu
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3.2. </span>Requête avec sous-clauses</p>
+        <p class="prev-next-title"><span class="section-number">3.2. </span>Requête complexe</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -775,10 +821,12 @@ Autrement dit : personne n’est à la fois co-acteur sur un film et co-co-acteu
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-relations">3.1.1. Requête sur les relations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-partir-de-motifs-complexes">3.1.2. Requête à partir de motifs complexes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quelques-fonctions-utiles">3.1.3. Quelques fonctions utiles</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.1.4. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-noeuds">3.1.1. Requête sur les noeuds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-sur-les-relations">3.1.2. Requête sur les relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-partir-de-motifs-complexes">3.1.3. Requête à partir de motifs complexes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requete-a-plusieurs-motifs">3.1.4. Requête à plusieurs motifs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quelques-fonctions-utiles">3.1.5. Quelques fonctions utiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">3.1.6. Exercice</a></li>
 </ul>
   </nav></div>
 

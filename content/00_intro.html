@@ -182,8 +182,7 @@
 <li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête avec sous-clauses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_agregation.html">3.3. Requête d’agrégation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête complexe</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
@@ -397,14 +396,15 @@ document.write(`
 </ul>
 <p>Les données sont organisées en <strong>noeuds</strong> et en <strong>relations</strong>.</p>
 <ul class="simple">
-<li><p>Un <strong>noeud</strong> représente un objet concret (ex: une personne, un produit).</p></li>
+<li><p>Un <strong>noeud</strong> représente un objet concret (ex: une personne, un produit). C’est l’équivalent d’une ligne dans une base de données relationnelle.</p></li>
 <li><p>Une <strong>relation</strong> représente un lien entre deux objets (ex : “est ami avec”, “a acheté”, “travaille à”).
 Les relations sont comparables aux jointures dans les bases de données relationnelles.
-Cependant, si les jointures sont calculées <em>au moment du requêtage</em> dans les bases de données relationnelles, les relations, quant à elles, sont <em>stockées explicitement</em> dans les bases de données NoSQL orientées graphe.
+Cependant, dans les bases de données relaitonnelles, les jointures sont calculées <em>au moment du requêtage</em>.
+A contrario, dans les bases de données NoSQL orientées graphe, les relations sont <em>stockées explicitement</em>.<br />
 C’est la raison pour laquelle ces bases de données offrent de meilleures performances en lecture lorsque les données sont fortement interconnectées.</p></li>
 <li><p>Un noeud peut avoir zéro, un ou plusieurs <strong>labels</strong>. Les labels sont comparables aux tables dans les bases de données relationnelles :
 ils permettent de regrouper sous une même étiquette les noeuds qui présentent des similarités (ex: étudiants, clients).</p></li>
-<li><p>Une relation a un direction, un noeud de départ, un noeud d’arrivée, et un <strong>type</strong>. Une relation ne peut avoir qu’un seul type.</p></li>
+<li><p>Une relation a une direction, un noeud de départ, un noeud d’arrivée, et un <strong>type</strong>. Une relation ne peut avoir qu’un seul type.</p></li>
 <li><p>Les noeuds comme les relations peuvent avoir des <strong>propriétés</strong>. Les propriétés prennent la forme de <strong>paires clé-valeur</strong>.</p></li>
 </ul>
 <p>Neo4j a un <strong>schéma flexible</strong> :</p>
@@ -414,7 +414,7 @@ ils permettent de regrouper sous une même étiquette les noeuds qui présentent
 </ul>
 <figure class="align-default" id="id1">
 <img alt="../_images/graph_example.svg" src="../_images/graph_example.svg" /><figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Exemple : Movies, from: <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/match/">source</a></span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Exemple from: <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/match/">source</a></span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <div class="toctree-wrapper compound">

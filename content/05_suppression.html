@@ -180,8 +180,7 @@
 <li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_operateurs.html">3.2. Requête avec opérateurs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_agregation.html">3.3. Requête d’agrégation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête complexe</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
@@ -358,9 +357,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -376,14 +373,6 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">5.1. Exercice</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -402,36 +391,12 @@ document.write(`
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Objectif</div>
-<p class="sd-card-text">Dans ce chapitre vous apprendrez à supprimer des documents, des collections et des bases de données MongoDB.</p>
+<p class="sd-card-text">Dans ce chapitre vous apprendrez à supprimer des noeuds, des relations, voir des graphes complets.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>Pour supprimer une base de données, tapez :</p>
-<blockquote>
-<div><p>db.dropDatabase()</p>
-</div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">drop()</span></code> permet de supprimer une collection. La syntaxe est la suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">drop</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">deleteOne()</span></code> permet de supprimer un document en fonction d’un ensemble de critères. La syntaxe est la suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">deleteOne</span><span class="p">(</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Pour supprimer plusieurs documents, utilisez <code class="docutils literal notranslate"><span class="pre">deleteMany()</span></code> :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.&lt;</span><span class="n">collection</span><span class="o">&gt;.</span><span class="n">deleteMany</span><span class="p">(</span><span class="o">&lt;</span><span class="nb">filter</span><span class="o">&gt;</span><span class="p">)</span>
-</pre></div>
-</div>
-<section id="exercice">
-<h2><span class="section-number">5.1. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Dans le jeu de données <code class="docutils literal notranslate"><span class="pre">movies.json</span></code>, supprimez tous les films dirigés par Luc Besson de la base de données</p></li>
-<li><p>Dans le jeu de données <code class="docutils literal notranslate"><span class="pre">movies.json</span></code>, supprimez la collection <code class="docutils literal notranslate"><span class="pre">movies</span></code></p></li>
-<li><p>Supprimez toutes les bases de données utilisées dans ce cours</p></li>
-</ol>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -479,21 +444,6 @@ Objectif</div>
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">5.1. Exercice</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
