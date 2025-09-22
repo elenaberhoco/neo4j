@@ -24,14 +24,15 @@ Il est organisé selon les quatre grandes catégories d'interaction que l'on peu
 - **D**elete (Supprimer) : Toute opération qui consiste à supprimer des enregistrements de la base de données, voire la base de données elle-même.
   
 Les données sont organisées en **noeuds** et en **relations**.   
-- Un **noeud** représente un objet concret (ex: une personne, un produit).   
+- Un **noeud** représente un objet concret (ex: une personne, un produit). C'est l'équivalent d'une ligne dans une base de données relationnelle.      
 - Une **relation** représente un lien entre deux objets (ex : "est ami avec", "a acheté", "travaille à"). 
 Les relations sont comparables aux jointures dans les bases de données relationnelles. 
-Cependant, si les jointures sont calculées *au moment du requêtage* dans les bases de données relationnelles, les relations, quant à elles, sont *stockées explicitement* dans les bases de données NoSQL orientées graphe. 
+Cependant, dans les bases de données relaitonnelles, les jointures sont calculées *au moment du requêtage*.
+A contrario, dans les bases de données NoSQL orientées graphe, les relations sont *stockées explicitement*.   
 C'est la raison pour laquelle ces bases de données offrent de meilleures performances en lecture lorsque les données sont fortement interconnectées.  
 - Un noeud peut avoir zéro, un ou plusieurs **labels**. Les labels sont comparables aux tables dans les bases de données relationnelles : 
 ils permettent de regrouper sous une même étiquette les noeuds qui présentent des similarités (ex: étudiants, clients).   
-- Une relation a un direction, un noeud de départ, un noeud d'arrivée, et un **type**. Une relation ne peut avoir qu'un seul type.  
+- Une relation a une direction, un noeud de départ, un noeud d'arrivée, et un **type**. Une relation ne peut avoir qu'un seul type.  
 - Les noeuds comme les relations peuvent avoir des **propriétés**. Les propriétés prennent la forme de **paires clé-valeur**.  
 
 Neo4j a un **schéma flexible** :   
@@ -42,6 +43,6 @@ Neo4j a un **schéma flexible** :
 ```{figure} ../image/graph_example.svg  
 ---
 ---
-Exemple : Movies, from: [source](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
+Exemple from: [source](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
 ```
    

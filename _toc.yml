@@ -10,6 +10,5 @@ chapters:
   sections:
   - file: content/03_lecture_simple
   - file: content/03_lecture_sousclause
-  - file: content/03_lecture_agregation
 - file: content/04_modification  
 - file: content/05_suppression  

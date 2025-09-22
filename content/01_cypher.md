@@ -17,7 +17,7 @@ kernelspec:
 
 **Cypher** est le langage déclaratif de type SQL utilisé dans Neo4j.
 Il est relativement intuitif car le format des requêtes **s'inspire de la façon dont on représente habituellement les graphes** : des **cercles** pour les noeuds et des **flèches** pour les relations.
-Cypher utilise des **parenthèses** pour les **noeuds**, des **flèches** (ex : `-->`) et des **crochets** (`[`) pour les **relations**, et des **accolades** (`{`) pour les **propriétés**. Pour faire référence aux **labels** des noeuds et au **type** des relations, il faudra  utiliser **`:`**.  
+Cypher utilise des **parenthèses** pour les **noeuds**, des **flèches** (ex : `-->`) et des **crochets** (`[`) pour les **relations**, et des **accolades** (`{`) pour les **propriétés**. Pour faire référence aux **labels** des noeuds et au **type** des relations, il faudra les précéder de **`:`**.  
 Cypher fait les recommandations suivantes:  
 - Labels : 
     - **C**amel**C**ase (ex : `SocialMedia`, `VehiculeOwner`)
@@ -30,7 +30,7 @@ Cypher fait les recommandations suivantes:
 - Clés des propriétés :
     - **c**amel**C**ase (ex : `firstName`, `address`) 
 
-Exemples non exhaustifs de requêtes :   
+Exemples non exhaustifs de syntaxe :   
 
 ::::{grid}
 :gutter: 2
@@ -46,11 +46,7 @@ Exemples non exhaustifs de requêtes :
 ::::
 
 ::::{grid}
-:gutter: 2
-
-:::{grid-item-card} Noeud avec propriétés
-( n { clé : valeur, ... } )
-:::
+:gutter: 1
 
 :::{grid-item-card} Noeud avec label et propriétés
 ( n : Label { clé : valeur ... } )
