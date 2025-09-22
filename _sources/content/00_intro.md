@@ -16,7 +16,7 @@ kernelspec:
 # Neo4j : Base de données NoSQL orientée graphe
 
 Ce cours est une introduction à Neo4J, une base de données NoSQL orientée graphe.
-
+   
 Il est organisé selon les quatre grandes catégories d'interaction que l'on peut avoir avec une base de données, résumées par l'acronyme **CRUD** :
 - **C**reate (Créer) : Toute opération qui consiste à ajouter de nouveaux enregistrements à la base de données.
 - **R**ead (Lire) : Toute opération qui consiste à récupérer certaines informations en fonction des critères de recherche spécifiés.
