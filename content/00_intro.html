@@ -359,7 +359,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -375,6 +377,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plan-du-cours">Plan du cours</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neo4j">Neo4j</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -386,6 +397,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="neo4j-base-de-donnees-nosql-orientee-graphe">
 <h1>Neo4j : Base de données NoSQL orientée graphe<a class="headerlink" href="#neo4j-base-de-donnees-nosql-orientee-graphe" title="Link to this heading">#</a></h1>
+<section id="plan-du-cours">
+<h2>Plan du cours<a class="headerlink" href="#plan-du-cours" title="Link to this heading">#</a></h2>
 <p>Ce cours est une introduction à Neo4J, une base de données NoSQL orientée graphe.</p>
 <p>Il est organisé selon les quatre grandes catégories d’interaction que l’on peut avoir avec une base de données, résumées par l’acronyme <strong>CRUD</strong> :</p>
 <ul class="simple">
@@ -394,6 +407,10 @@ document.write(`
 <li><p><strong>U</strong>pdate (Mettre à jour) : Toute opération qui consiste à modifier des enregistrements de la base de données.</p></li>
 <li><p><strong>D</strong>elete (Supprimer) : Toute opération qui consiste à supprimer des enregistrements de la base de données, voire la base de données elle-même.</p></li>
 </ul>
+</section>
+<section id="neo4j">
+<h2>Neo4j<a class="headerlink" href="#neo4j" title="Link to this heading">#</a></h2>
+<p><strong>Neo4J</strong> est une <strong>base de données NoSQL orientée graphe</strong>.</p>
 <p>Les données sont organisées en <strong>noeuds</strong> et en <strong>relations</strong>.</p>
 <ul class="simple">
 <li><p>Un <strong>noeud</strong> représente un objet concret (ex: une personne, un produit). C’est l’équivalent d’une ligne dans une base de données relationnelle.</p></li>
@@ -417,6 +434,7 @@ ils permettent de regrouper sous une même étiquette les noeuds qui présentent
 <p><span class="caption-number">Fig. 1 </span><span class="caption-text">Exemple from: <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/match/">source</a></span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
+</section>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -466,6 +484,22 @@ ils permettent de regrouper sous une même étiquette les noeuds qui présentent
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plan-du-cours">Plan du cours</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neo4j">Neo4j</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

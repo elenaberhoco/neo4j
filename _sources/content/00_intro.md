@@ -15,6 +15,8 @@ kernelspec:
 
 # Neo4j : Base de données NoSQL orientée graphe
 
+## Plan du cours
+
 Ce cours est une introduction à Neo4J, une base de données NoSQL orientée graphe.
    
 Il est organisé selon les quatre grandes catégories d'interaction que l'on peut avoir avec une base de données, résumées par l'acronyme **CRUD** :
@@ -23,6 +25,10 @@ Il est organisé selon les quatre grandes catégories d'interaction que l'on peu
 - **U**pdate (Mettre à jour) : Toute opération qui consiste à modifier des enregistrements de la base de données.
 - **D**elete (Supprimer) : Toute opération qui consiste à supprimer des enregistrements de la base de données, voire la base de données elle-même.
   
+## Neo4j
+
+**Neo4J** est une **base de données NoSQL orientée graphe**.   
+
 Les données sont organisées en **noeuds** et en **relations**.   
 - Un **noeud** représente un objet concret (ex: une personne, un produit). C'est l'équivalent d'une ligne dans une base de données relationnelle.      
 - Une **relation** représente un lien entre deux objets (ex : "est ami avec", "a acheté", "travaille à"). 
