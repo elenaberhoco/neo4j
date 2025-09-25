@@ -156,21 +156,24 @@ Vous pouvez également affiner la rechercher en spécifiant un **type** et des *
 ````{admonition} Example
 :class: tip
 
-**Exemple n°1** : La commande suivante permet d'extraire le nom des acteurs qui ont joué (`ACTED_IN`) dans le film `Wall Street` :
+**Exemple n°1** : La commande suivante permet d'extraire le nom des acteurs qui ont joué (`ACTED_IN`) dans le film `Charlie Wilson's War` :
 ```
-MATCH (:Movie {title: 'Wall Street'})<-[:ACTED_IN]-(actor:Person)
+MATCH (:Movie {title: "Charlie Wilson's War"})<-[:ACTED_IN]-(actor:Person)
 RETURN actor.name AS actor
 ```
-**Exemple n°2** : Pour retourner le nom de l'acteur qui a joué le personnage `Bud Fox` (`role`) dans un film, ainsi que le titre du film, tapez : 
+**Exemple n°2** : Pour retourner le nom de l'acteur qui a joué le personnage `Kevin Lomax` (`role`) dans un film, ainsi que le titre du film, tapez : 
 ```
-MATCH (a:Person)-[:ACTED_IN {role: 'Bud Fox'}]->(b:Movie)
+MATCH (a:Person)-[:ACTED_IN {roles:'Kevin Lomax'}]->(b:Movie)
 RETURN a.name AS name, b.title AS title
 ```
+Cette commande ne fonctionnera pas avec la base de données utilisée dans ce chapitre, car `role` est une liste. 
+La bonne façon de procéder est celle présentée dans le bloc suivant, qui utilise `WHERE` et `IN`, clauses qui seront introduites dans le chapitre 3.2.
 ````
 :::{caution}
 Exécutez la commande suivante :  
 ```
-MATCH (a)-[:ACTED_IN {role:'Bud Fox'}]-(b)
+MATCH (a)-[r:ACTED_IN]-(b)
+WHERE 'Kevin Lomax' IN r.roles
 RETURN a, b
 ```
 Que remarquez-vous ? Ne pas spécifier de direction dégrade les performances : Neo4j doit traverser le graphe dans les deux sens. 
@@ -184,14 +187,14 @@ Il est possible de construire des **motifs plus complexes** dans le graphe de do
 ````{admonition} Example
 :class: tip
 
-**Exemple n°1** : Dans quel(s) film(s) réalisé(s) (`DIRECTED`) par `Rob Reiner` l'acteur `Martin Sheen` a-t-il joué ?
+**Exemple n°1** : Dans quel(s) film(s) réalisé(s) (`DIRECTED`) par `Vincent Ward` l'acteur `Max von Sydow` a-t-il joué ?
 ```
-MATCH (:Person {name:'Martin Sheen'})-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(:Person {name:'Rob Reiner'})
+MATCH (:Person {name:'Max von Sydow'})-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(:Person {name:'Vincent Ward'})
 RETURN movie.title AS title
 ```
-**Exemple n°2** : Avec quel(s) réalisateur(s) l'acteur `Martin Sheen` a-t-il travaillé ?  
+**Exemple n°2** : Avec quel(s) réalisateur(s) l'acteur `Max von Sydow` a-t-il travaillé ?  
 ```
-MATCH (:Person {name:'Martin Sheen'})-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(director:Person)
+MATCH (:Person {name:'Max von Sydow'})-[:ACTED_IN]->(movie:Movie)<-[:DIRECTED]-(director:Person)
 RETURN movie.title AS title, director.name AS director                                
 ```
 ````
