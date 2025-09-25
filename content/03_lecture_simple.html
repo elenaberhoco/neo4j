@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/03_lecture_simple';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3.2. Requête complexe" href="03_lecture_sousclause.html" />
+    <link rel="next" title="3.2. Requête complexe" href="03_lecture_complexe.html" />
     <link rel="prev" title="3. CRUD : Lecture" href="03_lecture.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -181,7 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Requête simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_sousclause.html">3.2. Requête complexe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_complexe.html">3.2. Requête complexe</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
@@ -525,21 +525,24 @@ Vous pouvez spécifier les <strong>types à exclure</strong> à l’aide de <cod
 <p>Vous pouvez également affiner la rechercher en spécifiant un <strong>type</strong> et des <strong>propriétés</strong> pour les relations. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">[&lt;relationship&gt;:&lt;TYPE&gt;{&lt;key&gt;:&lt;value&gt;,...}]</span></code>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p><strong>Exemple n°1</strong> : La commande suivante permet d’extraire le nom des acteurs qui ont joué (<code class="docutils literal notranslate"><span class="pre">ACTED_IN</span></code>) dans le film <code class="docutils literal notranslate"><span class="pre">Wall</span> <span class="pre">Street</span></code> :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Movie</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span> <span class="s1">&#39;Wall Street&#39;</span><span class="p">})</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">actor</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<p><strong>Exemple n°1</strong> : La commande suivante permet d’extraire le nom des acteurs qui ont joué (<code class="docutils literal notranslate"><span class="pre">ACTED_IN</span></code>) dans le film <code class="docutils literal notranslate"><span class="pre">Charlie</span> <span class="pre">Wilson's</span> <span class="pre">War</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Movie</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span> <span class="s2">&quot;Charlie Wilson&#39;s War&quot;</span><span class="p">})</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">actor</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
 <span class="n">RETURN</span> <span class="n">actor</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">actor</span>
 </pre></div>
 </div>
-<p><strong>Exemple n°2</strong> : Pour retourner le nom de l’acteur qui a joué le personnage <code class="docutils literal notranslate"><span class="pre">Bud</span> <span class="pre">Fox</span></code> (<code class="docutils literal notranslate"><span class="pre">role</span></code>) dans un film, ainsi que le titre du film, tapez :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span> <span class="p">{</span><span class="n">role</span><span class="p">:</span> <span class="s1">&#39;Bud Fox&#39;</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<p><strong>Exemple n°2</strong> : Pour retourner le nom de l’acteur qui a joué le personnage <code class="docutils literal notranslate"><span class="pre">Kevin</span> <span class="pre">Lomax</span></code> (<code class="docutils literal notranslate"><span class="pre">role</span></code>) dans un film, ainsi que le titre du film, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span> <span class="p">{</span><span class="n">roles</span><span class="p">:</span><span class="s1">&#39;Kevin Lomax&#39;</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
 <span class="n">RETURN</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">name</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">title</span>
 </pre></div>
 </div>
+<p>Cette commande ne fonctionnera pas avec la base de données utilisée dans ce chapitre, car <code class="docutils literal notranslate"><span class="pre">role</span></code> est une liste.
+La bonne façon de procéder est celle présentée dans le bloc suivant, qui utilise <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> et <code class="docutils literal notranslate"><span class="pre">IN</span></code>, clauses qui seront introduites dans le chapitre 3.2.</p>
 </div>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>Exécutez la commande suivante :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span> <span class="p">{</span><span class="n">role</span><span class="p">:</span><span class="s1">&#39;Bud Fox&#39;</span><span class="p">}]</span><span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">WHERE</span> <span class="s1">&#39;Kevin Lomax&#39;</span> <span class="n">IN</span> <span class="n">r</span><span class="o">.</span><span class="n">roles</span>
 <span class="n">RETURN</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
 </pre></div>
 </div>
@@ -552,13 +555,13 @@ De façon générale, soyez le plus précis possible dans vos requêtes pour am�
 <p>Il est possible de construire des <strong>motifs plus complexes</strong> dans le graphe de données : vous pouvez inclure <strong>plusieurs relations</strong> et <strong>plusieurs noeuds</strong> dans le motif de requête.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p><strong>Exemple n°1</strong> : Dans quel(s) film(s) réalisé(s) (<code class="docutils literal notranslate"><span class="pre">DIRECTED</span></code>) par <code class="docutils literal notranslate"><span class="pre">Rob</span> <span class="pre">Reiner</span></code> l’acteur <code class="docutils literal notranslate"><span class="pre">Martin</span> <span class="pre">Sheen</span></code> a-t-il joué ?</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Martin Sheen&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Rob Reiner&#39;</span><span class="p">})</span>
+<p><strong>Exemple n°1</strong> : Dans quel(s) film(s) réalisé(s) (<code class="docutils literal notranslate"><span class="pre">DIRECTED</span></code>) par <code class="docutils literal notranslate"><span class="pre">Vincent</span> <span class="pre">Ward</span></code> l’acteur <code class="docutils literal notranslate"><span class="pre">Max</span> <span class="pre">von</span> <span class="pre">Sydow</span></code> a-t-il joué ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Max von Sydow&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Vincent Ward&#39;</span><span class="p">})</span>
 <span class="n">RETURN</span> <span class="n">movie</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">title</span>
 </pre></div>
 </div>
-<p><strong>Exemple n°2</strong> : Avec quel(s) réalisateur(s) l’acteur <code class="docutils literal notranslate"><span class="pre">Martin</span> <span class="pre">Sheen</span></code> a-t-il travaillé ?</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Martin Sheen&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">director</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<p><strong>Exemple n°2</strong> : Avec quel(s) réalisateur(s) l’acteur <code class="docutils literal notranslate"><span class="pre">Max</span> <span class="pre">von</span> <span class="pre">Sydow</span></code> a-t-il travaillé ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Max von Sydow&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">director</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
 <span class="n">RETURN</span> <span class="n">movie</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">title</span><span class="p">,</span> <span class="n">director</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">director</span>                                
 </pre></div>
 </div>
@@ -797,7 +800,7 @@ Autrement dit : personne n’est à la fois co-acteur de Natalie Portman sur un 
       </div>
     </a>
     <a class="right-next"
-       href="03_lecture_sousclause.html"
+       href="03_lecture_complexe.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
