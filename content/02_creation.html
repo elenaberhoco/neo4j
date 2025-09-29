@@ -358,7 +358,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -374,6 +376,28 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-noeud">2.1. Créer un noeud</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create">2.1.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-create">2.1.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">2.1.3. <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-relation">2.2. Créer une relation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.2.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.2.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-merge">2.2.3. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-des-noeuds-et-des-relations">2.3. Créer des noeuds et des relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-index">2.4. Créer un index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-contrainte">2.5. Créer une contrainte</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -398,6 +422,434 @@ Objectif</div>
 </div>
 </div>
 </div>
+<p>Nous allons construire ce graphe :</p>
+<figure class="align-default" id="id3">
+<img alt="../_images/exemple_neo4j_creation.png" src="../_images/exemple_neo4j_creation.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">Exemple from: <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/collect/">source</a></span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="creer-un-noeud">
+<h2><span class="section-number">2.1. </span>Créer un noeud<a class="headerlink" href="#creer-un-noeud" title="Link to this heading">#</a></h2>
+<section id="create">
+<h3><span class="section-number">2.1.1. </span><code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#create" title="Link to this heading">#</a></h3>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> permet de <strong>créer un ou plusieurs noeuds</strong>. Chaque noeud peut se voir attribuer des <strong>labels</strong> et des <strong>propriétés</strong>.
+La syntaxe est la suivante :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">Labels</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}),</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;node&gt;</span></code> : nom de la variable qui pointera vers les noeuds sélectionnés, si besoin (voir Chapitre 3)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;Labels&gt;</span></code> : un ou plusieurs labels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;,...}</span></code> : propriétés</p></li>
+</ul>
+<p>Il est possible de spécifier <strong>plusieurs labels</strong> en utilisant :</p>
+<ul class="simple">
+<li><p>soit <code class="docutils literal notranslate"><span class="pre">:</span></code>, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;:&lt;Label2&gt;:...)</span></code></p></li>
+<li><p>soit <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;&amp;&lt;Label2&gt;:...)</span></code></p></li>
+</ul>
+<p>Vous pouvez créer <strong>plusieurs noeuds</strong> à la fois en les séparant par des virgules.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(:</span><span class="n">Person</span><span class="p">:</span><span class="n">Director</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Tim Burton&#39;</span><span class="p">}),</span> 
+       <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Benedict Cumberbatch&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><strong>Si le noeud existe déjà, il sera dupliqué</strong> (sauf si contrainte d’unicité) ! Pour éviter cela, préférez <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> et posez des contraintes d’unicité.
+<code class="docutils literal notranslate"><span class="pre">CREATE</span></code> est plus adapté à la construction initiale de la base de données,
+tandis que <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> convient mieux lorsque vous souhaitez ajouter des noeuds à une base de données déjà existante.</p>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez un noeud <code class="docutils literal notranslate"><span class="pre">Person</span></code> avec pour nom (<code class="docutils literal notranslate"><span class="pre">name</span></code>) <code class="docutils literal notranslate"><span class="pre">Andy</span></code> et pour <code class="docutils literal notranslate"><span class="pre">age</span></code> <code class="docutils literal notranslate"><span class="pre">36</span></code></p></li>
+<li><p class="sd-card-text">Créez un noeud de labels <code class="docutils literal notranslate"><span class="pre">Dog</span></code> et <code class="docutils literal notranslate"><span class="pre">Pet</span></code> avec pour nom (<code class="docutils literal notranslate"><span class="pre">name</span></code>) <code class="docutils literal notranslate"><span class="pre">Ozzy</span></code> et pour jouet (<code class="docutils literal notranslate"><span class="pre">toy</span></code>) <code class="docutils literal notranslate"><span class="pre">Banana</span></code></p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="match-et-create">
+<h3><span class="section-number">2.1.2. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#match-et-create" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">MATCH</span></code>, combiné ou non à d’autres clauses, permet d’utiliser les propriétés de noeuds existants lors de la création d’un nouveau noeud.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Imaginons que vous vouliez avoir facilement accès à l’ensemble des films sortis en 1992, sans avoir besoin de parcourir tous les propriétés de tous les noeuds
+<code class="docutils literal notranslate"><span class="pre">Movie</span></code> à chaque fois :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">{</span><span class="n">released</span><span class="p">:</span><span class="mi">1992</span><span class="p">})</span>
+<span class="n">WITH</span> <span class="n">collect</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="k">as</span> <span class="n">movies</span>
+<span class="n">CREATE</span> <span class="p">(:</span><span class="n">Year</span><span class="p">{</span><span class="n">released</span><span class="p">:</span><span class="mi">1992</span><span class="p">,</span> <span class="n">movies</span><span class="p">:</span><span class="n">movies</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez des noeuds <code class="docutils literal notranslate"><span class="pre">Toy</span></code> avec le nom (<code class="docutils literal notranslate"><span class="pre">name</span></code>) des jouets (<code class="docutils literal notranslate"><span class="pre">toy</span></code>) des chiens et des chats. Pensez bien à exclure les noeuds qui n’ont pas de propriété <code class="docutils literal notranslate"><span class="pre">toy</span></code> !</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="merge">
+<h3><span class="section-number">2.1.3. </span><code class="docutils literal notranslate"><span class="pre">MERGE</span></code><a class="headerlink" href="#merge" title="Link to this heading">#</a></h3>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> agit comme une combinaison de <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> : elle vérifie d’abord l’existence d’un noeud, avant de le créer s’il n’existe pas.
+Vous ne pouvez spécifier qu’un seul noeud à la fois avec <code class="docutils literal notranslate"><span class="pre">MERGE</span></code>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Notez la différence du message renvoyé par Neo4j après exécution de ces deux instructions :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERGE</span> <span class="p">(:</span><span class="n">Person</span><span class="p">:</span><span class="n">Director</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Tim Burton&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERGE</span> <span class="p">(:</span><span class="n">Movie</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;The Hobbit&#39;</span><span class="p">,</span> <span class="n">released</span><span class="p">:</span><span class="mi">2012</span><span class="p">,</span> <span class="n">tagline</span><span class="p">:</span><span class="s2">&quot;From the smallest beginnings come the greatest legends&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Si la <strong>correspondance n’est pas exacte</strong> entre un <strong>noeud existant</strong> et le <strong>noeud à créer</strong>, par exemple si le noeud existant à d’autres <strong>propriétés</strong>
+que celles que vous avez spécifiées pour le noeud à créer, ou si le noeud à créer contient un <strong>label</strong> en plus par rapport au noeud existant, alors un <strong>nouveau noeud</strong>
+sera <strong>créé</strong> (sauf si contrainte d’unicité).</p>
+<p>Par exemple, écrire :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERGE</span> <span class="p">(:</span><span class="n">Person</span><span class="p">:</span><span class="n">Actor</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Benedict Cumberbatch&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>créerait un nouveau noeud, car le seul noeud existant contenant cette propriété est le noeud <code class="docutils literal notranslate"><span class="pre">(:Person</span> <span class="pre">{name:'Benedict</span> <span class="pre">Cumberbatch'})</span></code> qui ne possède que
+le label <code class="docutils literal notranslate"><span class="pre">Person</span></code>.</p>
+<p>En revanche, si vous ne spécifiez qu’un sous-ensemble des propriétés, le noeud sera reconnu.</p>
+<p>Par exemple, écrire :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERGE</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Tim Burton&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>sélectionnerait le noeud <code class="docutils literal notranslate"><span class="pre">(:Person:Director</span> <span class="pre">{name:'Tim</span> <span class="pre">Burton'})</span></code>.</p>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez un noeud de labels <code class="docutils literal notranslate"><span class="pre">Dog</span></code> et <code class="docutils literal notranslate"><span class="pre">Pet</span></code> avec pour nom (<code class="docutils literal notranslate"><span class="pre">name</span></code>) <code class="docutils literal notranslate"><span class="pre">Popo</span></code></p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="creer-une-relation">
+<h2><span class="section-number">2.2. </span>Créer une relation<a class="headerlink" href="#creer-une-relation" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3><span class="section-number">2.2.1. </span><code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> permet de <strong>créer une ou plusieurs relations ainsi que les noeuds associés</strong>.
+Chaque relation doit avoir <strong>exactement un type</strong> et une <strong>direction</strong>. Elle peut aussi se voir attribuer des <strong>propriétés</strong>.
+La syntaxe est la suivante (l’orientation de la flèche est purement illustrative) :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">start_node</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">&lt;</span><span class="n">relationship</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">end_node</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;start_node&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;end_node&gt;</span></code> : noeuds tels que définis à la section précédente</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;</span></code> : nom de la variable qui pointera vers les relations sélectionnées, si besoin (voir Chapitre 3)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;TYPE&gt;</span></code> : type de la relation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;,...}</span></code> : propriétés</p></li>
+</ul>
+<p>La <strong>direction</strong> d’une relation doit être spécifiée à l’aide d’une flèche : <code class="docutils literal notranslate"><span class="pre">--&gt;</span></code> ou <code class="docutils literal notranslate"><span class="pre">&lt;--</span></code>.
+Vous pouvez créer <strong>plusieurs relations</strong> à la fois en les séparant par des virgules.
+Vous pouvez créer des <strong>motifs complexes</strong>, c’est-à-dire incluant plusieurs relations (donc aussi plusieurs noeuds).</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Anthony Hopkins&#39;</span><span class="p">,</span> <span class="n">born</span><span class="p">:</span><span class="mi">1937</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s2">&quot;The Silence of the Lambs&quot;</span><span class="p">,</span> <span class="n">released</span><span class="p">:</span><span class="mi">1991</span><span class="p">})</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Person</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Jonathan Demme&#39;</span><span class="p">,</span> <span class="n">born</span><span class="p">:</span><span class="mi">1944</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><strong>Si la relation ou les noeuds existent déjà, il seront dupliqué</strong> (sauf si contrainte d’unicité) ! Pour éviter la duplication des noeuds,
+utilisez <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> en combinaison avec <code class="docutils literal notranslate"><span class="pre">MATCH</span></code>.
+Pour éviter toute duplication, préférez <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> et posez des contraintes d’unicité.</p>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez une personne (<code class="docutils literal notranslate"><span class="pre">Person</span></code>) avec pour nom (<code class="docutils literal notranslate"><span class="pre">name</span></code>) <code class="docutils literal notranslate"><span class="pre">Timothy</span></code> et pour <code class="docutils literal notranslate"><span class="pre">age</span></code> <code class="docutils literal notranslate"><span class="pre">25</span></code>,
+un chat (<code class="docutils literal notranslate"><span class="pre">Cat</span></code>, <code class="docutils literal notranslate"><span class="pre">Pet</span></code>) avec pour nom <code class="docutils literal notranslate"><span class="pre">Mittens</span></code>,
+et une relation <code class="docutils literal notranslate"><span class="pre">HAS_CAT</span></code> avec une propriété <code class="docutils literal notranslate"><span class="pre">since</span></code> qui vaut <code class="docutils literal notranslate"><span class="pre">2019</span></code> entre les deux</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h3><span class="section-number">2.2.2. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Pour créer une nouvelle relation entre deux noeuds existants, faites précéder <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> d’une clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> (voir Chapitre 3).</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">benedict</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Benedict Cumberbatch&#39;</span><span class="p">})</span>  
+<span class="n">MATCH</span> <span class="p">(</span><span class="n">hobbit</span><span class="p">:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;The Hobbit&#39;</span><span class="p">})</span>
+<span class="n">CREATE</span> <span class="p">(</span><span class="n">benedict</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">{</span><span class="n">roles</span><span class="p">:[</span><span class="s1">&#39;Smaug&#39;</span><span class="p">,</span><span class="s1">&#39;Sauron&#39;</span><span class="p">]}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">hobbit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><strong>Si la relation existe déjà, elle sera dupliquée</strong> (sauf si contrainte d’unicité) ! Pour éviter toute duplication,
+préférez <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> et posez des contraintes d’unicité.</p>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez une relation <code class="docutils literal notranslate"><span class="pre">HAS_DOG</span></code> avec une propriété <code class="docutils literal notranslate"><span class="pre">since</span></code> qui vaut <code class="docutils literal notranslate"><span class="pre">2016</span></code> entre <code class="docutils literal notranslate"><span class="pre">Andy</span></code> et <code class="docutils literal notranslate"><span class="pre">Popo</span></code></p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="match-et-merge">
+<h3><span class="section-number">2.2.3. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code><a class="headerlink" href="#match-et-merge" title="Link to this heading">#</a></h3>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> permet de vérifier l’existence d’une relation, et de la créer si elle n’existe pas.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>L’instruction suivante ne crée aucune relation, car la relation existe déjà :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">benedict</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Benedict Cumberbatch&#39;</span><span class="p">})</span>
+<span class="n">MATCH</span> <span class="p">(</span><span class="n">hobbit</span><span class="p">:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;The Hobbit&#39;</span><span class="p">})</span>
+<span class="n">MERGE</span> <span class="p">(</span><span class="n">benedict</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">{</span><span class="n">roles</span><span class="p">:[</span><span class="s1">&#39;Smaug&#39;</span><span class="p">,</span><span class="s1">&#39;Sauron&#39;</span><span class="p">]}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">hobbit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez une relation <code class="docutils literal notranslate"><span class="pre">IS_FRIEND</span></code> avec une propriété <code class="docutils literal notranslate"><span class="pre">since</span></code> qui vaut <code class="docutils literal notranslate"><span class="pre">2002</span></code> de <code class="docutils literal notranslate"><span class="pre">Andy</span></code> vers <code class="docutils literal notranslate"><span class="pre">Timothy</span></code>. Et inversement !</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="creer-des-noeuds-et-des-relations">
+<h2><span class="section-number">2.3. </span>Créer des noeuds et des relations<a class="headerlink" href="#creer-des-noeuds-et-des-relations" title="Link to this heading">#</a></h2>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> permet de vérifier à la fois l’existence des noeuds et l’existence des relations, voire l’existence d’un motif complet, avant création.
+Si le noeud, la relation, ou le motif existe déjà, il est sélectionné. Sinon, il est créé.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>L’instruction suivante sélectionne le noeud <code class="docutils literal notranslate"><span class="pre">Tim</span> <span class="pre">Burton</span></code> déjà existant, crée le noeud <code class="docutils literal notranslate"><span class="pre">Sleepy</span> <span class="pre">Hollow</span></code>, qui n’existe pas encore,
+et crée la relation entre ces deux noeuds, qui n’existe pas encore :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERGE</span> <span class="p">(</span><span class="n">tim</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Tim Burton&#39;</span><span class="p">})</span> 
+<span class="n">MERGE</span> <span class="p">(</span><span class="n">movie</span><span class="p">:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;Sleepy Hollow&#39;</span><span class="p">,</span> <span class="n">released</span><span class="p">:</span><span class="mi">1998</span><span class="p">,</span> <span class="n">tagline</span><span class="p">:</span><span class="s1">&#39;Sleep If You Can. You can lock the doors. You can bolt the windows. But can you survive the night?&#39;</span><span class="p">})</span>
+<span class="n">MERGE</span> <span class="p">(</span><span class="n">tim</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">movie</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Lorsque vous utilisez <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> sur des <strong>motifs complets</strong>, soit le <strong>motif complet existe</strong> déjà et il est sélectionné, soit il est <strong>créé dans son intégralité</strong>,
+<strong>même si certaines parties du motif existent</strong> déjà.</p>
+<p>Par exemple, écrire :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERGE</span> <span class="p">(:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Benedict Cumberbatch&#39;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;The Imitation Game&#39;</span><span class="p">,</span><span class="n">released</span><span class="p">:</span><span class="mi">2014</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>créerait un nouveau noeud <code class="docutils literal notranslate"><span class="pre">Benedict</span> <span class="pre">Cumberbatch</span></code> car le motif complet n’existe pas, puisqu’il n’existe pas de noeud <code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">Imitation</span> <span class="pre">Game</span></code> ni, donc,
+de relation entre le noeud <code class="docutils literal notranslate"><span class="pre">Benedict</span> <span class="pre">Cumberbatch</span></code> et le noeud <code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">Imitation</span> <span class="pre">Game</span></code> de type <code class="docutils literal notranslate"><span class="pre">ACTED_IN</span></code>.</p>
+</div>
+<p>Il faut donc décomposer le motif en fonction des besoins.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Imaginons que vous vouliez créer autant de noeuds que d’années de sortie, et lier les films à l’année qui correspond par une nouvelle relation de type
+<code class="docutils literal notranslate"><span class="pre">RELEASED_IN</span></code> :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="n">MERGE</span> <span class="p">(</span><span class="n">y</span><span class="p">:</span><span class="n">Year</span><span class="p">{</span><span class="n">released</span><span class="p">:</span><span class="n">m</span><span class="o">.</span><span class="n">released</span><span class="p">})</span>
+<span class="n">MERGE</span> <span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">:</span><span class="n">RELEASED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">y</span>
+</pre></div>
+</div>
+<p>Lorsqu’un noeud <code class="docutils literal notranslate"><span class="pre">Movie</span></code> correspond à un noeud <code class="docutils literal notranslate"><span class="pre">Year</span></code> qui n’existe pas encore, le noeud <code class="docutils literal notranslate"><span class="pre">Year</span></code> est créé. Cependant, dès lors que le noeud <code class="docutils literal notranslate"><span class="pre">Year</span></code> est créé,
+les prochains noeuds <code class="docutils literal notranslate"><span class="pre">Movie</span></code> correspondant à ce noeud <code class="docutils literal notranslate"><span class="pre">Year</span></code> ne conduiront pas à la création de duplicatas : ils seront simplement connectés au noeud déjà
+existant.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Décomposer en autant de clause <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> qu’il y a de noeuds et de relations dans le motif que vous souhaitez créer n’est pas toujours la bonne approche.
+Voir l’exercice ci-dessous.</p>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez une relation <code class="docutils literal notranslate"><span class="pre">HAS_TOY</span></code> entre <code class="docutils literal notranslate"><span class="pre">Ozzy</span></code> et <code class="docutils literal notranslate"><span class="pre">Banana</span></code></p></li>
+<li><p class="sd-card-text">Créez le propriétaire <code class="docutils literal notranslate"><span class="pre">Peter</span></code>, âgé de <code class="docutils literal notranslate"><span class="pre">51</span></code> ans, de <code class="docutils literal notranslate"><span class="pre">Ozzy</span></code> et connectez les deux noeuds par une relation <code class="docutils literal notranslate"><span class="pre">HAS_DOG</span></code> avec pour propriété <code class="docutils literal notranslate"><span class="pre">since</span></code> qui vaut <code class="docutils literal notranslate"><span class="pre">2018</span></code></p></li>
+<li><p class="sd-card-text">Créez pour chaque animal un noeud <code class="docutils literal notranslate"><span class="pre">HealthRecord</span></code> qui contiendra les informations du carnet de santé de l’animal.
+Les deux noeuds sont à connecter avec une relation <code class="docutils literal notranslate"><span class="pre">HAS_HEALTH_RECORD</span></code>. Réfléchissez bien à la façon dont vous allez décomposer la requête.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="creer-un-index">
+<h2><span class="section-number">2.4. </span>Créer un index<a class="headerlink" href="#creer-un-index" title="Link to this heading">#</a></h2>
+<p>L’<strong>indexation</strong> améliore la <strong>vitesse d’exécution des requêtes en lecture</strong>.
+Si certains <strong>champs</strong> sont <strong>fréquemment sollicités</strong>, <strong>créer un index sur ces champs</strong> permet d’améliorer les performances des requêtes qui font appel à ces champs.<br />
+Pour <strong>afficher les index</strong>, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SHOW</span> <span class="n">INDEXES</span>
+</pre></div>
+</div>
+<p>Pour <strong>créer un index</strong>, utilisez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="o">&lt;</span><span class="n">index_type</span><span class="o">&gt;</span> <span class="n">INDEX</span> <span class="o">&lt;</span><span class="n">index_name</span><span class="o">&gt;</span> <span class="n">FOR</span> <span class="o">&lt;</span><span class="n">node_or_relation</span><span class="o">&gt;</span> <span class="n">ON</span> <span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;index_type&gt;</span></code> : catégorie d’index</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;index_name&gt;</span></code> : nom donné à l’index, optionnel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;node_or_relation&gt;</span></code> : (<node>:<Label>) ou ()-[<relationship>:<type>]-()</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> : <node>.<key> ou <relationship>.<key>, propriété selon laquelle indexer</p></li>
+</ul>
+<p>Il existe quatre catégories d’index : <em>range</em> (plage), <em>text</em> (texte), <em>point</em> (localisation) et <em>lookup</em>.
+Chaque index est optimisé pour certaines requêtes en particulier.
+Dans ce cours, nous ne présenterons que la catégorie par défaut : les index de plage. Dans ce cas, vous pouvez omettre <code class="docutils literal notranslate"><span class="pre">&lt;index_type&gt;</span></code>.
+Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/">documentation</a>.</p>
+<p>Vous pouvez créer un index simple à partir d’une seule clé, ou un index composite à partir de plusieurs clés.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Si cet index n’existait pas encore, vous auriez pu créer un index sur le titre des films ainsi :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span>
+</pre></div>
+</div>
+<p>Affichez les index. Si les requêtes simultanées sur le titre du film et l’année de sortie sont fréquentes, vous pouvez créer un index composite ainsi :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Affichez les index. Exécutez l’instruction suivante et affichez de nouveau les index : que remarquez-vous ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">{</span><span class="n">title</span><span class="p">:</span><span class="s1">&#39;The Hobbit&#39;</span><span class="p">,</span> <span class="n">released</span><span class="p">:</span><span class="mi">2012</span><span class="p">})</span>
+<span class="n">RETURN</span> <span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez un index sur le nom des personnes</p></li>
+<li><p class="sd-card-text">Créez un index sur la propriété <code class="docutils literal notranslate"><span class="pre">since</span></code> de la relation <code class="docutils literal notranslate"><span class="pre">HAS_DOG</span></code></p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/managing-indexes/">documentation</a>.</p>
+</section>
+<section id="creer-une-contrainte">
+<h2><span class="section-number">2.5. </span>Créer une contrainte<a class="headerlink" href="#creer-une-contrainte" title="Link to this heading">#</a></h2>
+<p>Poser des <strong>contraintes</strong> permet de <strong>garantir la qualité et l’intégrité des données</strong>.
+Quatre catégories de contraintes sont disponibles en Neo4j :</p>
+<ul class="simple">
+<li><p><strong>Contrainte d’unicité</strong> : Garantir que les valeurs combinées d’un ensemble de propriétés sont uniques</p></li>
+<li><p><strong>Contrainte d’existence</strong> : Garantir qu’une propriété existe. Cette option n’est disponible que dans la version payante.</p></li>
+<li><p><strong>Contrainte de type</strong> : Garantir qu’une propriété a le type requis (entiers, chaînes de caractères …). Voir la [documentation(<a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#type-constraints-allowed-properties">https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#type-constraints-allowed-properties</a>) pour connaître tous les types autorisés.
+Cette option n’est disponible que dans la version payante.</p></li>
+<li><p>Contrainte clé : Garantir que toutes les propriétés existent et que les valeurs combinées d’un ensemble de propriétés sont uniques.
+Cette option n’est disponible que dans la version payante.</p></li>
+</ul>
+<p>Pour <strong>afficher les contraintes</strong>, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SHOW</span> <span class="n">CONSTRAINTS</span>  
+</pre></div>
+</div>
+<p>Pour <strong>créer une contrainte</strong>, utilisez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">CONSTRAINT</span> <span class="o">&lt;</span><span class="n">constraint_name</span><span class="o">&gt;</span> <span class="n">FOR</span> <span class="o">&lt;</span><span class="n">node_or_relationship</span><span class="o">&gt;</span> <span class="n">REQUIRE</span> <span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">constraint_type</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>où :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;constraint_name&gt;</span></code> : nom donné à l’index, optionnel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;node_or_relationship&gt;</span></code> : (<node>:<Label>) ou ()-[<relationship>:<type>]-()</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> : propriété selon laquelle indexer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;constraint_type&gt;</span></code> : <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">UNIQUE</span></code> (contrainte d’unicité), <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code> (contrainte d’existence), <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">::</span> <span class="pre">&lt;TYPE&gt;</span></code> (contrainte de type), <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NODE</span> <span class="pre">KEY</span></code> ou <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">RELATIONSHIP</span> <span class="pre">KEY</span></code> (contrainte clé)</p></li>
+</ul>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Pour forcer l’existence d’une propriété, tapez :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="w"> </span><span class="n">REQUIRE</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+</pre></div>
+</div>
+<p>Exécutez cette commande :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(:</span><span class="n">Person</span><span class="p">{</span><span class="n">born</span><span class="p">:</span><span class="mi">1998</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Si la contrainte n’existait pas déjà, vous auriez pu poser une contrainte d’unicité sur le nom des personne ainsi :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">CONSTRAINT</span> <span class="n">FOR</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span> <span class="n">REQUIRE</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="n">IS</span> <span class="n">UNIQUE</span>
+</pre></div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Créez une contrainte sur le type de la propriété <code class="docutils literal notranslate"><span class="pre">since</span></code> de <code class="docutils literal notranslate"><span class="pre">HAS_DOG</span></code> et <code class="docutils literal notranslate"><span class="pre">HAS_CAT</span></code>. La valeur renseignée doit être <code class="docutils literal notranslate"><span class="pre">INTEGER</span></code>.</p></li>
+<li><p class="sd-card-text">Essayez d’associer un autre chien nommé <code class="docutils literal notranslate"><span class="pre">Fido</span></code> à <code class="docutils literal notranslate"><span class="pre">Peter</span></code> en spécifiant <code class="docutils literal notranslate"><span class="pre">two</span> <span class="pre">thousand</span> <span class="pre">and</span> <span class="pre">ten</span></code> pour la propriété <code class="docutils literal notranslate"><span class="pre">since</span></code></p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -454,6 +906,35 @@ Objectif</div>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-noeud">2.1. Créer un noeud</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create">2.1.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-create">2.1.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">2.1.3. <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-relation">2.2. Créer une relation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.2.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.2.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-merge">2.2.3. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-des-noeuds-et-des-relations">2.3. Créer des noeuds et des relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-index">2.4. Créer un index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-contrainte">2.5. Créer une contrainte</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

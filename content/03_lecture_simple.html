@@ -447,7 +447,7 @@ Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre
 Vous pouvez spécifier <strong>plusieurs labels</strong> à l’aide des opérateurs suivants :</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">|</span></code> qui correspond au <strong>OU</strong> logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;|&lt;Label2&gt;...)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code> qui correspond au <strong>ET</strong> logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;&amp;&lt;Label2&gt;...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code> qui correspond au <strong>ET</strong> logique, syntaxe : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:&lt;Label1&gt;&amp;&lt;Label2&gt;...)</span></code></p></li>
 </ul>
 <p>Il est possible de <strong>combiner les deux</strong>, en écrivant par exemple : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:(&lt;Label1&gt;&amp;&lt;Label2&gt;)|&lt;Label3&gt;)</span></code>.<br />
 Vous pouvez spécifier les <strong>labels à exclure</strong> à l’aide de <code class="docutils literal notranslate"><span class="pre">!</span></code>. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">(&lt;node&gt;:!&lt;Label&gt;)</span></code>.</p>
@@ -743,16 +743,30 @@ Vous pouvez concaténer des listes ou des chaînes de caractères avec <code cla
 <p>Voir 3.1.4.</p>
 </div>
 <ol class="arabic simple" start="11">
-<li><p>Afficher le nombre d’acteurs par date de naissance.</p></li>
+<li><p>Affichez le nombre d’acteurs par date de naissance.</p></li>
 </ol>
 <div class="dropdown admonition">
 <p class="admonition-title">Aide</p>
 <p>Voir 3.1.5. Équivalent d’un <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>.</p>
 </div>
+<ol class="arabic simple" start="12">
+<li><p>Affichez le nombre de rôles joués par chaque acteur dans chaque film.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">size()</span></code>.</p>
+</div>
+<ol class="arabic simple" start="13">
+<li><p>Quel est le nombre maximal de rôles qu’a déjà eu à jouer chaque acteur dans un film ?</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Vous pouvez combiner plusieurs fonctions. Par exemple ici : <code class="docutils literal notranslate"><span class="pre">max()</span></code> et <code class="docutils literal notranslate"><span class="pre">size()</span></code>.</p>
+</div>
 <div class="dropdown admonition">
 <p class="admonition-title">Bonus</p>
-<ol class="arabic simple" start="12">
-<li><p>Quels acteurs ont joué avec des co-acteurs de <code class="docutils literal notranslate"><span class="pre">Natalie</span> <span class="pre">Portman</span></code> ?</p></li>
+<ol class="arabic simple" start="14">
+<li><p>Quels acteurs ont déjà joué avec des co-acteurs de <code class="docutils literal notranslate"><span class="pre">Natalie</span> <span class="pre">Portman</span></code> ?</p></li>
 </ol>
 <p><strong>Note</strong> : Aucun des co-co-acteurs de Natalie Portman n’a joué avec elle dans un film.
 Autrement dit : personne n’est à la fois co-acteur de Natalie Portman sur un film et co-co-acteur de Natalie Portman sur un autre film.</p>

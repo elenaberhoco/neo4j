@@ -69,7 +69,7 @@ RETURN n
 Vous pouvez filtrer les noeuds à partir de leurs **labels**. La syntaxe est la suivante : `(<node>:<Label>)`.   
 Vous pouvez spécifier **plusieurs labels** à l'aide des opérateurs suivants :
 - `|` qui correspond au **OU** logique, syntaxe : `(<node>:<Label1>|<Label2>...)` 
-- `&` qui correspond au **ET** logique, syntaxe : `(<node>:<Label1>&<Label2>...` 
+- `&` qui correspond au **ET** logique, syntaxe : `(<node>:<Label1>&<Label2>...)` 
   
 Il est possible de **combiner les deux**, en écrivant par exemple : `(<node>:(<Label1>&<Label2>)|<Label3>)`.     
 Vous pouvez spécifier les **labels à exclure** à l'aide de `!`. La syntaxe est la suivante : `(<node>:!<Label>)`.    
@@ -336,18 +336,31 @@ Voir 3.1.3.
 
 Voir 3.1.4.
 ```
-11. Afficher le nombre d'acteurs par date de naissance.
+11. Affichez le nombre d'acteurs par date de naissance.
 ```{admonition} Aide
 :class: dropdown
 
 Voir 3.1.5. Équivalent d'un `GROUP BY`.
+```
+12. Affichez le nombre de rôles joués par chaque acteur dans chaque film.
+```{admonition} Aide
+:class: dropdown
+
+Utilisez `size()`.
+```
+
+13. Quel est le nombre maximal de rôles qu'a déjà eu à jouer chaque acteur dans un film ?
+```{admonition} Aide
+:class: dropdown
+
+Vous pouvez combiner plusieurs fonctions. Par exemple ici : `max()` et `size()`.
 ```
 
 
 ```{admonition} Bonus
 :class: dropdown
 
-12. Quels acteurs ont joué avec des co-acteurs de `Natalie Portman` ?   
+14. Quels acteurs ont déjà joué avec des co-acteurs de `Natalie Portman` ?   
   
 **Note** : Aucun des co-co-acteurs de Natalie Portman n'a joué avec elle dans un film. 
 Autrement dit : personne n'est à la fois co-acteur de Natalie Portman sur un film et co-co-acteur de Natalie Portman sur un autre film.
