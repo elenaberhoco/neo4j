@@ -103,7 +103,7 @@ LIMIT 1
 
 ## Exercice 1
 
-1. Quels acteurs n'ayant jamais réalisé de film ont joué dans un film entre 2000 et 2005 ? Affichez leur nom, le nombre de films et la liste desdits films. Vous pouvez utiliser `AND`, `<=` et `>=`.
+1. Quels acteurs ont joué dans un film entre 2000 et 2005 ? Affichez leur nom, le nombre de films et la liste desdits films. Vous pouvez utiliser `AND`, `<=` et `>=`.
 2. Affichez le nombre de films par année de parution dans l'ordre croissant des années.
 3. Quels sont les 3 films comptabilisant le plus d'acteurs ?
 
