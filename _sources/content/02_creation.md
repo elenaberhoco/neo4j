@@ -314,6 +314,7 @@ Les deux noeuds sont à connecter avec une relation `HAS_HEALTH_RECORD`. Réflé
 
 L’**indexation** améliore la **vitesse d’exécution des requêtes en lecture**. 
 Si certains **champs** sont **fréquemment sollicités**, **créer un index sur ces champs** permet d’améliorer les performances des requêtes qui font appel à ces champs.   
+    
 Pour **afficher les index**, tapez :  
 ```
 SHOW INDEXES
@@ -371,7 +372,8 @@ Poser des **contraintes** permet de **garantir la qualité et l'intégrité des 
 Quatre catégories de contraintes sont disponibles en Neo4j : 
 - **Contrainte d'unicité** : Garantir que les valeurs combinées d'un ensemble de propriétés sont uniques  
 - **Contrainte d'existence** : Garantir qu'une propriété existe. Cette option n'est disponible que dans la version payante.  
-- **Contrainte de type** : Garantir qu'une propriété a le type requis (entiers, chaînes de caractères ...). Voir la [documentation(https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#type-constraints-allowed-properties) pour connaître tous les types autorisés. 
+- **Contrainte de type** : Garantir qu'une propriété a le type requis (entiers, chaînes de caractères ...). 
+Voir la [documentation](https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#type-constraints-allowed-properties) pour connaître tous les types autorisés. 
 Cette option n'est disponible que dans la version payante.
 - Contrainte clé : Garantir que toutes les propriétés existent et que les valeurs combinées d'un ensemble de propriétés sont uniques. 
 Cette option n'est disponible que dans la version payante.   
