@@ -30,7 +30,7 @@ Cypher fait les recommandations suivantes:
 - Clés des propriétés :
     - **c**amel**C**ase (ex : `firstName`, `address`) 
 
-Exemples non exhaustifs de syntaxe :   
+Exemples non exhaustifs de syntaxe :     
 
 ::::{grid}
 :gutter: 2

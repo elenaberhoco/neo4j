@@ -15,7 +15,7 @@ kernelspec:
 
 # Requête simple
 
-source : [documentation Neo4j](https://neo4j.com/docs/cypher-manual/current/clauses/match/)
+source : [documentation Neo4j](https://neo4j.com/docs/cypher-manual/current/clauses/match/)  
 
 Dans Cypher, le comportement d'une requête est défini par ses **clauses**, i.e les différentes étapes qui la composent. 
 Chaque clause prend l'**état actuel du graphe** et un tableau de **résultats intermédiaires**, les traite, 
