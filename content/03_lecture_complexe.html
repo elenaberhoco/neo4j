@@ -540,13 +540,15 @@ Pour trouver tous les rôles uniques de la base de données, nous pouvons utilis
 <section id="exercice-2">
 <h2><span class="section-number">3.2.4. </span>Exercice 2<a class="headerlink" href="#exercice-2" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Quels sont le ou les acteurs les plus vieux a avoir joué dans dans <code class="docutils literal notranslate"><span class="pre">Joe</span> <span class="pre">Versus</span> <span class="pre">the</span> <span class="pre">Volcano</span></code> ?</p></li>
+<li><p>Quels sont le ou les acteurs les plus vieux a avoir joué dans <code class="docutils literal notranslate"><span class="pre">Joe</span> <span class="pre">Versus</span> <span class="pre">the</span> <span class="pre">Volcano</span></code> ?</p></li>
 <li><p>Y a-t-il des acteurs nés à une autre date dans ce film ? Ne rentrez pas à la main ladite date.</p></li>
 </ol>
 <div class="dropdown admonition">
 <p class="admonition-title">Bonus</p>
 <ol class="arabic simple" start="3">
-<li><p>Construisez un tableau avec une ligne par acteur et une colonne pour chaque période : <code class="docutils literal notranslate"><span class="pre">]-inf,</span> <span class="pre">1990[</span></code>, <code class="docutils literal notranslate"><span class="pre">[1990,</span> <span class="pre">1995[</span></code>, <code class="docutils literal notranslate"><span class="pre">[1995,</span> <span class="pre">2000[</span></code>, <code class="docutils literal notranslate"><span class="pre">[2000,</span> <span class="pre">2005[</span></code>, <code class="docutils literal notranslate"><span class="pre">[2005,</span> <span class="pre">2010[</span></code>, <code class="docutils literal notranslate"><span class="pre">[2010,</span> <span class="pre">+inf[</span></code></p></li>
+<li><p>Construisez un tableau contenant le nombre de films dans lesquels chaque acteur a joué pour chacune des périodes suivantes :
+<code class="docutils literal notranslate"><span class="pre">]-inf,</span> <span class="pre">1990[</span></code>, <code class="docutils literal notranslate"><span class="pre">[1990,</span> <span class="pre">1995[</span></code>, <code class="docutils literal notranslate"><span class="pre">[1995,</span> <span class="pre">2000[</span></code>, <code class="docutils literal notranslate"><span class="pre">[2000,</span> <span class="pre">2005[</span></code>, <code class="docutils literal notranslate"><span class="pre">[2005,</span> <span class="pre">2010[</span></code> et <code class="docutils literal notranslate"><span class="pre">[2010,</span> <span class="pre">+inf[</span></code>.
+Le tableau doit avoir une ligne par acteur et autant de colonnes que de périodes.</p></li>
 </ol>
 <div class="dropdown admonition">
 <p class="admonition-title">Aide</p>
@@ -557,7 +559,7 @@ Pour trouver tous les rôles uniques de la base de données, nous pouvons utilis
 <section id="clauses-de-sous-requetes">
 <h2><span class="section-number">3.2.5. </span>Clauses de sous-requêtes<a class="headerlink" href="#clauses-de-sous-requetes" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">COLLECT</span></code>, comme <code class="docutils literal notranslate"><span class="pre">collect()</span></code>, permet de récupérer un ensemble de valeurs sous forme de liste,
-la différence étant que la clause <code class="docutils literal notranslate"><span class="pre">COLLECT</span></code> doit être appliquée à une sous-requête (i.e motif de graphe).
+la différence étant que la clause <code class="docutils literal notranslate"><span class="pre">COLLECT</span></code> doit être appliquée à une sous-requête.
 Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/collect/">documentation</a>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
@@ -571,7 +573,7 @@ Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.c
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">COUNT</span></code>, comme <code class="docutils literal notranslate"><span class="pre">count()</span></code>, permet de compter un ensemble d’éléments,
-la différence étant que la clause <code class="docutils literal notranslate"><span class="pre">COUNT</span></code> doit être appliquée à une sous-requête (i.e motif de graphe).
+la différence étant que la clause <code class="docutils literal notranslate"><span class="pre">COUNT</span></code> doit être appliquée à une sous-requête.
 Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/count/">documentation</a>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>

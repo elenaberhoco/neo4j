@@ -86,7 +86,7 @@ tandis que `MERGE` convient mieux lorsque vous souhaitez ajouter des noeuds à u
 ````{admonition} Example
 :class: tip
 
-Imaginons que vous vouliez avoir facilement accès à l'ensemble des films sortis en 1992, sans avoir besoin de parcourir tous les propriétés de tous les noeuds 
+Imaginons que vous vouliez avoir facilement accès à l'ensemble des films sortis en 1992, sans avoir besoin de parcourir toutes les propriétés de tous les noeuds 
 `Movie` à chaque fois :  
 ```
 MATCH (m:Movie{released:1992})
@@ -122,9 +122,8 @@ MERGE (:Movie {title:'The Hobbit', released:2012, tagline:"From the smallest beg
 ```
 ````
 :::{caution}
-Si la **correspondance n'est pas exacte** entre un **noeud existant** et le **noeud à créer**, par exemple si le noeud existant à d'autres **propriétés** 
-que celles que vous avez spécifiées pour le noeud à créer, ou si le noeud à créer contient un **label** en plus par rapport au noeud existant, alors un **nouveau noeud** 
-sera **créé** (sauf si contrainte d'unicité).   
+Si la **correspondance n'est pas exacte** entre un **noeud existant** et le **noeud à créer**, et si le noeud à créer a des **propriétés** ou des **labels** 
+que le noeud existant n'a pas, alors un **nouveau noeud** sera **créé** (sauf si contrainte d'unicité).   
   
 Par exemple, écrire :
 ```
@@ -133,7 +132,7 @@ MERGE (:Person:Actor {name:'Benedict Cumberbatch'})
 créerait un nouveau noeud, car le seul noeud existant contenant cette propriété est le noeud `(:Person {name:'Benedict Cumberbatch'})` qui ne possède que 
 le label `Person`.   
   
-En revanche, si vous ne spécifiez qu'un sous-ensemble des propriétés, le noeud sera reconnu.   
+En revanche, si vous ne spécifiez qu'un **sous-ensemble** des propriétés et/ou des labels, le noeud sera reconnu.   
   
 Par exemple, écrire :
 ```
@@ -180,7 +179,7 @@ CREATE (:Person {name:'Anthony Hopkins', born:1937})-[:ACTED_IN]->(:Movie {title
 ```
 ````
 :::{caution}
-**Si la relation ou les noeuds existent déjà, il seront dupliqué** (sauf si contrainte d'unicité) ! Pour éviter la duplication des noeuds, 
+**Si la relation ou les noeuds existent déjà, ils seront dupliqués** (sauf si contrainte d'unicité) ! Pour éviter la duplication des noeuds, 
 utilisez `CREATE` en combinaison avec `MATCH`. 
 Pour éviter toute duplication, préférez `MERGE` et posez des contraintes d'unicité.
 :::
@@ -265,14 +264,14 @@ MERGE (tim)-[:DIRECTED]->(movie)
 
 :::{caution}
 
-Lorsque vous utilisez `MERGE` sur des **motifs complets**, soit le **motif complet existe** déjà et il est sélectionné, soit il est **créé dans son intégralité**, 
+Lorsque vous utilisez `MERGE` sur des **motifs complets**, soit le motif **complet** existe déjà et il est sélectionné, soit il est créé **dans son intégralité**, 
 **même si certaines parties du motif existent** déjà.   
  
 Par exemple, écrire : 
 ```
 MERGE (:Person{name:'Benedict Cumberbatch'})-[:ACTED_IN]->(:Movie{title:'The Imitation Game',released:2014})
 ```
-créerait un nouveau noeud `Benedict Cumberbatch` car le motif complet n'existe pas, puisqu'il n'existe pas de noeud `The Imitation Game` ni, donc, 
+créerait un nouveau noeud `Benedict Cumberbatch` car le motif dans son intégralité n'existe pas : il n'existe pas de noeud `The Imitation Game` ni, donc, 
 de relation entre le noeud `Benedict Cumberbatch` et le noeud `The Imitation Game` de type `ACTED_IN`.  
 ::: 
  
@@ -303,7 +302,7 @@ Voir l'exercice ci-dessous.
 
 :::{grid-item-card} Exercice
 1. Créez une relation `HAS_TOY` entre `Ozzy` et `Banana`
-2. Créez le propriétaire `Peter`, âgé de `51` ans, de `Ozzy` et connectez les deux noeuds par une relation `HAS_DOG` avec pour propriété `since` qui vaut `2018` 
+2. Créez `Peter`, le propriétaire de `Ozzy`, âgé de `51` ans, et connectez les deux noeuds par une relation `HAS_DOG` avec pour propriété `since` qui vaut `2018` 
 3. Créez pour chaque animal un noeud `HealthRecord` qui contiendra les informations du carnet de santé de l'animal. 
 Les deux noeuds sont à connecter avec une relation `HAS_HEALTH_RECORD`. Réfléchissez bien à la façon dont vous allez décomposer la requête.
 :::
@@ -327,8 +326,8 @@ CREATE <index_type> INDEX <index_name> FOR <node_or_relation> ON <key>
 où :
 - `<index_type>` : catégorie d'index
 - `<index_name>` : nom donné à l'index, optionnel
-- `<node_or_relation>` : (<node>:<Label>) ou ()-[<relationship>:<type>]-()
-- `<key>` : <node>.<key> ou <relationship>.<key>, propriété selon laquelle indexer
+- `<node_or_relation>` : `(<node>:<Label>)` ou `()-[<relationship>:<type>]-()`
+- `<key>` : `<node>.<key>` ou `<relationship>.<key>`, propriété selon laquelle indexer
 
 Il existe quatre catégories d'index : *range* (plage), *text* (texte), *point* (localisation) et *lookup*. 
 Chaque index est optimisé pour certaines requêtes en particulier. 
@@ -375,7 +374,7 @@ Quatre catégories de contraintes sont disponibles en Neo4j :
 - **Contrainte de type** : Garantir qu'une propriété a le type requis (entiers, chaînes de caractères ...). 
 Voir la [documentation](https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#type-constraints-allowed-properties) pour connaître tous les types autorisés. 
 Cette option n'est disponible que dans la version payante.
-- Contrainte clé : Garantir que toutes les propriétés existent et que les valeurs combinées d'un ensemble de propriétés sont uniques. 
+- **Contrainte clé** : Garantir que toutes les propriétés existent et que les valeurs combinées d'un ensemble de propriétés sont uniques. 
 Cette option n'est disponible que dans la version payante.   
   
 Pour **afficher les contraintes**, tapez :
@@ -389,7 +388,7 @@ CREATE CONSTRAINT <constraint_name> FOR <node_or_relationship> REQUIRE <key> <co
 ```
 où :
 - `<constraint_name>` : nom donné à l'index, optionnel
-- `<node_or_relationship>` : (<node>:<Label>) ou ()-[<relationship>:<type>]-()
+- `<node_or_relationship>` : `(<node>:<Label>)` ou `()-[<relationship>:<type>]-()`
 - `<key>` : propriété selon laquelle indexer
 - `<constraint_type>` : `IS UNIQUE` (contrainte d'unicité), `IS NOT NULL` (contrainte d'existence), `IS :: <TYPE>` (contrainte de type), `IS NODE KEY` ou `IS RELATIONSHIP KEY` (contrainte clé)
 
