@@ -19,7 +19,7 @@ kernelspec:
 :gutter: 1
   
 :::{grid-item-card} Objectif
-Dans ce chapitre vous apprendrez à insérer des noeuds et des relations dans une base de données Neo4j.  
+Dans ce chapitre vous apprendrez à insérer des noeuds et des relations dans une base de données Neo4j.    
 :::
 
 ::::

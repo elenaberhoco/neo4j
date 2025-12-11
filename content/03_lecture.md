@@ -20,7 +20,7 @@ kernelspec:
 :gutter: 1
 
 :::{grid-item-card} Objectif
-Dans ce chapitre vous apprendrez à interroger et filtrer une base de données Neo4j.  
+Dans ce chapitre vous apprendrez à interroger et filtrer une base de données Neo4j.    
 :::
 ::::
 

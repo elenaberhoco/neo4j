@@ -19,6 +19,6 @@ kernelspec:
 :gutter: 1
 
 :::{grid-item-card} Objectif
-Dans ce chapitre vous apprendrez à supprimer des noeuds, des relations, voir des graphes complets.
+Dans ce chapitre vous apprendrez à supprimer des noeuds, des relations, voir des graphes complets.  
 :::
 ::::
