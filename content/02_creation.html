@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. CRUD : Création &#8212; Neo4j</title>
+    <title>3. CRUD : Création &#8212; Neo4j</title>
   
   
   
@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/02_creation';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3. CRUD : Lecture" href="03_lecture.html" />
-    <link rel="prev" title="1. Langage Cypher" href="01_cypher.html" />
+    <link rel="next" title="4. CRUD : Modification" href="04_modification.html" />
+    <link rel="prev" title="2.2. Requête complexe" href="03_lecture_complexe.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,12 +178,12 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_cypher.html">1. Langage Cypher</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. <strong>C</strong>RUD : Création</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_complexe.html">3.2. Requête complexe</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="03_lecture.html">2. C<strong>R</strong>UD : Lecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">2.1. Requête simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_complexe.html">2.2. Requête complexe</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_suppression.html">5. CRU<strong>D</strong> : Suppression</a></li>
 </ul>
@@ -381,21 +381,21 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-noeud">2.1. Créer un noeud</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create">2.1.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-create">2.1.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">2.1.3. <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-noeud">3.1. Créer un noeud</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create">3.1.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-create">3.1.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">3.1.3. <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-relation">2.2. Créer une relation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.2.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.2.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-merge">2.2.3. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-relation">3.2. Créer une relation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.2.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.2.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-merge">3.2.3. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-des-noeuds-et-des-relations">2.3. Créer des noeuds et des relations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-index">2.4. Créer un index</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-contrainte">2.5. Créer une contrainte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-des-noeuds-et-des-relations">3.3. Créer des noeuds et des relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-index">3.4. Créer un index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-contrainte">3.5. Créer une contrainte</a></li>
 </ul>
             </nav>
         </div>
@@ -408,7 +408,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="crud-creation">
-<h1><span class="section-number">2. </span><strong>C</strong>RUD : Création<a class="headerlink" href="#crud-creation" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">3. </span><strong>C</strong>RUD : Création<a class="headerlink" href="#crud-creation" title="Link to this heading">#</a></h1>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
 <div class="sd-col sd-d-flex-row docutils">
@@ -426,13 +426,13 @@ Objectif</div>
 <figure class="align-default" id="id3">
 <img alt="../_images/exemple_neo4j_creation.png" src="../_images/exemple_neo4j_creation.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">Exemple from: <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/collect/">source</a></span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1 </span><span class="caption-text">Exemple from: <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/collect/">source</a></span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <section id="creer-un-noeud">
-<h2><span class="section-number">2.1. </span>Créer un noeud<a class="headerlink" href="#creer-un-noeud" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1. </span>Créer un noeud<a class="headerlink" href="#creer-un-noeud" title="Link to this heading">#</a></h2>
 <section id="create">
-<h3><span class="section-number">2.1.1. </span><code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#create" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.1.1. </span><code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#create" title="Link to this heading">#</a></h3>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> permet de <strong>créer un ou plusieurs noeuds</strong>. Chaque noeud peut se voir attribuer des <strong>labels</strong> et des <strong>propriétés</strong>.
 La syntaxe est la suivante :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">Labels</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}),</span> <span class="o">...</span>
@@ -440,7 +440,7 @@ La syntaxe est la suivante :</p>
 </div>
 <p>où :</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&lt;node&gt;</span></code> : nom de la variable qui pointera vers les noeuds sélectionnés, si besoin (voir Chapitre 3)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;node&gt;</span></code> : nom de la variable qui pointera vers les noeuds sélectionnés, si besoin (voir Chapitre 2)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;Labels&gt;</span></code> : un ou plusieurs labels</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;,...}</span></code> : propriétés</p></li>
 </ul>
@@ -481,7 +481,7 @@ Exercice</div>
 </div>
 </section>
 <section id="match-et-create">
-<h3><span class="section-number">2.1.2. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#match-et-create" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.1.2. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#match-et-create" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">MATCH</span></code>, combiné ou non à d’autres clauses, permet d’utiliser les propriétés de noeuds existants lors de la création d’un nouveau noeud.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
@@ -510,7 +510,7 @@ Exercice</div>
 </div>
 </section>
 <section id="merge">
-<h3><span class="section-number">2.1.3. </span><code class="docutils literal notranslate"><span class="pre">MERGE</span></code><a class="headerlink" href="#merge" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.1.3. </span><code class="docutils literal notranslate"><span class="pre">MERGE</span></code><a class="headerlink" href="#merge" title="Link to this heading">#</a></h3>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> agit comme une combinaison de <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> : elle vérifie d’abord l’existence d’un noeud, avant de le créer s’il n’existe pas.
 Vous ne pouvez spécifier qu’un seul noeud à la fois avec <code class="docutils literal notranslate"><span class="pre">MERGE</span></code>.</p>
 <div class="tip admonition">
@@ -558,9 +558,9 @@ Exercice</div>
 </section>
 </section>
 <section id="creer-une-relation">
-<h2><span class="section-number">2.2. </span>Créer une relation<a class="headerlink" href="#creer-une-relation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.2. </span>Créer une relation<a class="headerlink" href="#creer-une-relation" title="Link to this heading">#</a></h2>
 <section id="id1">
-<h3><span class="section-number">2.2.1. </span><code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.2.1. </span><code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> permet de <strong>créer une ou plusieurs relations ainsi que les noeuds associés</strong>.
 Chaque relation doit avoir <strong>exactement un type</strong> et une <strong>direction</strong>. Elle peut aussi se voir attribuer des <strong>propriétés</strong>.
 La syntaxe est la suivante (l’orientation de la flèche est purement illustrative) :</p>
@@ -570,7 +570,7 @@ La syntaxe est la suivante (l’orientation de la flèche est purement illustrat
 <p>où :</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;start_node&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;end_node&gt;</span></code> : noeuds tels que définis à la section précédente</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;</span></code> : nom de la variable qui pointera vers les relations sélectionnées, si besoin (voir Chapitre 3)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;relationship&gt;</span></code> : nom de la variable qui pointera vers les relations sélectionnées, si besoin (voir Chapitre 2)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;TYPE&gt;</span></code> : type de la relation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">{&lt;key&gt;:&lt;value&gt;,...}</span></code> : propriétés</p></li>
 </ul>
@@ -608,8 +608,8 @@ et une relation <code class="docutils literal notranslate"><span class="pre">HAS
 </div>
 </section>
 <section id="id2">
-<h3><span class="section-number">2.2.2. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
-<p>Pour créer une nouvelle relation entre deux noeuds existants, faites précéder <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> d’une clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> (voir Chapitre 3).</p>
+<h3><span class="section-number">3.2.2. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Pour créer une nouvelle relation entre deux noeuds existants, faites précéder <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> d’une clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> (voir Chapitre 2).</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">benedict</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Benedict Cumberbatch&#39;</span><span class="p">})</span>  
@@ -640,7 +640,7 @@ Exercice</div>
 </div>
 </section>
 <section id="match-et-merge">
-<h3><span class="section-number">2.2.3. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code><a class="headerlink" href="#match-et-merge" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.2.3. </span><code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code><a class="headerlink" href="#match-et-merge" title="Link to this heading">#</a></h3>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> permet de vérifier l’existence d’une relation, et de la créer si elle n’existe pas.</p>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
@@ -669,7 +669,7 @@ Exercice</div>
 </section>
 </section>
 <section id="creer-des-noeuds-et-des-relations">
-<h2><span class="section-number">2.3. </span>Créer des noeuds et des relations<a class="headerlink" href="#creer-des-noeuds-et-des-relations" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.3. </span>Créer des noeuds et des relations<a class="headerlink" href="#creer-des-noeuds-et-des-relations" title="Link to this heading">#</a></h2>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> permet de vérifier à la fois l’existence des noeuds et l’existence des relations, voire l’existence d’un motif complet, avant création.
 Si le noeud, la relation, ou le motif existe déjà, il est sélectionné. Sinon, il est créé.</p>
 <div class="tip admonition">
@@ -733,7 +733,7 @@ Les deux noeuds sont à connecter avec une relation <code class="docutils litera
 </div>
 </section>
 <section id="creer-un-index">
-<h2><span class="section-number">2.4. </span>Créer un index<a class="headerlink" href="#creer-un-index" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.4. </span>Créer un index<a class="headerlink" href="#creer-un-index" title="Link to this heading">#</a></h2>
 <p>L’<strong>indexation</strong> améliore la <strong>vitesse d’exécution des requêtes en lecture</strong>.
 Si certains <strong>champs</strong> sont <strong>fréquemment sollicités</strong>, <strong>créer un index sur ces champs</strong> permet d’améliorer les performances des requêtes qui font appel à ces champs.</p>
 <p>Pour <strong>afficher les index</strong>, tapez :</p>
@@ -791,7 +791,7 @@ Exercice</div>
 <p>Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/managing-indexes/">documentation</a>.</p>
 </section>
 <section id="creer-une-contrainte">
-<h2><span class="section-number">2.5. </span>Créer une contrainte<a class="headerlink" href="#creer-une-contrainte" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.5. </span>Créer une contrainte<a class="headerlink" href="#creer-une-contrainte" title="Link to this heading">#</a></h2>
 <p>Poser des <strong>contraintes</strong> permet de <strong>garantir la qualité et l’intégrité des données</strong>.
 Quatre catégories de contraintes sont disponibles en Neo4j :</p>
 <ul class="simple">
@@ -883,20 +883,20 @@ Exercice</div>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="01_cypher.html"
+       href="03_lecture_complexe.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Langage Cypher</p>
+        <p class="prev-next-title"><span class="section-number">2.2. </span>Requête complexe</p>
       </div>
     </a>
     <a class="right-next"
-       href="03_lecture.html"
+       href="04_modification.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3. </span>C<strong>R</strong>UD : Lecture</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>CR<strong>U</strong>D : Modification</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -916,21 +916,21 @@ Exercice</div>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-noeud">2.1. Créer un noeud</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create">2.1.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-create">2.1.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">2.1.3. <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-noeud">3.1. Créer un noeud</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create">3.1.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-create">3.1.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">3.1.3. <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-relation">2.2. Créer une relation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.2.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.2.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-merge">2.2.3. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-relation">3.2. Créer une relation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.2.1. <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.2.2. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">CREATE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-et-merge">3.2.3. <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> et <code class="docutils literal notranslate"><span class="pre">MERGE</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-des-noeuds-et-des-relations">2.3. Créer des noeuds et des relations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-index">2.4. Créer un index</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-contrainte">2.5. Créer une contrainte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-des-noeuds-et-des-relations">3.3. Créer des noeuds et des relations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-un-index">3.4. Créer un index</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creer-une-contrainte">3.5. Créer une contrainte</a></li>
 </ul>
   </nav></div>
 

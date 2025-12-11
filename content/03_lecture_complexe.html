@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3.2. Requête complexe &#8212; Neo4j</title>
+    <title>2.2. Requête complexe &#8212; Neo4j</title>
   
   
   
@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/03_lecture_complexe';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. CRUD : Modification" href="04_modification.html" />
-    <link rel="prev" title="3.1. Requête simple" href="03_lecture_simple.html" />
+    <link rel="next" title="3. CRUD : Création" href="02_creation.html" />
+    <link rel="prev" title="2.1. Requête simple" href="03_lecture_simple.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,12 +178,12 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_cypher.html">1. Langage Cypher</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02_creation.html">2. <strong>C</strong>RUD : Création</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_lecture.html">3. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">3.1. Requête simple</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.2. Requête complexe</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="03_lecture.html">2. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="03_lecture_simple.html">2.1. Requête simple</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.2. Requête complexe</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="02_creation.html">3. <strong>C</strong>RUD : Création</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_suppression.html">5. CRU<strong>D</strong> : Suppression</a></li>
 </ul>
@@ -381,13 +381,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sous-clauses">3.2.1. Sous-clauses</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-1">3.2.2. Exercice 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-projection">3.2.3. Clauses de projection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-2">3.2.4. Exercice 2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-sous-requetes">3.2.5. Clauses de sous-requêtes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs">3.2.6. Opérateurs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-3">3.2.7. Exercice 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sous-clauses">2.2.1. Sous-clauses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-1">2.2.2. Exercice 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-projection">2.2.3. Clauses de projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-2">2.2.4. Exercice 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-sous-requetes">2.2.5. Clauses de sous-requêtes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs">2.2.6. Opérateurs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-3">2.2.7. Exercice 3</a></li>
 </ul>
             </nav>
         </div>
@@ -400,7 +400,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="requete-complexe">
-<h1><span class="section-number">3.2. </span>Requête complexe<a class="headerlink" href="#requete-complexe" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">2.2. </span>Requête complexe<a class="headerlink" href="#requete-complexe" title="Link to this heading">#</a></h1>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> est souvent associée à une <strong>sous-clause <code class="docutils literal notranslate"><span class="pre">WHERE</span></code></strong> ainsi qu’à d’<strong>autres clauses et opérateurs</strong> afin d’affiner les requêtes. Neo4j liste toutes les <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/">clauses</a> ainsi que tous les <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/expressions/">opérateurs disponibles</a> dans sa documentation.
 La syntaxe générale est la suivante :</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">...</span>
@@ -417,7 +417,7 @@ Une variable peut également être <strong>explicitement transmise à la clause 
 Si une variable n’est <strong>ni implicitement ni explicitement transmise</strong> à la clause suivante, elle sera <strong>supprimée</strong> et ne sera <strong>plus disponible</strong> pour référence ultérieure dans la requête.</p>
 </div>
 <section id="sous-clauses">
-<h2><span class="section-number">3.2.1. </span>Sous-clauses<a class="headerlink" href="#sous-clauses" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.2.1. </span>Sous-clauses<a class="headerlink" href="#sous-clauses" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">WHERE</span></code> doit être utilisée avec une clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code>, <code class="docutils literal notranslate"><span class="pre">OPTIONAL</span> <span class="pre">MATCH</span></code> ou <code class="docutils literal notranslate"><span class="pre">WITH</span></code>. Elle ne peut pas être utilisée seule, c’est pourquoi on parle de sous-clause.
 <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> permet de spécifier des <strong>conditions de filtrage supplémentaires</strong>.</p>
 <div class="tip admonition">
@@ -482,7 +482,7 @@ elle est généralement combinée avec <code class="docutils literal notranslate
 </div>
 </section>
 <section id="exercice-1">
-<h2><span class="section-number">3.2.2. </span>Exercice 1<a class="headerlink" href="#exercice-1" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.2.2. </span>Exercice 1<a class="headerlink" href="#exercice-1" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Quels acteurs ont joué dans un film entre 2000 et 2005 ? Affichez leur nom, le nombre de films et la liste desdits films. Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">AND</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> et <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>.</p></li>
 <li><p>Affichez le nombre de films par année de parution dans l’ordre croissant des années.</p></li>
@@ -490,7 +490,7 @@ elle est généralement combinée avec <code class="docutils literal notranslate
 </ol>
 </section>
 <section id="clauses-de-projection">
-<h2><span class="section-number">3.2.3. </span>Clauses de projection<a class="headerlink" href="#clauses-de-projection" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.2.3. </span>Clauses de projection<a class="headerlink" href="#clauses-de-projection" title="Link to this heading">#</a></h2>
 <p>Les clauses de projection définissent les variables ou expressions à renvoyer en tant que résultat de la requête (<code class="docutils literal notranslate"><span class="pre">RETURN</span></code>),
 ou à transmettre à la clause suivante en tant que résultats intermédiaires.</p>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">WITH</span></code> permet de créer de nouvelles variables à l’aide de <code class="docutils literal notranslate"><span class="pre">AS</span></code>, contrôler quelles variables sont transmises à la clause suivante,
@@ -538,7 +538,7 @@ Pour trouver tous les rôles uniques de la base de données, nous pouvons utilis
 </div>
 </section>
 <section id="exercice-2">
-<h2><span class="section-number">3.2.4. </span>Exercice 2<a class="headerlink" href="#exercice-2" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.2.4. </span>Exercice 2<a class="headerlink" href="#exercice-2" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Quels sont le ou les acteurs les plus vieux a avoir joué dans <code class="docutils literal notranslate"><span class="pre">Joe</span> <span class="pre">Versus</span> <span class="pre">the</span> <span class="pre">Volcano</span></code> ?</p></li>
 <li><p>Y a-t-il des acteurs nés à une autre date dans ce film ? Ne rentrez pas à la main ladite date.</p></li>
@@ -557,7 +557,7 @@ Le tableau doit avoir une ligne par acteur et autant de colonnes que de période
 </div>
 </section>
 <section id="clauses-de-sous-requetes">
-<h2><span class="section-number">3.2.5. </span>Clauses de sous-requêtes<a class="headerlink" href="#clauses-de-sous-requetes" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.2.5. </span>Clauses de sous-requêtes<a class="headerlink" href="#clauses-de-sous-requetes" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">COLLECT</span></code>, comme <code class="docutils literal notranslate"><span class="pre">collect()</span></code>, permet de récupérer un ensemble de valeurs sous forme de liste,
 la différence étant que la clause <code class="docutils literal notranslate"><span class="pre">COLLECT</span></code> doit être appliquée à une sous-requête.
 Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/collect/">documentation</a>.</p>
@@ -598,7 +598,7 @@ Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.c
 </div>
 </section>
 <section id="operateurs">
-<h2><span class="section-number">3.2.6. </span>Opérateurs<a class="headerlink" href="#operateurs" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.2.6. </span>Opérateurs<a class="headerlink" href="#operateurs" title="Link to this heading">#</a></h2>
 <p>Les <strong>opérateurs de comparaison</strong> permettent de comparer deux éléments entre eux.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -749,7 +749,7 @@ Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.c
 </div>
 </section>
 <section id="exercice-3">
-<h2><span class="section-number">3.2.7. </span>Exercice 3<a class="headerlink" href="#exercice-3" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.2.7. </span>Exercice 3<a class="headerlink" href="#exercice-3" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Quels sont les films commençant par la lettre C sortis en 2005 ou après ?</p></li>
 <li><p>Quels sont les films sortis en 1990, en 2000 et en 2012 ? Répondez à la question en une seule requête. Proposez deux façons de procéder.</p></li>
@@ -817,15 +817,15 @@ co-acteurs de Tom Hanks.</p></li>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.1. </span>Requête simple</p>
+        <p class="prev-next-title"><span class="section-number">2.1. </span>Requête simple</p>
       </div>
     </a>
     <a class="right-next"
-       href="04_modification.html"
+       href="02_creation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>CR<strong>U</strong>D : Modification</p>
+        <p class="prev-next-title"><span class="section-number">3. </span><strong>C</strong>RUD : Création</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -845,13 +845,13 @@ co-acteurs de Tom Hanks.</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sous-clauses">3.2.1. Sous-clauses</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-1">3.2.2. Exercice 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-projection">3.2.3. Clauses de projection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-2">3.2.4. Exercice 2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-sous-requetes">3.2.5. Clauses de sous-requêtes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs">3.2.6. Opérateurs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-3">3.2.7. Exercice 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sous-clauses">2.2.1. Sous-clauses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-1">2.2.2. Exercice 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-projection">2.2.3. Clauses de projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-2">2.2.4. Exercice 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-sous-requetes">2.2.5. Clauses de sous-requêtes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs">2.2.6. Opérateurs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-3">2.2.7. Exercice 3</a></li>
 </ul>
   </nav></div>
 
