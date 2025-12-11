@@ -21,10 +21,10 @@ kernelspec:
 :::{grid-item-card} Objectif
 Dans ce chapitre vous apprendrez à insérer des noeuds et des relations dans une base de données Neo4j.    
 :::
-
+    
 ::::
 
-Nous allons construire ce graphe : 
+Nous allons construire ce graphe :   
 
 ```{figure} ../image/exemple_neo4j_creation.png
 ---

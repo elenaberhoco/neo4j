@@ -34,14 +34,14 @@ Si une variable n'est **ni implicitement ni explicitement transmise** à la clau
 ## Sous-clauses
 
 `WHERE` doit être utilisée avec une clause `MATCH`, `OPTIONAL MATCH` ou `WITH`. Elle ne peut pas être utilisée seule, c'est pourquoi on parle de sous-clause. 
-`WHERE` permet de spécifier des **conditions de filtrage supplémentaires**.   
+`WHERE` permet de spécifier des **conditions de filtrage supplémentaires**.     
 
 ````{admonition} Example
 :class: tip
 
 **Exemple n°1.** Les deux instructions suivantes sont équivalentes. Que font-elles ?  
 ```
-MATCH (p:Person{born:1965})
+MATCH (p:Person{born:1965})   
 RETURN collect(p.name) AS personBorn1965
 ```
 ```

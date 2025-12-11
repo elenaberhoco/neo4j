@@ -21,14 +21,14 @@ Dans Cypher, le comportement d'une requête est défini par ses **clauses**, i.e
 Chaque clause prend l'**état actuel du graphe** et un tableau de **résultats intermédiaires**, les traite, 
 puis transmet l'**état mis à jour** du graphe et les **résultats** à la **clause suivante**. 
 
-La première clause d'une instruction Cypher est généralement `MATCH`. 
+La première clause d'une instruction Cypher est généralement `MATCH`.   
 Elle permet de **spécifier les motifs à rechercher dans le graphe** de données. La syntaxe générale est la suivante :  
 ```sql
 MATCH ...   
 ... 
 RETURN ...  
 ``` 
-  
+   
 `RETURN` permet de définir les noeuds, les relations et les propriétés à inclure dans le **résultat de la requête**.
 
 
@@ -43,7 +43,7 @@ Créez un nouveau projet et cliquez sur la tuile "Movies" dans la section "Pre-b
 ## Requête sur les noeuds 
 
 Dans Neo4j, vous pouvez effectuer des requêtes à partir des **labels** et des **propriétés** des **noeuds**. 
-La syntaxe est la suivante :  
+La syntaxe est la suivante :    
 ```
 MATCH (<node>:<Label>{<key>:<value>,...})                           
 RETURN ...  

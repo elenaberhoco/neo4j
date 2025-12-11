@@ -23,7 +23,7 @@ Il est organisé selon les quatre grandes catégories d'interaction que l'on peu
 - **C**reate (Créer) : Toute opération qui consiste à ajouter de nouveaux enregistrements à la base de données.
 - **R**ead (Lire) : Toute opération qui consiste à récupérer certaines informations en fonction des critères de recherche spécifiés.
 - **U**pdate (Mettre à jour) : Toute opération qui consiste à modifier des enregistrements de la base de données.
-- **D**elete (Supprimer) : Toute opération qui consiste à supprimer des enregistrements de la base de données, voire la base de données elle-même.
+- **D**elete (Supprimer) : Toute opération qui consiste à supprimer des enregistrements de la base de données, voire la base de données elle-même.   
   
 ## Neo4j
 

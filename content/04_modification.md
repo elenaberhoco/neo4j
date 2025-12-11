@@ -20,6 +20,7 @@ kernelspec:
 
 :::{grid-item-card} Objectif
 Dans ce chapitre, vous apprendrez à modifier des noeuds et des relations, ainsi qu'à définir des index et des contraintes.  
+ 
 :::
 
 ::::
