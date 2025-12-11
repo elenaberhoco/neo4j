@@ -43,7 +43,7 @@ La syntaxe est la suivante :
 CREATE (<node>:<Labels>{<key>:<value>,...}), ...
 ```
 où :
-- `<node>` : nom de la variable qui pointera vers les noeuds sélectionnés, si besoin (voir Chapitre 3)
+- `<node>` : nom de la variable qui pointera vers les noeuds sélectionnés, si besoin (voir Chapitre 2)
 - `<Labels>` : un ou plusieurs labels
 - `{<key>:<value>,...}` : propriétés
 
@@ -163,7 +163,7 @@ CREATE (<start_node>)-[<relationship>:<TYPE>{<key>:<value>,...}]->(<end_node>) .
 ```
 où :
 - `<start_node>`, `<end_node>` : noeuds tels que définis à la section précédente
-- `<relationship>` : nom de la variable qui pointera vers les relations sélectionnées, si besoin (voir Chapitre 3)
+- `<relationship>` : nom de la variable qui pointera vers les relations sélectionnées, si besoin (voir Chapitre 2)
 - `<TYPE>` : type de la relation
 - `{<key>:<value>,...}` : propriétés
 
@@ -197,7 +197,7 @@ et une relation `HAS_CAT` avec une propriété `since` qui vaut `2019` entre les
 
 ### `MATCH` et `CREATE`
 
-Pour créer une nouvelle relation entre deux noeuds existants, faites précéder `CREATE` d'une clause `MATCH` (voir Chapitre 3). 
+Pour créer une nouvelle relation entre deux noeuds existants, faites précéder `CREATE` d'une clause `MATCH` (voir Chapitre 2). 
 
 ````{admonition} Example
 :class: tip

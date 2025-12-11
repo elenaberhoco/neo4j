@@ -5,10 +5,10 @@ options:
   numbered: true
 chapters:
 - file: content/01_cypher
-- file: content/02_creation
 - file: content/03_lecture
   sections:
   - file: content/03_lecture_simple
   - file: content/03_lecture_complexe
+- file: content/02_creation
 - file: content/04_modification  
 - file: content/05_suppression  
