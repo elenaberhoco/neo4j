@@ -161,14 +161,17 @@ RETURN DISTINCT roles
 
 ## Exercice 2
 
-1. Quels sont le ou les acteurs les plus vieux a avoir joué dans dans `Joe Versus the Volcano` ? 
+1. Quels sont le ou les acteurs les plus vieux a avoir joué dans `Joe Versus the Volcano` ? 
 2. Y a-t-il des acteurs nés à une autre date dans ce film ? Ne rentrez pas à la main ladite date.
 
 ````{admonition} Bonus
 :class: dropdown
  
 
-3. Construisez un tableau avec une ligne par acteur et une colonne pour chaque période : `]-inf, 1990[`, `[1990, 1995[`, `[1995, 2000[`, `[2000, 2005[`, `[2005, 2010[`, `[2010, +inf[`  
+3. Construisez un tableau contenant le nombre de films dans lesquels chaque acteur a joué pour chacune des périodes suivantes :
+`]-inf, 1990[`, `[1990, 1995[`, `[1995, 2000[`, `[2000, 2005[`, `[2005, 2010[` et `[2010, +inf[`. 
+Le tableau doit avoir une ligne par acteur et autant de colonnes que de périodes.   
+
 ```{admonition} Aide
 :class: dropdown
 
@@ -179,7 +182,7 @@ RETURN DISTINCT roles
 ## Clauses de sous-requêtes
 
 `COLLECT`, comme `collect()`, permet de récupérer un ensemble de valeurs sous forme de liste, 
-la différence étant que la clause `COLLECT` doit être appliquée à une sous-requête (i.e motif de graphe). 
+la différence étant que la clause `COLLECT` doit être appliquée à une sous-requête. 
 Pour en savoir plus, voir la [documentation](https://neo4j.com/docs/cypher-manual/current/subqueries/collect/).
 
 ````{admonition} Example
@@ -196,7 +199,7 @@ RETURN p.name AS name,
 ````
 
 `COUNT`, comme `count()`, permet de compter un ensemble d'éléments, 
-la différence étant que la clause `COUNT` doit être appliquée à une sous-requête (i.e motif de graphe). 
+la différence étant que la clause `COUNT` doit être appliquée à une sous-requête. 
 Pour en savoir plus, voir la [documentation](https://neo4j.com/docs/cypher-manual/current/subqueries/count/).
 
 ````{admonition} Example
