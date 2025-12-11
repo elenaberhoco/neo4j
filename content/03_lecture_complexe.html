@@ -423,7 +423,7 @@ Si une variable n’est <strong>ni implicitement ni explicitement transmise</str
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <p><strong>Exemple n°1.</strong> Les deux instructions suivantes sont équivalentes. Que font-elles ?</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">born</span><span class="p">:</span><span class="mi">1965</span><span class="p">})</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">born</span><span class="p">:</span><span class="mi">1965</span><span class="p">})</span>   
 <span class="n">RETURN</span> <span class="n">collect</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="n">AS</span> <span class="n">personBorn1965</span>
 </pre></div>
 </div>
