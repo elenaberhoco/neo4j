@@ -24,3 +24,5 @@ Dans ce chapitre, vous apprendrez à modifier des noeuds et des relations, ainsi
 :::
 
 ::::
+
+La clause `SET` permet de modifier les labels des noeuds et les propriétés des noeuds et des relations.

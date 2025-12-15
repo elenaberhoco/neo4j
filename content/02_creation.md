@@ -122,7 +122,7 @@ MERGE (:Movie {title:'The Hobbit', released:2012, tagline:"From the smallest beg
 ```
 ````
 :::{caution}
-Si la **correspondance n'est pas exacte** entre un **noeud existant** et le **noeud à créer**, et si le noeud à créer a des **propriétés** ou des **labels** 
+Si la **correspondance n'est pas exacte** entre un **noeud existant** et le **noeud à créer**, si le noeud à créer a des **propriétés** ou des **labels** 
 que le noeud existant n'a pas, alors un **nouveau noeud** sera **créé** (sauf si contrainte d'unicité).   
   
 Par exemple, écrire :
