@@ -387,8 +387,8 @@ document.write(`
 <h1><span class="section-number">1. </span>Langage Cypher<a class="headerlink" href="#langage-cypher" title="Link to this heading">#</a></h1>
 <p><strong>Cypher</strong> est le langage déclaratif de type SQL utilisé dans Neo4j.
 Il est relativement intuitif car le format des requêtes <strong>s’inspire de la façon dont on représente habituellement les graphes</strong> : des <strong>cercles</strong> pour les noeuds et des <strong>flèches</strong> pour les relations.
-Cypher utilise des <strong>parenthèses</strong> pour les <strong>noeuds</strong>, des <strong>flèches</strong> (ex : <code class="docutils literal notranslate"><span class="pre">--&gt;</span></code>) et des <strong>crochets</strong> (<code class="docutils literal notranslate"><span class="pre">[</span></code>) pour les <strong>relations</strong>, et des <strong>accolades</strong> (<code class="docutils literal notranslate"><span class="pre">{</span></code>) pour les <strong>propriétés</strong>. Pour faire référence aux <strong>labels</strong> des noeuds et au <strong>type</strong> des relations, il faudra les précéder de <strong><code class="docutils literal notranslate"><span class="pre">:</span></code></strong>.<br />
-Cypher fait les recommandations suivantes:</p>
+Cypher utilise des <strong>parenthèses</strong> pour les <strong>noeuds</strong>, des <strong>flèches</strong> (ex : <code class="docutils literal notranslate"><span class="pre">--&gt;</span></code>) et des <strong>crochets</strong> (<code class="docutils literal notranslate"><span class="pre">[</span></code>) pour les <strong>relations</strong>, et des <strong>accolades</strong> (<code class="docutils literal notranslate"><span class="pre">{</span></code>) pour les <strong>propriétés</strong>. Pour faire référence aux <strong>labels</strong> des noeuds et au <strong>type</strong> des relations, il faudra les précéder de <strong><code class="docutils literal notranslate"><span class="pre">:</span></code></strong>.</p>
+<p>Cypher fait les recommandations suivantes:</p>
 <ul class="simple">
 <li><p>Labels :</p>
 <ul>
@@ -418,7 +418,7 @@ Cypher fait les recommandations suivantes:</p>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Noeud seul</div>
-<p class="sd-card-text">( n )</p>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">n</span> <span class="pre">)</span></code></p>
 </div>
 </div>
 </div>
@@ -427,7 +427,7 @@ Noeud seul</div>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Noeud avec label</div>
-<p class="sd-card-text">( n : Label )</p>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">n</span> <span class="pre">:</span> <span class="pre">Label</span> <span class="pre">)</span></code></p>
 </div>
 </div>
 </div>
@@ -440,7 +440,7 @@ Noeud avec label</div>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Noeud avec label et propriétés</div>
-<p class="sd-card-text">( n : Label { clé : valeur … } )</p>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">n</span> <span class="pre">:</span> <span class="pre">Label</span> <span class="pre">{</span> <span class="pre">clé</span> <span class="pre">:</span> <span class="pre">valeur</span> <span class="pre">...</span> <span class="pre">}</span> <span class="pre">)</span></code></p>
 </div>
 </div>
 </div>
@@ -453,8 +453,10 @@ Noeud avec label et propriétés</div>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Relation orientée sans type</div>
-<p class="sd-card-text">( n1 ) - - &gt; ( n2 )<br />
-( n1 ) &lt; - - ( n2 )</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="o">-</span> <span class="o">&gt;</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>   
+<span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="o">-</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -463,7 +465,9 @@ Relation orientée sans type</div>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Relation non orientée sans type</div>
-<p class="sd-card-text">( n1 ) - - ( n2 )</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -476,9 +480,11 @@ Relation non orientée sans type</div>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Relation avec type</div>
-<p class="sd-card-text">( n1 ) - [ : RELATION_TYPE] -&gt; ( n2 )<br />
-( n1 ) &lt;- [ : RELATION_TYPE] - ( n2 )<br />
-( n1 ) - [ : RELATION_TYPE] - ( n2 )</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="p">[</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>   
+<span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">&lt;-</span> <span class="p">[</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>   
+<span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="p">[</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -491,9 +497,11 @@ Relation avec type</div>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Relation avec type et propriétés</div>
-<p class="sd-card-text">( n1 ) - [ : RELATION_TYPE { clé : valeur, … }] -&gt; ( n2 )<br />
-( n1 ) &lt;- [ : RELATION_TYPE { clé : valeur, … }] - ( n2 )<br />
-( n1 ) - [ : RELATION_TYPE { clé : valeur, … }] - ( n2 )</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="p">[</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span> <span class="p">{</span> <span class="n">clé</span> <span class="p">:</span> <span class="n">valeur</span><span class="p">,</span> <span class="o">...</span> <span class="p">}]</span> <span class="o">-&gt;</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>   
+<span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">&lt;-</span> <span class="p">[</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span> <span class="p">{</span> <span class="n">clé</span> <span class="p">:</span> <span class="n">valeur</span><span class="p">,</span> <span class="o">...</span> <span class="p">}]</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>   
+<span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="p">[</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span> <span class="p">{</span> <span class="n">clé</span> <span class="p">:</span> <span class="n">valeur</span><span class="p">,</span> <span class="o">...</span> <span class="p">}]</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span>   
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -506,8 +514,10 @@ Relation avec type et propriétés</div>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Chemins</div>
-<p class="sd-card-text">( n1 ) - - &gt; ( n2 ) &lt; - - ( n3 )<br />
-( n1 ) - [ r1 : RELATION_TYPE] -&gt; ( n2 ) &lt;- [ r2 : RELATION_TYPE] - ( n3 )</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="o">-</span> <span class="o">&gt;</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="o">-</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n3</span> <span class="p">)</span>    
+<span class="p">(</span> <span class="n">n1</span> <span class="p">)</span> <span class="o">-</span> <span class="p">[</span> <span class="n">r1</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">(</span> <span class="n">n2</span> <span class="p">)</span> <span class="o">&lt;-</span> <span class="p">[</span> <span class="n">r2</span> <span class="p">:</span> <span class="n">RELATION_TYPE</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span> <span class="n">n3</span> <span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>

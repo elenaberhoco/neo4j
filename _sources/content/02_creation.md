@@ -122,7 +122,7 @@ MERGE (:Movie {title:'The Hobbit', released:2012, tagline:"From the smallest beg
 ```
 ````
 :::{caution}
-Si la **correspondance n'est pas exacte** entre un **noeud existant** et le **noeud à créer**, et si le noeud à créer a des **propriétés** ou des **labels** 
+Si la **correspondance n'est pas exacte** entre un **noeud existant** et le **noeud à créer**, si le noeud à créer a des **propriétés** ou des **labels** 
 que le noeud existant n'a pas, alors un **nouveau noeud** sera **créé** (sauf si contrainte d'unicité).   
   
 Par exemple, écrire :
@@ -159,7 +159,7 @@ La clause `CREATE` permet de **créer une ou plusieurs relations ainsi que les n
 Chaque relation doit avoir **exactement un type** et une **direction**. Elle peut aussi se voir attribuer des **propriétés**. 
 La syntaxe est la suivante (l'orientation de la flèche est purement illustrative) :  
 ```
-CREATE (<start_node>)-[<relationship>:<TYPE>{<key>:<value>,...}]->(<end_node>) ...
+CREATE (<start_node>)-[<relationship>:<TYPE>{<key>:<value>,...}]->(<end_node>)
 ```
 où :
 - `<start_node>`, `<end_node>` : noeuds tels que définis à la section précédente

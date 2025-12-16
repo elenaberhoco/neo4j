@@ -525,7 +525,7 @@ Vous ne pouvez spécifier qu’un seul noeud à la fois avec <code class="docuti
 </div>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
-<p>Si la <strong>correspondance n’est pas exacte</strong> entre un <strong>noeud existant</strong> et le <strong>noeud à créer</strong>, et si le noeud à créer a des <strong>propriétés</strong> ou des <strong>labels</strong>
+<p>Si la <strong>correspondance n’est pas exacte</strong> entre un <strong>noeud existant</strong> et le <strong>noeud à créer</strong>, si le noeud à créer a des <strong>propriétés</strong> ou des <strong>labels</strong>
 que le noeud existant n’a pas, alors un <strong>nouveau noeud</strong> sera <strong>créé</strong> (sauf si contrainte d’unicité).</p>
 <p>Par exemple, écrire :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MERGE</span> <span class="p">(:</span><span class="n">Person</span><span class="p">:</span><span class="n">Actor</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s1">&#39;Benedict Cumberbatch&#39;</span><span class="p">})</span>
@@ -564,7 +564,7 @@ Exercice</div>
 <p>La clause <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> permet de <strong>créer une ou plusieurs relations ainsi que les noeuds associés</strong>.
 Chaque relation doit avoir <strong>exactement un type</strong> et une <strong>direction</strong>. Elle peut aussi se voir attribuer des <strong>propriétés</strong>.
 La syntaxe est la suivante (l’orientation de la flèche est purement illustrative) :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">start_node</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">&lt;</span><span class="n">relationship</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">end_node</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">...</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">start_node</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">&lt;</span><span class="n">relationship</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">TYPE</span><span class="o">&gt;</span><span class="p">{</span><span class="o">&lt;</span><span class="n">key</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span><span class="o">...</span><span class="p">}]</span><span class="o">-&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">end_node</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>où :</p>

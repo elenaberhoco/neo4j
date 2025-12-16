@@ -101,11 +101,17 @@ LIMIT 1
 ```
 ```` 
 
-## Exercice 1
+::::{grid}
+:gutter: 1
+
+:::{grid-item-card} Exercice
 
 1. Quels acteurs ont joué dans un film entre 2000 et 2005 ? Affichez leur nom, le nombre de films et la liste desdits films. Vous pouvez utiliser `AND`, `<=` et `>=`.
 2. Affichez le nombre de films par année de parution dans l'ordre croissant des années.
 3. Quels sont les 3 films comptabilisant le plus d'acteurs ?
+
+:::
+::::
 
 ## Clauses de projection
 
@@ -159,7 +165,10 @@ RETURN DISTINCT roles
 ```
 ````
 
-## Exercice 2
+::::{grid}
+:gutter: 1
+
+:::{grid-item-card} Exercice
 
 1. Quels sont le ou les acteurs les plus vieux a avoir joué dans `Joe Versus the Volcano` ? 
 2. Y a-t-il des acteurs nés à une autre date dans ce film ? Ne rentrez pas à la main ladite date.
@@ -178,6 +187,8 @@ Le tableau doit avoir une ligne par acteur et autant de colonnes que de période
 `count()` peut contenir une expression.
 ```
 ````
+:::
+::::
 
 ## Clauses de sous-requêtes
 
@@ -334,7 +345,7 @@ WHERE p.name STARTS WITH "Tom "
 RETURN p.name AS name
 ``` 
 ````
-## Exercice 3
+## Exercice
 
 1. Quels sont les films commençant par la lettre C sortis en 2005 ou après ?  
 2. Quels sont les films sortis en 1990, en 2000 et en 2012 ? Répondez à la question en une seule requête. Proposez deux façons de procéder. 
