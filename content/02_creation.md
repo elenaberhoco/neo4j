@@ -159,7 +159,7 @@ La clause `CREATE` permet de **créer une ou plusieurs relations ainsi que les n
 Chaque relation doit avoir **exactement un type** et une **direction**. Elle peut aussi se voir attribuer des **propriétés**. 
 La syntaxe est la suivante (l'orientation de la flèche est purement illustrative) :  
 ```
-CREATE (<start_node>)-[<relationship>:<TYPE>{<key>:<value>,...}]->(<end_node>) ...
+CREATE (<start_node>)-[<relationship>:<TYPE>{<key>:<value>,...}]->(<end_node>)
 ```
 où :
 - `<start_node>`, `<end_node>` : noeuds tels que définis à la section précédente
