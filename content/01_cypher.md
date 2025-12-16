@@ -67,7 +67,9 @@ Exemples non exhaustifs de syntaxe :
 :::
 
 :::{grid-item-card} Relation non orientée sans type
+```
 ( n1 ) - - ( n2 )
+```
 :::
 
 ::::
@@ -76,9 +78,11 @@ Exemples non exhaustifs de syntaxe :
 :gutter: 1
 
 :::{grid-item-card} Relation avec type
+```
 ( n1 ) - [ : RELATION_TYPE] -> ( n2 )   
 ( n1 ) <- [ : RELATION_TYPE] - ( n2 )   
 ( n1 ) - [ : RELATION_TYPE] - ( n2 )
+```
 :::
 
 ::::
@@ -87,9 +91,11 @@ Exemples non exhaustifs de syntaxe :
 :gutter: 1
 
 :::{grid-item-card} Relation avec type et propriétés
+```
 ( n1 ) - [ : RELATION_TYPE { clé : valeur, ... }] -> ( n2 )   
 ( n1 ) <- [ : RELATION_TYPE { clé : valeur, ... }] - ( n2 )   
 ( n1 ) - [ : RELATION_TYPE { clé : valeur, ... }] - ( n2 )   
+```
 :::
 
 ::::
@@ -98,8 +104,10 @@ Exemples non exhaustifs de syntaxe :
 :gutter: 1
 
 :::{grid-item-card} Chemins
+```
 ( n1 ) - - > ( n2 ) < - - ( n3 )    
 ( n1 ) - [ r1 : RELATION_TYPE] -> ( n2 ) <- [ r2 : RELATION_TYPE] - ( n3 )
+```
 :::
 
 ::::
