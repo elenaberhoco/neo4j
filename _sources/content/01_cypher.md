@@ -38,22 +38,26 @@ Exemples non exhaustifs de syntaxe :
 :gutter: 2
 
 :::{grid-item-card} Noeud seul
-`( n )`
+```
+( n )
+```
 :::
 
 :::{grid-item-card} Noeud avec label
-`( n : Label )`
+```
+( n : Label )
+```
 :::
-
 ::::
 
 ::::{grid}
 :gutter: 1
 
 :::{grid-item-card} Noeud avec label et propriétés
-`( n : Label { clé : valeur ... } )`
+```
+( n : Label { clé : valeur ... } )
+```
 :::
-
 ::::
 
 ::::{grid}

@@ -113,16 +113,16 @@ CALL (n) {
 } IN TRANSACTIONS
 ```
 
-Pour supprimer l'entièreté du graphe, y compris les index et les contraintes, il faut recréer la base de données en utilisant la commande : 
+Pour **supprimer l'entièreté du graphe, y compris les index et les contraintes**, il faut recréer la base de données en utilisant la commande : 
 ```
 CREATE OR REPLACE DATABASE <database_name>
 ```
 
 ## Propriétés et labels
 
-La clause `REMOVE` permet de supprimer des propriétés et des labels.
+La clause `REMOVE` permet de **supprimer des propriétés et des labels**.
 
-La syntaxe pour les propriétés est la suivante : 
+La syntaxe pour les **propriétés** est la suivante : 
 * Pour un noeud :
 ```
 MATCH (<node>)
@@ -135,13 +135,13 @@ REMOVE <relationship>.<property>
 ```
 
 Il est également possible de supprimer des propriétés à l'aide `SET` et de `null`. 
-La syntaxe pour les noeuds est la suivantes (à transposer aux relations) :
+La syntaxe pour les noeuds est la suivante (à transposer aux relations) :
 ```
 MATCH (<node>)
 SET <node>.<property> = null
 ```
 
-Pour supprimer l'ensemble des propriétés, une façon de procéder est la suivante (à transposer aux relations) :
+Pour supprimer l'**ensemble des propriétés**, une façon de procéder est la suivante (à transposer aux relations) :
 ```
 MATCH (<node>)
 SET <node> = {}
@@ -164,13 +164,13 @@ RETURN p.title as title, keys(p)
 ```
 ````
 
-La syntaxe pour les labels est la suivante : 
+La syntaxe pour les **labels** est la suivante : 
 ```
 MATCH (<node>)
 REMOVE <node>:Label:...
 ```
 
-Pour supprimer l'ensemble des labels, une façon de procéder est la suivante :
+Pour supprimer l'**ensemble des labels**, une façon de procéder est la suivante :
 ```
 MATCH (<node>)
 REMOVE <node>:$(labels(<node>))

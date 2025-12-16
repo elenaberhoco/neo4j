@@ -485,15 +485,15 @@ Elle n’est pas non plus adaptée pour supprimer de grandes quantités de donn�
 <span class="p">}</span> <span class="n">IN</span> <span class="n">TRANSACTIONS</span>
 </pre></div>
 </div>
-<p>Pour supprimer l’entièreté du graphe, y compris les index et les contraintes, il faut recréer la base de données en utilisant la commande :</p>
+<p>Pour <strong>supprimer l’entièreté du graphe, y compris les index et les contraintes</strong>, il faut recréer la base de données en utilisant la commande :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">OR</span> <span class="n">REPLACE</span> <span class="n">DATABASE</span> <span class="o">&lt;</span><span class="n">database_name</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="proprietes-et-labels">
 <h2><span class="section-number">5.2. </span>Propriétés et labels<a class="headerlink" href="#proprietes-et-labels" title="Link to this heading">#</a></h2>
-<p>La clause <code class="docutils literal notranslate"><span class="pre">REMOVE</span></code> permet de supprimer des propriétés et des labels.</p>
-<p>La syntaxe pour les propriétés est la suivante :</p>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">REMOVE</span></code> permet de <strong>supprimer des propriétés et des labels</strong>.</p>
+<p>La syntaxe pour les <strong>propriétés</strong> est la suivante :</p>
 <ul class="simple">
 <li><p>Pour un noeud :</p></li>
 </ul>
@@ -509,12 +509,12 @@ Elle n’est pas non plus adaptée pour supprimer de grandes quantités de donn�
 </pre></div>
 </div>
 <p>Il est également possible de supprimer des propriétés à l’aide <code class="docutils literal notranslate"><span class="pre">SET</span></code> et de <code class="docutils literal notranslate"><span class="pre">null</span></code>.
-La syntaxe pour les noeuds est la suivantes (à transposer aux relations) :</p>
+La syntaxe pour les noeuds est la suivante (à transposer aux relations) :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="n">SET</span> <span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;.&lt;</span><span class="nb">property</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">null</span>
 </pre></div>
 </div>
-<p>Pour supprimer l’ensemble des propriétés, une façon de procéder est la suivante (à transposer aux relations) :</p>
+<p>Pour supprimer l’<strong>ensemble des propriétés</strong>, une façon de procéder est la suivante (à transposer aux relations) :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="n">SET</span> <span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">{}</span>
 </pre></div>
@@ -534,12 +534,12 @@ La syntaxe pour les noeuds est la suivantes (à transposer aux relations) :</p>
 </pre></div>
 </div>
 </div>
-<p>La syntaxe pour les labels est la suivante :</p>
+<p>La syntaxe pour les <strong>labels</strong> est la suivante :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="n">REMOVE</span> <span class="o">&lt;</span><span class="n">node</span><span class="o">&gt;</span><span class="p">:</span><span class="n">Label</span><span class="p">:</span><span class="o">...</span>
 </pre></div>
 </div>
-<p>Pour supprimer l’ensemble des labels, une façon de procéder est la suivante :</p>
+<p>Pour supprimer l’<strong>ensemble des labels</strong>, une façon de procéder est la suivante :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>MATCH (&lt;node&gt;)
 REMOVE &lt;node&gt;:$(labels(&lt;node&gt;))
 </pre></div>
