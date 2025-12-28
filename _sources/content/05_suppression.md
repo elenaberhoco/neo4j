@@ -216,5 +216,3 @@ vous décidez de déplacer l'information dans les relations `CREATED`.
 Créez la nouvelle propriété à partir de l'ancienne et supprimez l'ancienne.
 7. Supprimez tous les labels des noeuds `Museum`.
 8. Supprimez tout le graphe.
-
-
