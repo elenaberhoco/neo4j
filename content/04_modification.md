@@ -20,7 +20,7 @@ kernelspec:
 
 :::{grid-item-card} Objectif
 Dans ce chapitre, vous apprendrez à modifier des noeuds et des relations.  
- 
+   
 :::
 
 ::::
@@ -195,5 +195,3 @@ CREATE
 
 :::
 ::::
-
-
