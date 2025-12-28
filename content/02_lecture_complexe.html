@@ -1,0 +1,927 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.2. Requête complexe &#8212; Neo4j</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/02_lecture_complexe';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. CRUD : Création" href="03_creation.html" />
+    <link rel="prev" title="2.1. Requête simple" href="02_lecture_simple.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Neo4j</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_intro.html">
+                    Neo4j : Base de données NoSQL orientée graphe
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_cypher.html">1. Langage Cypher</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="02_lecture.html">2. C<strong>R</strong>UD : Lecture</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="02_lecture_simple.html">2.1. Requête simple</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.2. Requête complexe</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="03_creation.html">3. <strong>C</strong>RUD : Création</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_creation_volee.html">3.1. Création à la volée et insertion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_creation_import.html">3.2. Création à partir d’un fichier</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_suppression.html">5. CRU<strong>D</strong> : Suppression</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/elenaberhoco/neo4j/issues/new?title=Issue%20on%20page%20%2Fcontent/02_lecture_complexe.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/content/02_lecture_complexe.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Requête complexe</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sous-clauses">2.2.1. Sous-clauses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-projection">2.2.2. Clauses de projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-sous-requetes">2.2.3. Clauses de sous-requêtes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs">2.2.4. Opérateurs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">2.2.5. Exercice</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="requete-complexe">
+<h1><span class="section-number">2.2. </span>Requête complexe<a class="headerlink" href="#requete-complexe" title="Link to this heading">#</a></h1>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> est souvent associée à une <strong>sous-clause <code class="docutils literal notranslate"><span class="pre">WHERE</span></code></strong> ainsi qu’à d’<strong>autres clauses et opérateurs</strong> afin d’affiner les requêtes. Neo4j liste toutes les <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/clauses/">clauses</a> ainsi que tous les <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/expressions/">opérateurs disponibles</a> dans sa documentation.
+La syntaxe générale est la suivante :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">...</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">...</span>
+<span class="p">...</span>
+<span class="k">RETURN</span><span class="w">  </span>
+<span class="p">...</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Une variable peut être <strong>implicitement passée à la clause suivante</strong> si elle est référencée dans une opération (ex : <code class="docutils literal notranslate"><span class="pre">max()</span></code>).
+Une variable peut également être <strong>explicitement transmise à la clause suivante</strong> à l’aide de la clause <code class="docutils literal notranslate"><span class="pre">WITH</span></code> (voir 3.2.2).
+Si une variable n’est <strong>ni implicitement ni explicitement transmise</strong> à la clause suivante, elle sera <strong>supprimée</strong> et ne sera <strong>plus disponible</strong> pour référence ultérieure dans la requête.</p>
+</div>
+<section id="sous-clauses">
+<h2><span class="section-number">2.2.1. </span>Sous-clauses<a class="headerlink" href="#sous-clauses" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">WHERE</span></code> doit être utilisée avec une clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code>, <code class="docutils literal notranslate"><span class="pre">OPTIONAL</span> <span class="pre">MATCH</span></code> ou <code class="docutils literal notranslate"><span class="pre">WITH</span></code>. Elle ne peut pas être utilisée seule, c’est pourquoi on parle de sous-clause.
+<code class="docutils literal notranslate"><span class="pre">WHERE</span></code> permet de spécifier des <strong>conditions de filtrage supplémentaires</strong>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Les deux instructions suivantes sont équivalentes. Que font-elles ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">{</span><span class="n">born</span><span class="p">:</span><span class="mi">1965</span><span class="p">})</span>   
+<span class="n">RETURN</span> <span class="n">collect</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="n">AS</span> <span class="n">personBorn1965</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="n">WHERE</span> <span class="n">p</span><span class="o">.</span><span class="n">born</span> <span class="o">=</span> <span class="mi">1965</span>
+<span class="n">RETURN</span> <span class="n">collect</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="n">AS</span> <span class="n">personBorn1965</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> permet de réaliser des filtrages impossibles à réaliser avec une clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> uniquement, comme des filtrages comprenant des conditions d’inégalité. Que fait cette commande ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s2">&quot;Lana Wachowski&quot;</span><span class="p">})</span>
+<span class="n">WHERE</span> <span class="n">m</span><span class="o">.</span><span class="n">released</span> <span class="o">&lt;</span> <span class="mi">2005</span>
+<span class="n">RETURN</span> <span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> modifie l’<strong>ordre des résultats</strong> obtenus à l’issue d’un <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> ou d’un <code class="docutils literal notranslate"><span class="pre">WITH</span></code>.
+Depuis la version 5.24 de Neo4j, <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> peut aussi être utilisé seul. La syntaxe est la suivante :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="o">&lt;</span><span class="n">property_or_variable</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="k">ASC</span><span class="o">|</span><span class="k">DESC</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Par défaut, <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> trie les résultats en fonction d’une propriété ou d’une variable par ordre croissant (<code class="docutils literal notranslate"><span class="pre">ASC</span></code> pour <em>ascending</em>).
+Pour trier par ordre décroissant, il suffit de spécifier <code class="docutils literal notranslate"><span class="pre">DESC</span></code> en fin d’instruction. Il est possible de spécifier plusieurs propriétés et/ou variables à la fois.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Pour trier par ordre croissant de parution les films produits ou réalisés par <code class="docutils literal notranslate"><span class="pre">Nora</span> <span class="pre">Ephron</span></code>, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(:</span><span class="n">Person</span><span class="p">{</span><span class="n">name</span><span class="p">:</span><span class="s2">&quot;Nora Ephron&quot;</span><span class="p">})</span><span class="o">-</span><span class="p">[:</span><span class="n">PRODUCED</span><span class="o">|</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">m</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">movies</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">released</span> <span class="n">AS</span> <span class="n">year</span>
+<span class="n">ORDER</span> <span class="n">BY</span> <span class="n">m</span><span class="o">.</span><span class="n">released</span> 
+</pre></div>
+</div>
+<p>Vous auriez aussi pu placer <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> avec <code class="docutils literal notranslate"><span class="pre">RETURN</span></code>.<br />
+<strong>Exemple n°2 [Activité des acteurs].</strong> Pour trier les acteurs par ordre décroissant en fonction du nombre de films dans lesquels ils ont joué, tapez :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">actor</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">actor</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">actor</span><span class="p">,</span> <span class="n">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">AS</span> <span class="n">movieCount</span>
+<span class="n">ORDER</span> <span class="n">BY</span> <span class="n">movieCount</span> <span class="n">DESC</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3.</strong> Que fait cette commande ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">born</span><span class="w"> </span><span class="k">DESC</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">movie</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">date</span><span class="p">,</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">actors</span><span class="p">,</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">born</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">birthdate</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">LIMIT</span></code> <strong>limite le nombre de résultat</strong> renvoyés. <code class="docutils literal notranslate"><span class="pre">LIMIT</span></code> est présentée dans cette section, car bien que cette clause puisse être utilisée seule,
+elle est généralement combinée avec <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code>. La syntaxe est la suivante : <code class="docutils literal notranslate"><span class="pre">LIMIT</span> <span class="pre">&lt;n&gt;</span></code> où <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> le nombre de résultats à renvoyer.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Reprenons l’exemple portant sur l’activité des acteurs. Pour ne retourner que l’un des acteurs (dans le cas où plusieurs acteurs seraient à égalité) les plus actifs du jeu de données, vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">LIMIT</span></code> :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">actor</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">actor</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">actor</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">movieCount</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">movieCount</span><span class="w"> </span><span class="k">DESC</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Quels acteurs ont joué dans un film entre 2000 et 2005 ? Affichez leur nom, le nombre de films et la liste desdits films. Vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">AND</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> et <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>.</p></li>
+<li><p class="sd-card-text">Affichez le nombre de films par année de parution dans l’ordre croissant des années.</p></li>
+<li><p class="sd-card-text">Quels sont les 3 films comptabilisant le plus d’acteurs ?</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="clauses-de-projection">
+<h2><span class="section-number">2.2.2. </span>Clauses de projection<a class="headerlink" href="#clauses-de-projection" title="Link to this heading">#</a></h2>
+<p>Les clauses de projection définissent les variables ou expressions à renvoyer en tant que résultat de la requête (<code class="docutils literal notranslate"><span class="pre">RETURN</span></code>),
+ou à transmettre à la clause suivante en tant que résultats intermédiaires.</p>
+<p>La clause <code class="docutils literal notranslate"><span class="pre">WITH</span></code> permet de créer de nouvelles variables à l’aide de <code class="docutils literal notranslate"><span class="pre">AS</span></code>, contrôler quelles variables sont transmises à la clause suivante,
+réaliser des agrégations, supprimer des duplicats à l’aide de <code class="docutils literal notranslate"><span class="pre">DISTINCT</span></code>, etc. En fait, <code class="docutils literal notranslate"><span class="pre">WITH</span></code> peut être vu comme un <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> intermédiaire.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Lorsque <code class="docutils literal notranslate"><span class="pre">WITH</span></code> est utilisé pour contrôler quelles variables sont transmises à la clause suivante,
+<strong>toute variable non explicitement référencée dans <code class="docutils literal notranslate"><span class="pre">WITH</span></code> est supprimée</strong> et ne peut pas être référencée par les clauses suivantes.
+De même, <strong>toute variable renommée dans <code class="docutils literal notranslate"><span class="pre">WITH</span></code></strong> ne peut être <strong>référencée</strong> que par son <strong>nouveau nom</strong> dans les clauses suivantes.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Reprenons l’exemple portant sur l’activité des acteurs. Cette fois-ci, non seulement nous souhaitons renvoyer l’un des acteurs le plus actif de la base de données,
+mais nous aimerions aussi lister tous les films dans lesquels il a joué. Pour y parvenir, il suffit de remplacer le <code class="docutils literal notranslate"><span class="pre">RETURN</span></code> par un <code class="docutils literal notranslate"><span class="pre">WITH</span></code>,
+de passer le noeud associé à l’acteur le plus actif aux clauses suivantes (et pas seulement le nom de l’acteur),
+puis de réaliser un nouveau <code class="docutils literal notranslate"><span class="pre">MATCH</span></code> à partir à partir de celui-ci pour récupérer le nom des films :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>MATCH (actors:Person)-[:ACTED_IN]-(:Movie)
+WITH actors, count(*) AS movieCount // agrégation, création d&#39;une nouvelle variable et contrôle des variables transmises
+ORDER BY movieCount DESC            // seuls `actors` et `movieCount` sont désormais disponibles
+LIMIT 1
+MATCH (actors)-[:ACTED_IN]-&gt;(movies:Movie)
+RETURN actors.name AS actor, movieCount, collect(movies.title) AS movies
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> Pour trouver les films dans lesquels certains acteurs sont nés la même année, nous pouvons commencer par grouper par film, puis par date de naissance des acteurs, et compter le nombre d’acteurs dans chaque groupe.
+Ensuite, nous pouvons sélectionner les groupes (film, date de naissance) pour lesquels le comptage est strictement plus grand que 1,
+et renvoyer le titres des films :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span><span class="o">&lt;-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="n">WITH</span> <span class="n">m</span><span class="o">.</span><span class="n">title</span> <span class="n">AS</span> <span class="n">movie</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">born</span> <span class="n">AS</span> <span class="n">birthdate</span><span class="p">,</span> <span class="n">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">AS</span> <span class="n">countBirthdate</span>
+<span class="n">WHERE</span> <span class="n">countBirthdate</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<span class="n">RETURN</span> <span class="n">DISTINCT</span> <span class="n">movie</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">UNWIND</span></code> permet de transformer une liste en plusieurs lignes.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>La propriété <code class="docutils literal notranslate"><span class="pre">roles</span></code> des relations de type <code class="docutils literal notranslate"><span class="pre">ACTED_IN</span></code> est associée à des listes d’une ou plusieurs valeurs.
+Pour trouver tous les rôles uniques de la base de données, nous pouvons utiliser <code class="docutils literal notranslate"><span class="pre">UNWIND</span></code> :</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">()</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-</span><span class="p">()</span>
+<span class="n">UNWIND</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">roles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">roles</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">roles</span>
+</pre></div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Exercice</div>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Quels sont le ou les acteurs les plus vieux a avoir joué dans <code class="docutils literal notranslate"><span class="pre">Joe</span> <span class="pre">Versus</span> <span class="pre">the</span> <span class="pre">Volcano</span></code> ?</p></li>
+<li><p class="sd-card-text">Y a-t-il des acteurs nés à une autre date dans ce film ? Ne rentrez pas à la main ladite date.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Bonus</p>
+<ol class="arabic simple" start="3">
+<li><p class="sd-card-text">Construisez un tableau contenant le nombre de films dans lesquels chaque acteur a joué pour chacune des périodes suivantes :
+<code class="docutils literal notranslate"><span class="pre">]-inf,</span> <span class="pre">1990[</span></code>, <code class="docutils literal notranslate"><span class="pre">[1990,</span> <span class="pre">1995[</span></code>, <code class="docutils literal notranslate"><span class="pre">[1995,</span> <span class="pre">2000[</span></code>, <code class="docutils literal notranslate"><span class="pre">[2000,</span> <span class="pre">2005[</span></code>, <code class="docutils literal notranslate"><span class="pre">[2005,</span> <span class="pre">2010[</span></code> et <code class="docutils literal notranslate"><span class="pre">[2010,</span> <span class="pre">+inf[</span></code>.
+Le tableau doit avoir une ligne par acteur et autant de colonnes que de périodes.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">count()</span></code> peut contenir une expression.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="clauses-de-sous-requetes">
+<h2><span class="section-number">2.2.3. </span>Clauses de sous-requêtes<a class="headerlink" href="#clauses-de-sous-requetes" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">COLLECT</span></code>, comme <code class="docutils literal notranslate"><span class="pre">collect()</span></code>, permet de récupérer un ensemble de valeurs sous forme de liste,
+la différence étant que la clause <code class="docutils literal notranslate"><span class="pre">COLLECT</span></code> doit être appliquée à une sous-requête.
+Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/collect/">documentation</a>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Nous pouvons utiliser <code class="docutils literal notranslate"><span class="pre">COLLECT</span></code> pour afficher dans trois colonnes distinctes la liste des films dans lesquels chaque personne a joué, que chaque personne a réalisé, et que chaque personne a produit :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">name</span><span class="p">,</span> 
+       <span class="n">COLLECT</span> <span class="p">{</span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span> <span class="n">RETURN</span> <span class="n">m</span><span class="o">.</span><span class="n">title</span><span class="p">}</span> <span class="n">AS</span> <span class="n">movieActedIn</span><span class="p">,</span>
+       <span class="n">COLLECT</span> <span class="p">{</span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span> <span class="n">RETURN</span> <span class="n">m</span><span class="o">.</span><span class="n">title</span><span class="p">}</span> <span class="n">AS</span> <span class="n">movieDirected</span><span class="p">,</span>
+       <span class="n">COLLECT</span> <span class="p">{</span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">PRODUCED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span> <span class="n">RETURN</span> <span class="n">m</span><span class="o">.</span><span class="n">title</span><span class="p">}</span> <span class="n">AS</span> <span class="n">movieProduced</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">COUNT</span></code>, comme <code class="docutils literal notranslate"><span class="pre">count()</span></code>, permet de compter un ensemble d’éléments,
+la différence étant que la clause <code class="docutils literal notranslate"><span class="pre">COUNT</span></code> doit être appliquée à une sous-requête.
+Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/count/">documentation</a>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Nous pouvons reprendre l’exemple précédent et remplacer <code class="docutils literal notranslate"><span class="pre">COLLECT</span></code> par <code class="docutils literal notranslate"><span class="pre">COUNT</span></code> pour retourner uniquement le nombre de films dans chaque catégorie :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">name</span><span class="p">,</span>
+       <span class="n">COUNT</span> <span class="p">{</span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)}</span> <span class="n">AS</span> <span class="n">countMovieActedIn</span><span class="p">,</span>
+       <span class="n">COUNT</span> <span class="p">{</span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)}</span> <span class="n">AS</span> <span class="n">countMovieDirected</span><span class="p">,</span>
+       <span class="n">COUNT</span> <span class="p">{</span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">PRODUCED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)}</span> <span class="n">AS</span> <span class="n">countMovieProduced</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">EXISTS</span></code> permet de déterminer si le motif spécifié existe au moins une fois dans le graphe. Pour en savoir plus, voir la <a class="reference external" href="https://neo4j.com/docs/cypher-manual/current/subqueries/existential/">documentation</a>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Pour chaque acteur, affichons si l’acteur a déjà réalisé ou produit un film :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MATCH</span> <span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="n">RETURN</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="n">AS</span> <span class="n">name</span><span class="p">,</span> 
+       <span class="n">EXISTS</span> <span class="p">{(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">PRODUCED</span><span class="o">|</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">)}</span> <span class="n">AS</span> <span class="n">hasDirectedOrProduced</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="operateurs">
+<h2><span class="section-number">2.2.4. </span>Opérateurs<a class="headerlink" href="#operateurs" title="Link to this heading">#</a></h2>
+<p>Les <strong>opérateurs de comparaison</strong> permettent de comparer deux éléments entre eux.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">=</span></code></p></td>
+<td class="text-left"><p>Égalité</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code></p></td>
+<td class="text-left"><p>Différence</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code></p></td>
+<td class="text-left"><p>Strictement inférieur</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&gt;</span></code></p></td>
+<td class="text-left"><p>Strictement supérieur</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;=</span></code></p></td>
+<td class="text-left"><p>Inférieur ou égal</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&gt;=</span></code></p></td>
+<td class="text-left"><p>Supérieur ou égal</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NULL</span></code></p></td>
+<td class="text-left"><p>Clé absente ou valeur égale à <code class="docutils literal notranslate"><span class="pre">null</span></code> (valeur manquante)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code></p></td>
+<td class="text-left"><p>Clé présente et valeur différente de <code class="docutils literal notranslate"><span class="pre">null</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Existe-t-il dans la base de données des acteurs pour lesquels aucune information n’est renseignée pour leur date de naissance ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">born</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<p>Les <strong>opérateurs logiques</strong> permettent de tester plusieurs conditions logiques simultanément.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">AND</span></code></p></td>
+<td class="text-left"><p><strong>Toutes</strong> les conditions doivent être vérifiées (l’une et l’autre)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">OR</span></code></p></td>
+<td class="text-left"><p><strong>Au moins l’une</strong> des conditions doit être vérifiée (soit l’une, soit l’autre, soit les deux)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">XOR</span></code></p></td>
+<td class="text-left"><p><strong>Une seule</strong> des conditions doit être vérifiée (soit l’une, soit l’autre, mais pas les deux à la fois)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">NOT</span></code></p></td>
+<td class="text-left"><p>La condition <strong>ne doit pas</strong> être vérifiée</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Que fait la commande suivante ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1990</span><span class="p">)</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2010</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">released</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">released</span>
+</pre></div>
+</div>
+<p>Que fait la commande suivante ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">DIRECTED</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">name</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Faites attention à bien utiliser des parenthèses quand vous utilisez <code class="docutils literal notranslate"><span class="pre">NOT</span></code> avec plusieurs conditions.</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p>Exécutez l’une après l’autre les deux instructions suivantes. Que remarquez-vous ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="p">((</span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1990</span><span class="p">)</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2000</span><span class="p">))</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">released</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">released</span>
+</pre></div>
+</div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1990</span><span class="p">)</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2000</span><span class="p">)</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">released</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">released</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Voici quelques <strong>opérateurs de listes</strong> et de <strong>chaînes de caractères</strong> :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Opérateur</p></th>
+<th class="head text-left"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">IN</span></code></p></td>
+<td class="text-left"><p>Vérifier l’appartenance d’une valeur à une liste de valeurs</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">STARTS</span> <span class="pre">WITH</span></code></p></td>
+<td class="text-left"><p>Vérifier qu’une chaîne de caractères commence par un ou plusieurs caractères successifs</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">ENDS</span> <span class="pre">WITH</span></code></p></td>
+<td class="text-left"><p>Vérifier qu’une chaîne de caractères se termine par un ou plusieurs caractères successifs</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">CONTAINS</span></code></p></td>
+<td class="text-left"><p>Vérifier qu’une chaîne de caractères contient un ou plusieurs caractères successifs</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Attention : ces opérateurs sont sensibles à la casse (majuscule / minuscule).</p>
+<div class="tip admonition">
+<p class="admonition-title">Example</p>
+<p><strong>Exemple n°1.</strong> Que retourne la requête suivante ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">:</span><span class="n">ACTED_IN</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="ss">&quot;Neo&quot;</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">roles</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">actor</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°2.</strong> Quelle est la date de sortie des films <code class="docutils literal notranslate"><span class="pre">Top</span> <span class="pre">Gun</span></code> et <code class="docutils literal notranslate"><span class="pre">Snow</span> <span class="pre">Falling</span> <span class="pre">on</span> <span class="pre">Cedars</span></code> ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="n">Movie</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">[</span><span class="ss">&quot;Top Gun&quot;</span><span class="p">,</span><span class="ss">&quot;Snow Falling on Cedars&quot;</span><span class="p">]</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">title</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">released</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">released</span>
+</pre></div>
+</div>
+<p><strong>Exemple n°3.</strong> Que fait la requête suivante ?</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">MATCH</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">:</span><span class="n">Person</span><span class="p">)</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="n">STARTS</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="ss">&quot;Tom &quot;</span>
+<span class="k">RETURN</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">name</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="exercice">
+<h2><span class="section-number">2.2.5. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Quels sont les films commençant par la lettre C sortis en 2005 ou après ?</p></li>
+<li><p>Quels sont les films sortis en 1990, en 2000 et en 2012 ? Répondez à la question en une seule requête. Proposez deux façons de procéder.</p></li>
+<li><p>Quels acteurs ont déjà joué plus d’un rôle sur un film ?</p></li>
+<li><p>Quelles sont les personnes qui ont déjà eu plus de deux casquettes à la fois sur un film ? C’est-à-dire qui ont par exemple été à la fois acteur et réalisateur, ou encore réalisateur et producteur ?
+Retournez d’abord un tableau avec le nom de la personne, le nom du film, et une liste des différentes casquettes qu’elle a eu sur ce film.
+Puis retournez uniquement les noms des personnes sous forme de liste.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">type()</span></code>, <code class="docutils literal notranslate"><span class="pre">collect()</span></code>, <code class="docutils literal notranslate"><span class="pre">size()</span></code> et <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>.</p>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Quelles sont les personnes qui n’ont jamais eu plus de deux casquettes à la fois sur un film ?</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez la question précédente, <code class="docutils literal notranslate"><span class="pre">WITH</span></code>, une deuxième clause <code class="docutils literal notranslate"><span class="pre">MATCH</span></code>, puis <code class="docutils literal notranslate"><span class="pre">NOT</span></code> et <code class="docutils literal notranslate"><span class="pre">IN</span></code>.</p>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Recommandez de nouveaux partenaires de jeu à Tom Hanks. Toute personne ayant joué dans les mêmes films que des partenaires de Tom Hanks (co-acteurs)
+mais n’ayant jamais joué aux côtés de Tom Hanks lui-même peut convenir. Autrement dit, nous cherchons des co-co-acteurs de Tom Hanks qui n’ont jamais été
+co-acteurs de Tom Hanks.</p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Aide</p>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">NOT</span></code> et un motif de graphe. Voir 3.2.6.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_lecture_simple.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2.1. </span>Requête simple</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_creation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span><strong>C</strong>RUD : Création</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sous-clauses">2.2.1. Sous-clauses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-projection">2.2.2. Clauses de projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clauses-de-sous-requetes">2.2.3. Clauses de sous-requêtes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operateurs">2.2.4. Opérateurs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">2.2.5. Exercice</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Elena Berhocoïrigoin
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
