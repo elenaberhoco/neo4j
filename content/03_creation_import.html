@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/03_creation_import';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. CRUD : Modification" href="04_modification.html" />
-    <link rel="prev" title="3.1. À la volée et insertion" href="03_creation_volee.html" />
+    <link rel="next" title="3.3. Du relationnel au graphe" href="03_creation_rdbs_graph.html" />
+    <link rel="prev" title="3.1. À la volée" href="03_creation_volee.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -184,8 +184,9 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="03_creation.html">3. <strong>C</strong>RUD : Création</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="03_creation_volee.html">3.1. À la volée et insertion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_creation_volee.html">3.1. À la volée</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.2. À partir d’un fichier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_creation_rdbs_graph.html">3.3. Du relationnel au graphe</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
@@ -386,7 +387,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importer-des-donnees-stockees-dans-un-fichier-csv">3.2.1. Importer des données stockées dans un fichier CSV</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convertir-un-fichier-csv-en-graphe">3.2.2. Convertir un fichier CSV en graphe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-n1">3.2.2. Exercice n°1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convertir-un-fichier-csv-en-graphe">3.2.3. Convertir un fichier CSV en graphe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-n2">3.2.4. Exercice n°2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dans-la-suite">3.2.5. Dans la suite …</a></li>
 </ul>
             </nav>
         </div>
@@ -471,27 +475,18 @@ Le choix du format <code class="docutils literal notranslate"><span class="pre">
 </div>
 <p>Pour vérifier que les données ont été correctement importées, vous pouvez <strong>afficher le nombre de lignes</strong> et les <strong>clés des paires</strong> clé-valeur ainsi créées (si le fichier comportait un en-tête),
 puis les comparer aux informations dont vous disposez à propos de la base de données.</p>
-<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
-<div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
-<div class="sd-col sd-d-flex-row docutils">
-<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
-<div class="sd-card-body docutils">
-<div class="sd-card-title sd-font-weight-bold docutils">
-Exercice</div>
-<ol class="arabic simple">
-<li><p class="sd-card-text">Importez le fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> et retournez le nombre de lignes</p></li>
-<li><p class="sd-card-text">Importez le fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> et retournez les clés associées à chaque ligne</p></li>
-</ol>
-<p class="sd-card-text"><strong>Bonus :</strong> Importez le fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> et retournez les clés distinctes</p>
-</div>
-</div>
-</div>
-</div>
-</div>
 <p>À ce stade, les données sont importées mais elles ne sont pas encore transformées en graphe.</p>
 </section>
+<section id="exercice-n1">
+<h2><span class="section-number">3.2.2. </span>Exercice n°1<a class="headerlink" href="#exercice-n1" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Importez le fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> et retournez le nombre de lignes</p></li>
+<li><p>Importez le fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> et retournez les clés associées à chaque ligne</p></li>
+</ol>
+<p><strong>Bonus :</strong> Importez le fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> et retournez les clés distinctes</p>
+</section>
 <section id="convertir-un-fichier-csv-en-graphe">
-<h2><span class="section-number">3.2.2. </span>Convertir un fichier CSV en graphe<a class="headerlink" href="#convertir-un-fichier-csv-en-graphe" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.2.3. </span>Convertir un fichier CSV en graphe<a class="headerlink" href="#convertir-un-fichier-csv-en-graphe" title="Link to this heading">#</a></h2>
 <p>Pour créer un graphe à partir des données importées, il faut faire suivre l’import de clauses <code class="docutils literal notranslate"><span class="pre">MATCH</span></code>, <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> (chapitre 3.1), <code class="docutils literal notranslate"><span class="pre">MERGE</span></code> (chapitre 3.1) et / ou <code class="docutils literal notranslate"><span class="pre">SET</span></code> (chapitre 4).</p>
 <p>Pour des questions de performance, il est recommandé d’exécuter plusieurs fois <code class="docutils literal notranslate"><span class="pre">LOAD</span> <span class="pre">CSV</span></code> de façon à <strong>créer les noeuds et les relations séparément</strong>.</p>
 <p>Il est également recommandé de <strong>spécifier les contraintes d’unicité avant tout import</strong> (chapitre 3.1).</p>
@@ -537,10 +532,8 @@ Première étape :</p>
 </div>
 <p>Deuxième étape :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>MATCH (b:Book)
-UNWIND b.genre AS genres
-WITH DISTINCT genres AS genre
-MATCH (b:Book)
-WHERE genre IN b.genre
+WITH b, b.genre AS genres
+UNWIND genres AS genre
 MERGE (g:$(genre))
 MERGE (b)-[:CLASSIFIED_AS]-&gt;(g)
 </pre></div>
@@ -567,16 +560,33 @@ Pour ignorer les champs vides, avec ou sans espace :</p>
 </pre></div>
 </div>
 </div>
+</section>
+<section id="exercice-n2">
+<h2><span class="section-number">3.2.4. </span>Exercice n°2<a class="headerlink" href="#exercice-n2" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Créez une contrainte d’unicité pour la propriété <code class="docutils literal notranslate"><span class="pre">employeeId</span></code> des noeuds <code class="docutils literal notranslate"><span class="pre">Employee</span></code>, que vous nommerez <code class="docutils literal notranslate"><span class="pre">employeeId</span></code>.</p></li>
+<li><p>Créez une contrainte d’unicité pour la propriété <code class="docutils literal notranslate"><span class="pre">companyId</span></code> des noeuds <code class="docutils literal notranslate"><span class="pre">Company</span></code>, que vous nommerez <code class="docutils literal notranslate"><span class="pre">companyId</span></code>.</p></li>
+<li><p>Créez des noeuds <code class="docutils literal notranslate"><span class="pre">Company</span></code> à partir du fichier <code class="docutils literal notranslate"><span class="pre">companies.csv</span></code>. Toutes les colonnes doivent apparaître sous forme de propriétés dans les noeuds.</p></li>
+<li><p>Créez des noeuds <code class="docutils literal notranslate"><span class="pre">Employee</span></code> à partir du fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> avec pour propriétés <code class="docutils literal notranslate"><span class="pre">employeeId</span></code> et <code class="docutils literal notranslate"><span class="pre">name</span></code> uniquement.</p></li>
+<li><p>À partir du fichier <code class="docutils literal notranslate"><span class="pre">person.csv</span></code> et des noeuds <code class="docutils literal notranslate"><span class="pre">Company</span></code> et <code class="docutils literal notranslate"><span class="pre">Employee</span></code>, créez des relations <code class="docutils literal notranslate"><span class="pre">WORKS_AT</span></code> avec pour propriétés <code class="docutils literal notranslate"><span class="pre">role</span></code> et <code class="docutils literal notranslate"><span class="pre">since</span></code>.</p></li>
+<li><p>Supprimez les propriétés <code class="docutils literal notranslate"><span class="pre">employeeId</span></code>, <code class="docutils literal notranslate"><span class="pre">companyId</span></code> et les contraintes associées.</p></li>
+<li><p>Affichez le graphe final.</p></li>
+</ol>
+</section>
+<section id="dans-la-suite">
+<h2><span class="section-number">3.2.5. </span>Dans la suite …<a class="headerlink" href="#dans-la-suite" title="Link to this heading">#</a></h2>
 <p>Vous savez désormais comment transformer concrètement des données importées en graphe.
 Cependant, avant tout import, il vous faut impérativement <strong>réfléchir à la façon dont vous allez transformer la ou les tables en graphes</strong>.</p>
 <p>Dans l’exemple précédent, nous avons par exemple décidé que les genres littéraires seraient stockés dans des noeuds à part,
-un choix de conception qui permet un <strong>accès rapide</strong> à l’information.
+un choix de conception qui permet un <strong>accès direct et rapide</strong> à l’information.
 Ce choix se justifie si, à l’usage, les requêtes pour identifier tous les livres associés à un genre particulier sont fréquentes.
 Dans ce cas, laisser l’information du genre littéraire dans les propriétés des noeuds <code class="docutils literal notranslate"><span class="pre">Book</span></code> aurait impliqué un parcours systématique de l’ensemble des
-noeuds pour identifier ceux du genre recherché, ce qui aurait été très coûteux en temps.
-En déplaçant l’information au niveau des noeuds, une requête sur un genre littéraire particulier ne consiste plus qu’à parcourir les relations entrantes de type
-<code class="docutils literal notranslate"><span class="pre">CLASSIFIED_AS</span></code> qui pointent vers le noeud <code class="docutils literal notranslate"><span class="pre">Genre</span></code> approprié.</p>
-<p>L’objectif du chapitre 3.3 est de vous aider à concevoir la structure de votre graphe en amont de toute implémentation.</p>
+noeuds pour identifier ceux du genre recherché – ce qui aurait été très coûteux en temps – ainsi qu’une duplication des valeurs (dans notre exemple, le genre <code class="docutils literal notranslate"><span class="pre">Romance</span></code> apparaît dans plusieurs noeuds).
+En déplaçant l’information au niveau des noeuds, une requête sur un genre littéraire particulier consiste uniquement à parcourir les relations entrantes de type
+<code class="docutils literal notranslate"><span class="pre">CLASSIFIED_AS</span></code> qui pointent vers le noeud <code class="docutils literal notranslate"><span class="pre">Genre</span></code> approprié.<br />
+Créer des noeuds de label <code class="docutils literal notranslate"><span class="pre">Genre</span></code> avec une propriété <code class="docutils literal notranslate"><span class="pre">name</span></code> permettant de spécifier le genre en question aurait
+également permis d’améliorer les performances en réduisant le nombre de noeuds à parcourir pour compléter la requête.</p>
+<p>L’objectif du chapitre 3.3 est de vous aider à concevoir la structure de votre graphe avant toute implémentation.</p>
 </section>
 </section>
 
@@ -616,15 +626,15 @@ En déplaçant l’information au niveau des noeuds, une requête sur un genre l
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.1. </span>À la volée et insertion</p>
+        <p class="prev-next-title"><span class="section-number">3.1. </span>À la volée</p>
       </div>
     </a>
     <a class="right-next"
-       href="04_modification.html"
+       href="03_creation_rdbs_graph.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>CR<strong>U</strong>D : Modification</p>
+        <p class="prev-next-title"><span class="section-number">3.3. </span>Du relationnel au graphe</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -645,7 +655,10 @@ En déplaçant l’information au niveau des noeuds, une requête sur un genre l
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importer-des-donnees-stockees-dans-un-fichier-csv">3.2.1. Importer des données stockées dans un fichier CSV</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convertir-un-fichier-csv-en-graphe">3.2.2. Convertir un fichier CSV en graphe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-n1">3.2.2. Exercice n°1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convertir-un-fichier-csv-en-graphe">3.2.3. Convertir un fichier CSV en graphe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-n2">3.2.4. Exercice n°2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dans-la-suite">3.2.5. Dans la suite …</a></li>
 </ul>
   </nav></div>
 

@@ -183,8 +183,9 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="03_creation.html">3. <strong>C</strong>RUD : Création</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="03_creation_volee.html">3.1. À la volée et insertion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_creation_volee.html">3.1. À la volée</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_creation_import.html">3.2. À partir d’un fichier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_creation_rdbs_graph.html">3.3. Du relationnel au graphe</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="04_modification.html">4. CR<strong>U</strong>D : Modification</a></li>
@@ -386,7 +387,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noeuds-relations-et-graphes">5.1. Noeuds, relations et graphes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proprietes-et-labels">5.2. Propriétés et labels</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">5.3. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#index-et-contraintes">5.3. Index et contraintes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">5.4. Exercice</a></li>
 </ul>
             </nav>
         </div>
@@ -407,7 +409,7 @@ document.write(`
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 Objectif</div>
-<p class="sd-card-text">Dans ce chapitre vous apprendrez à supprimer des noeuds, des relations, des graphes complets, des propriétés et des labels.</p>
+<p class="sd-card-text">Dans ce chapitre vous apprendrez à supprimer des noeuds, des relations, des graphes complets, des propriétés, des labels, des index et des contraintes.</p>
 </div>
 </div>
 </div>
@@ -570,8 +572,21 @@ REMOVE &lt;node&gt;:$(labels(&lt;node&gt;))
 </div>
 </div>
 </section>
+<section id="index-et-contraintes">
+<h2><span class="section-number">5.3. </span>Index et contraintes<a class="headerlink" href="#index-et-contraintes" title="Link to this heading">#</a></h2>
+<p>Une contrainte peut être supprimée à l’aide de la commande :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DROP</span> <span class="n">CONSTRAINT</span> <span class="o">&lt;</span><span class="n">constraint_name</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">IF</span> <span class="n">EXISTS</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">SHOW</span> <span class="pre">CONSTRAINTS</span></code> pour trouver le nom de la contrainte que vous souhaitez supprimer.</p>
+<p>Un index peut être supprimé à l’aide de la commande :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DROP</span> <span class="n">INDEX</span> <span class="o">&lt;</span><span class="n">index_name</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">IF</span> <span class="n">EXISTS</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Utilisez <code class="docutils literal notranslate"><span class="pre">SHOW</span> <span class="pre">INDEX</span></code> pour trouver le nom de l’index que vous souhaitez supprimer.</p>
+</section>
 <section id="exercice">
-<h2><span class="section-number">5.3. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">5.4. </span>Exercice<a class="headerlink" href="#exercice" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Construisez le graphe ci-dessous</p></li>
 </ol>
@@ -650,7 +665,8 @@ Créez la nouvelle propriété à partir de l’ancienne et supprimez l’ancien
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noeuds-relations-et-graphes">5.1. Noeuds, relations et graphes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proprietes-et-labels">5.2. Propriétés et labels</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">5.3. Exercice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#index-et-contraintes">5.3. Index et contraintes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice">5.4. Exercice</a></li>
 </ul>
   </nav></div>
 

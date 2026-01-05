@@ -19,7 +19,7 @@ kernelspec:
 :gutter: 1
 
 :::{grid-item-card} Objectif
-Dans ce chapitre vous apprendrez à supprimer des noeuds, des relations, des graphes complets, des propriétés et des labels.  
+Dans ce chapitre vous apprendrez à supprimer des noeuds, des relations, des graphes complets, des propriétés, des labels, des index et des contraintes.  
   
 :::
 ::::
@@ -200,6 +200,20 @@ Ou
 CREATE OR REPLACE DATABASE neo4j
 ```
 ````
+
+## Index et contraintes
+
+Une contrainte peut être supprimée à l'aide de la commande : 
+```
+DROP CONSTRAINT <constraint_name> [IF EXISTS]
+```
+Utilisez `SHOW CONSTRAINTS` pour trouver le nom de la contrainte que vous souhaitez supprimer.
+
+Un index peut être supprimé à l'aide de la commande : 
+```
+DROP INDEX <index_name> [IF EXISTS]
+```
+Utilisez `SHOW INDEX` pour trouver le nom de l'index que vous souhaitez supprimer.
 
 ## Exercice
 
