@@ -88,19 +88,15 @@ Le choix du format `date` n'est donc pas toujours le plus adapté.
 ````
 Pour vérifier que les données ont été correctement importées, vous pouvez **afficher le nombre de lignes** et les **clés des paires** clé-valeur ainsi créées (si le fichier comportait un en-tête), 
 puis les comparer aux informations dont vous disposez à propos de la base de données. 
-::::{grid}
-:gutter: 1
 
-:::{grid-item-card} Exercice
+À ce stade, les données sont importées mais elles ne sont pas encore transformées en graphe.
+
+## Exercice n°1
+
 1. Importez le fichier `person.csv` et retournez le nombre de lignes
 2. Importez le fichier `person.csv` et retournez les clés associées à chaque ligne    
 
 **Bonus :** Importez le fichier `person.csv` et retournez les clés distinctes
-:::
-
-::::
-
-À ce stade, les données sont importées mais elles ne sont pas encore transformées en graphe.
 
 ## Convertir un fichier CSV en graphe
 
@@ -156,10 +152,8 @@ SET b.genre = split(row.genre, '|')
 Deuxième étape :  
 ```
 MATCH (b:Book)
-UNWIND b.genre AS genres
-WITH DISTINCT genres AS genre
-MATCH (b:Book)
-WHERE genre IN b.genre
+WITH b, b.genre AS genres
+UNWIND genres AS genre
 MERGE (g:$(genre))
 MERGE (b)-[:CLASSIFIED_AS]->(g)
 ```
@@ -185,16 +179,31 @@ MATCH (b:Book)
 SET b.inPrint = toBoolean(b.inPrint)
 ```
 ````
+
+## Exercice n°2
+
+1. Créez une contrainte d'unicité pour la propriété `employeeId` des noeuds `Employee`, que vous nommerez `employeeId`.
+2. Créez une contrainte d'unicité pour la propriété `companyId` des noeuds `Company`, que vous nommerez `companyId`.
+3. Créez des noeuds `Company` à partir du fichier `companies.csv`. Toutes les colonnes doivent apparaître sous forme de propriétés dans les noeuds. 
+4. Créez des noeuds `Employee` à partir du fichier `person.csv` avec pour propriétés `employeeId` et `name` uniquement.
+5. À partir du fichier `person.csv` et des noeuds `Company` et `Employee`, créez des relations `WORKS_AT` avec pour propriétés `role` et `since`.
+6. Supprimez les propriétés `employeeId`, `companyId` et les contraintes associées.
+7. Affichez le graphe final.
+
+## Dans la suite ...
+
 Vous savez désormais comment transformer concrètement des données importées en graphe. 
 Cependant, avant tout import, il vous faut impérativement **réfléchir à la façon dont vous allez transformer la ou les tables en graphes**. 
 
 Dans l'exemple précédent, nous avons par exemple décidé que les genres littéraires seraient stockés dans des noeuds à part, 
-un choix de conception qui permet un **accès rapide** à l'information. 
+un choix de conception qui permet un **accès direct et rapide** à l'information. 
 Ce choix se justifie si, à l'usage, les requêtes pour identifier tous les livres associés à un genre particulier sont fréquentes. 
 Dans ce cas, laisser l'information du genre littéraire dans les propriétés des noeuds `Book` aurait impliqué un parcours systématique de l'ensemble des
-noeuds pour identifier ceux du genre recherché, ce qui aurait été très coûteux en temps. 
-En déplaçant l'information au niveau des noeuds, une requête sur un genre littéraire particulier ne consiste plus qu'à parcourir les relations entrantes de type 
-`CLASSIFIED_AS` qui pointent vers le noeud `Genre` approprié.
+noeuds pour identifier ceux du genre recherché -- ce qui aurait été très coûteux en temps -- ainsi qu'une duplication des valeurs (dans notre exemple, le genre `Romance` apparaît dans plusieurs noeuds). 
+En déplaçant l'information au niveau des noeuds, une requête sur un genre littéraire particulier consiste uniquement à parcourir les relations entrantes de type 
+`CLASSIFIED_AS` qui pointent vers le noeud `Genre` approprié.  
+Créer des noeuds de label `Genre` avec une propriété `name` permettant de spécifier le genre en question aurait 
+également permis d'améliorer les performances en réduisant le nombre de noeuds à parcourir pour compléter la requête.
 
-L'objectif du chapitre 3.3 est de vous aider à concevoir la structure de votre graphe en amont de toute implémentation. 
+L'objectif du chapitre 3.3 est de vous aider à concevoir la structure de votre graphe avant toute implémentation. 
 

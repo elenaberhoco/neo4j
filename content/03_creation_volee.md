@@ -13,7 +13,7 @@ kernelspec:
   name: python3
 ---
 
-# À la volée et insertion
+# À la volée
 
 Nous allons construire ce graphe :   
 
