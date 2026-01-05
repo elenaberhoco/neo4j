@@ -13,6 +13,7 @@ chapters:
   sections:
   - file: content/03_creation_volee
   - file: content/03_creation_import
+  - file: content/03_creation_rdbs_graph
 - file: content/04_modification  
 - file: content/05_suppression  
 
