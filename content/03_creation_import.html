@@ -431,6 +431,25 @@ et que vous souhaitez accéder à un fichier stocké localement, vous devez :</p
 <li><p>Placer le fichier dans le <strong>répertoire <em>import</em> de Neo4j</strong>, dont l’emplacement varie en fonction du système d’exploitation (voir la <a class="reference external" href="https://neo4j.com/docs/operations-manual/2025.11/configuration/file-locations/#neo4j-import">documentation</a>)</p></li>
 <li><p>Ajouter le <strong>préfixe <code class="docutils literal notranslate"><span class="pre">file:///</span></code></strong> avant le nom du fichier.</p></li>
 </ol>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="category" data-sync-id="key1" for="sd-tab-item-0">
+Windows</label><div class="sd-tab-content docutils">
+<p>Dans Neo4j Desktop 2.0.3 :</p>
+<ol class="arabic simple">
+<li><p>Cliquez sur l’onglet <code class="docutils literal notranslate"><span class="pre">Local</span> <span class="pre">instances</span></code> (ou équivalent)</p></li>
+<li><p>Cliquez sur l’icône dossier affichée après <code class="docutils literal notranslate"><span class="pre">Path</span></code></p></li>
+<li><p>Une fenêtre Explorateur de fichier s’ouvre, double-cliquez sur le dossier <code class="docutils literal notranslate"><span class="pre">import</span></code></p></li>
+<li><p>Copiez-collez vos fichiers ici</p></li>
+</ol>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="category" data-sync-id="key2" for="sd-tab-item-1">
+Linux - Ubuntu</label><div class="sd-tab-content docutils">
+<p>Au démarrage de l’instance (<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">neo4j</span> <span class="pre">start</span></code>), le chemin d’accès vers le dossier <code class="docutils literal notranslate"><span class="pre">import</span></code> est indiqué.
+Par exemple : <code class="docutils literal notranslate"><span class="pre">/var/lib/neo4j/import</span></code>.</p>
+</div>
+</div>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
 <p>Supprimons les données déjà existantes :</p>

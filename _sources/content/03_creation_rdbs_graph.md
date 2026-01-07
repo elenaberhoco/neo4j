@@ -79,8 +79,8 @@ Il s’agit de nœuds possédant des centaines de milliers de relations entrante
 ````{admonition} Example
 :class: tip
 
-Dans une base de données contenant des noeuds `Restaurant`, représenter les villes sous forme de noeuds distincts plutôt que de propriétés des noeuds `Restaurant` permet 
-de répondre plus efficacement à la question : "Quels restaurants se situent dans tel quartier ?". En effet, plutôt que de parcourir tous les noeuds de label `Restaurant` et d'évaluer pour chacun d'eux 
+Dans une base de données contenant des noeuds `Restaurant`, représenter les villes sous forme de noeuds distincts plutôt que sous forme de propriétés des noeuds `Restaurant` permet 
+de répondre plus efficacement à la question : "Quels restaurants se situent dans telle ville ?". En effet, plutôt que de parcourir tous les noeuds de label `Restaurant` et d'évaluer pour chacun d'eux 
 la propriété `city`, créer des noeuds `City` limitera le nombre de noeuds à examiner puisqu'il suffira à Neo4j d'identifier le noeud `City` avec la propriété `name` adéquate, puis de renvoyer 
 les restaurants reliés à ce noeud là.
 ````
@@ -114,7 +114,7 @@ base de données.
 Vous pouvez **tester l'efficacité des modifications réalisées** en faisant précéder la requête à évaluer du mot clé `PROFILE`. 
 En plus du résultat de la requête, le **plan d'exécution**, comprenant notamment le **nombre de lignes parcourues** par Neo4j **à chaque étape**, 
 sera ainsi renvoyé. Vous pourrez donc comparer la portion du graphe explorée **avant et après modification**. 
-N'hésitez pas à retravailler autant de fois que nécessaire votre graphe.  
+N'hésitez pas à retravailler autant de fois que nécessaire votre graphe. **La création d'un graphe est itérative**.  
 
 Vous trouverez de nombreux exemples et conseils dans la documentation Neo4j (par exemple cet [article](https://neo4j.com/docs/getting-started/data-modeling/modeling-designs/), 
 qui présente le concept de noeuds intermédiaires).
@@ -126,6 +126,6 @@ Voici quelques cas d'utilisation fréquents pour la base de données précédent
 * Publicité ciblée : **Quels sont les produits les plus vendus dans telle ville ?**
 * Alerte qualité de service : **Quelles commandes ont été livrées en retard ?**
 * Service client : **Quels est l'historique de commande de tel client ?**
-* Service RH : **Quels sont les managers de l'entreprise ?**
+* Service RH : **Qui sont les managers de l'entreprise ?**
 
 Comment modifieriez-vous le modèle de graphe conçu à l'exercice n°1 ?

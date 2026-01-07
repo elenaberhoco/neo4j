@@ -469,8 +469,8 @@ Il s’agit de nœuds possédant des centaines de milliers de relations entrante
 </ul>
 <div class="tip admonition">
 <p class="admonition-title">Example</p>
-<p>Dans une base de données contenant des noeuds <code class="docutils literal notranslate"><span class="pre">Restaurant</span></code>, représenter les villes sous forme de noeuds distincts plutôt que de propriétés des noeuds <code class="docutils literal notranslate"><span class="pre">Restaurant</span></code> permet
-de répondre plus efficacement à la question : “Quels restaurants se situent dans tel quartier ?”. En effet, plutôt que de parcourir tous les noeuds de label <code class="docutils literal notranslate"><span class="pre">Restaurant</span></code> et d’évaluer pour chacun d’eux
+<p>Dans une base de données contenant des noeuds <code class="docutils literal notranslate"><span class="pre">Restaurant</span></code>, représenter les villes sous forme de noeuds distincts plutôt que sous forme de propriétés des noeuds <code class="docutils literal notranslate"><span class="pre">Restaurant</span></code> permet
+de répondre plus efficacement à la question : “Quels restaurants se situent dans telle ville ?”. En effet, plutôt que de parcourir tous les noeuds de label <code class="docutils literal notranslate"><span class="pre">Restaurant</span></code> et d’évaluer pour chacun d’eux
 la propriété <code class="docutils literal notranslate"><span class="pre">city</span></code>, créer des noeuds <code class="docutils literal notranslate"><span class="pre">City</span></code> limitera le nombre de noeuds à examiner puisqu’il suffira à Neo4j d’identifier le noeud <code class="docutils literal notranslate"><span class="pre">City</span></code> avec la propriété <code class="docutils literal notranslate"><span class="pre">name</span></code> adéquate, puis de renvoyer
 les restaurants reliés à ce noeud là.</p>
 </div>
@@ -502,7 +502,7 @@ base de données.</p>
 <p>Vous pouvez <strong>tester l’efficacité des modifications réalisées</strong> en faisant précéder la requête à évaluer du mot clé <code class="docutils literal notranslate"><span class="pre">PROFILE</span></code>.
 En plus du résultat de la requête, le <strong>plan d’exécution</strong>, comprenant notamment le <strong>nombre de lignes parcourues</strong> par Neo4j <strong>à chaque étape</strong>,
 sera ainsi renvoyé. Vous pourrez donc comparer la portion du graphe explorée <strong>avant et après modification</strong>.
-N’hésitez pas à retravailler autant de fois que nécessaire votre graphe.</p>
+N’hésitez pas à retravailler autant de fois que nécessaire votre graphe. <strong>La création d’un graphe est itérative</strong>.</p>
 <p>Vous trouverez de nombreux exemples et conseils dans la documentation Neo4j (par exemple cet <a class="reference external" href="https://neo4j.com/docs/getting-started/data-modeling/modeling-designs/">article</a>,
 qui présente le concept de noeuds intermédiaires).</p>
 </section>
@@ -514,7 +514,7 @@ qui présente le concept de noeuds intermédiaires).</p>
 <li><p>Publicité ciblée : <strong>Quels sont les produits les plus vendus dans telle ville ?</strong></p></li>
 <li><p>Alerte qualité de service : <strong>Quelles commandes ont été livrées en retard ?</strong></p></li>
 <li><p>Service client : <strong>Quels est l’historique de commande de tel client ?</strong></p></li>
-<li><p>Service RH : <strong>Quels sont les managers de l’entreprise ?</strong></p></li>
+<li><p>Service RH : <strong>Qui sont les managers de l’entreprise ?</strong></p></li>
 </ul>
 <p>Comment modifieriez-vous le modèle de graphe conçu à l’exercice n°1 ?</p>
 </section>

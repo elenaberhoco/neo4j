@@ -37,6 +37,27 @@ et que vous souhaitez accéder à un fichier stocké localement, vous devez :
 1. Placer le fichier dans le **répertoire _import_ de Neo4j**, dont l'emplacement varie en fonction du système d'exploitation (voir la [documentation](https://neo4j.com/docs/operations-manual/2025.11/configuration/file-locations/#neo4j-import))
 2. Ajouter le **préfixe `file:///`** avant le nom du fichier.
 
+::::::{tab-set}
+:sync-group: category
+
+:::::{tab-item} Windows
+:sync: key1
+
+Dans Neo4j Desktop 2.0.3 : 
+1. Cliquez sur l'onglet `Local instances` (ou équivalent)
+2. Cliquez sur l'icône dossier affichée après `Path`
+3. Une fenêtre Explorateur de fichier s'ouvre, double-cliquez sur le dossier `import`
+4. Copiez-collez vos fichiers ici 
+:::::
+
+:::::{tab-item} Linux - Ubuntu
+:sync: key2
+
+Au démarrage de l'instance (`sudo neo4j start`), le chemin d'accès vers le dossier `import` est indiqué. 
+Par exemple : `/var/lib/neo4j/import`.
+:::::
+::::::
+
 ````{admonition} Example
 :class: tip
 
